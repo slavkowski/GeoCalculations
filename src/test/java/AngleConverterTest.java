@@ -35,5 +35,10 @@ public class AngleConverterTest {
         Assert.assertEquals(360,angleConverter.gradToDeg(400),0.000000001);
         Assert.assertEquals(0.9,angleConverter.gradToDeg(1),0.1);
     }
+    @Test
+    public void testDegToDeg(){
+        Assert.assertEquals("54°14′4.3558799999948405″",angleConverter.degToDeg(54.2345433));
+        Assert.assertEquals("-54°14′4.3558799999948405″",angleConverter.degToDeg(-54.2345433));
+    }
 
 }
