@@ -8,9 +8,12 @@ public class Main {
         double L = angleConverter.degToRad(18.0 + 30.0 / 60.0);
 
         GaussKrugerProjection gaussKrugerProjection = new GaussKrugerProjection();
-        gaussKrugerProjection.LagrangeProjection(B,L);
+        gaussKrugerProjection.lagrangeProjection(B,L);
+
         System.out.println(angleConverter.degToDeg(angleConverter.radToDeg(gaussKrugerProjection.getFi())));
         System.out.println(angleConverter.degToDeg(angleConverter.radToDeg(gaussKrugerProjection.getLambda())));
+
+        gaussKrugerProjection.mercatorProjection(gaussKrugerProjection.getFi(), gaussKrugerProjection.getLambda());
 
 
     }

@@ -5,18 +5,49 @@ public class GaussKrugerProjection {
 
 
 
-    EllipsoidInfo ellipsoidInfo = EllipsoidInfo.e;
+    EllipsoidInfo ellipsoidInfoE = EllipsoidInfo.e;
+    EllipsoidInfo ellipsoidInfoA = EllipsoidInfo.a;
+    EllipsoidInfo ellipsoidInfoF = EllipsoidInfo.f;
+    EllipsoidInfo ellipsoidInfoB = EllipsoidInfo.b;
+    EllipsoidInfo ellipsoidInfoN = EllipsoidInfo.n;
+    EllipsoidInfo ellipsoidInfoR = EllipsoidInfo.R;
+    AngleConverter angleConverter = new AngleConverter();
     private double fi;
     private double lambda;
-    double e = ellipsoidInfo.getWGS84();
+    private double NorthLambert;
+    private double EastLambert;
+    double e = ellipsoidInfoE.getWGS84();
+    double a = ellipsoidInfoA.getWGS84();
+    double f = ellipsoidInfoF.getWGS84();
+    double b = ellipsoidInfoB.getWGS84();
+    double n = ellipsoidInfoN.getWGS84();
+    double R = ellipsoidInfoR.getWGS84();
 
 
 
-    public void LagrangeProjection(double B, double L) {
+
+    public void lagrangeProjection(double B, double L) {
         lambda = L;
-        fi = 2*(Math.atan(calculateK(B)*Math.tan(B/2+Math.PI/4))-Math.PI/4);
-        System.out.println(calculateK(B));
+        fi = 2.0*(Math.atan(calculateK(B)*Math.tan(B/2.0+Math.PI/4.0))-Math.PI/4.0);
+//        System.out.println("b = " + a*(1.0-(1.0/f)));
+//        System.out.println("e = " + Math.sqrt(1-(Math.pow(b,2)/Math.pow(a,2))));
+//        System.out.println("n = " + (a-b)/(a+b));
+//        System.out.println("R = " + (a/(1.0+n))*(1+(Math.pow(n,2)/4+Math.pow(n,4)/64+Math.pow(n,6)/256)+25*Math.pow(n,8)/16384));
+
     }
+    public void mercatorProjection(double fi, double lambda){
+        double deltaLambda = lambda - angleConverter.degToRad(21.0);
+        NorthLambert = R*Math.atan(Math.tan(fi)/Math.cos(deltaLambda));
+        EastLambert = (R/2.0)*Math.log((1+Math.cos(fi)*Math.sin(deltaLambda))/(1-Math.cos(fi)*Math.sin(deltaLambda)));
+        System.out.println(NorthLambert);
+        System.out.println(EastLambert);
+
+    }
+
+
+
+
+
 
 
     private double calculateK(double B) {
