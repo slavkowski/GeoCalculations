@@ -2,71 +2,68 @@ package pl.sats;
 
 
 public class GaussKrugerProjection {
-
-
-
-    EllipsoidInfo ellipsoidInfoE = EllipsoidInfo.e;
-    EllipsoidInfo ellipsoidInfoA = EllipsoidInfo.a;
-    EllipsoidInfo ellipsoidInfoF = EllipsoidInfo.f;
-    EllipsoidInfo ellipsoidInfoB = EllipsoidInfo.b;
-    EllipsoidInfo ellipsoidInfoN = EllipsoidInfo.n;
-    EllipsoidInfo ellipsoidInfoR = EllipsoidInfo.R;
-    AngleConverter angleConverter = new AngleConverter();
+    double a;
+    double f;
     private double fi;
     private double lambda;
-    private double NorthLambert;
-    private double EastLambert;
-    double e = ellipsoidInfoE.getWGS84();
-    double a = ellipsoidInfoA.getWGS84();
-    double f = ellipsoidInfoF.getWGS84();
-    double b = ellipsoidInfoB.getWGS84();
-    double n = ellipsoidInfoN.getWGS84();
-    double R = ellipsoidInfoR.getWGS84();
+    private double nMerk;
+    private double eMerk;
+    private double nGK;
+    private double eGK;
+    private double e;
+    private double R;
+    private double a2;
+    private double a4;
+    private double a6;
+    private double a8;
+
+    public GaussKrugerProjection() {
+        EllipsoidInfo ellipsoidInfoA = EllipsoidInfo.a;
+        EllipsoidInfo ellipsoidInfoF = EllipsoidInfo.f;
+        a = ellipsoidInfoA.getWGS84();
+        f = ellipsoidInfoF.getWGS84();
+        EllipsoidCalculatedParameters ellipsoidCalculatedParameters = new EllipsoidCalculatedParameters(a, f);
+        ellipsoidCalculatedParameters.calculateParameters();
+        e = ellipsoidCalculatedParameters.getE();
+        R = ellipsoidCalculatedParameters.getR();
+        a2 = ellipsoidCalculatedParameters.getA2();
+        a4 = ellipsoidCalculatedParameters.getA4();
+        a6 = ellipsoidCalculatedParameters.getA6();
+        a8 = ellipsoidCalculatedParameters.getA8();
+    }
+    AngleConverter angleConverter = new AngleConverter();
+
+    public void getUTM(double B, double L) {
+        lagrangeProjection(B, L);
+        mercatorPlane();
+        gaussKrugerPlane();
+    }
 
 
-
-
-    public void lagrangeProjection(double B, double L) {
+    private void lagrangeProjection(double B, double L) {
         lambda = L;
-        fi = 2.0*(Math.atan(calculateK(B)*Math.tan(B/2.0+Math.PI/4.0))-Math.PI/4.0);
-//        System.out.println("b = " + a*(1.0-(1.0/f)));
-//        System.out.println("e = " + Math.sqrt(1-(Math.pow(b,2)/Math.pow(a,2))));
-//        System.out.println("n = " + (a-b)/(a+b));
-//        System.out.println("R = " + (a/(1.0+n))*(1+(Math.pow(n,2)/4+Math.pow(n,4)/64+Math.pow(n,6)/256)+25*Math.pow(n,8)/16384));
-
+        fi = 2.0 * (Math.atan(calculateK(B) * Math.tan(B / 2.0 + Math.PI / 4.0)) - Math.PI / 4.0);
     }
-    public void mercatorProjection(double fi, double lambda){
+
+    private void mercatorPlane() {
         double deltaLambda = lambda - angleConverter.degToRad(21.0);
-        NorthLambert = R*Math.atan(Math.tan(fi)/Math.cos(deltaLambda));
-        EastLambert = (R/2.0)*Math.log((1+Math.cos(fi)*Math.sin(deltaLambda))/(1-Math.cos(fi)*Math.sin(deltaLambda)));
-        System.out.println(NorthLambert);
-        System.out.println(EastLambert);
-
+        nMerk = R * Math.atan(Math.tan(fi) / Math.cos(deltaLambda));
+        eMerk = (R / 2.0) * Math.log((1 + Math.cos(fi) * Math.sin(deltaLambda)) / (1 - Math.cos(fi) * Math.sin(deltaLambda)));
     }
 
-
-
-
-
+    private void gaussKrugerPlane() {
+        double alfa = nMerk / R;
+        double beta = eMerk / R;
+        nGK = nMerk + R*(a2*Math.sin(2.0*alfa)*Math.cosh(2.0*beta)+a4*Math.sin(4.0*alfa)*Math.cosh(4.0*beta)
+                +a6*Math.sin(6.0*alfa)*Math.cosh(6.0*beta)+a8*Math.sin(8*alfa)*Math.cosh(8*beta));
+        eGK = eMerk + R*(a2*Math.cos(2.0*alfa)*Math.sinh(2.0*beta)+a4*Math.cos(4.0*alfa)*Math.sinh(4.0*beta)
+                +a6*Math.cos(6.0*alfa)*Math.sinh(6.0*beta)+a8*Math.cos(8*alfa)*Math.sinh(8*beta));
+    }
 
 
     private double calculateK(double B) {
-        return Math.pow((1 - e * Math.sin(B)) / (1 + e * Math.sin(B)), e / 2);
-
+        return Math.pow((1.0 - e * Math.sin(B)) / (1.0 + e * Math.sin(B)), e / 2.0);
     }
 
-    public double getFi() {
-        return fi;
-    }
 
-    public double getLambda() {
-        return lambda;
-    }
-    @Override
-    public String toString() {
-        return "GaussKrugerProjection{" +
-                "fi=" + fi +
-                ", lambda=" + lambda +
-                '}';
-    }
 }
