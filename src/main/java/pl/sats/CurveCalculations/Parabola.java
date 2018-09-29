@@ -19,6 +19,16 @@ public class Parabola {
     private double lCatenary;
     private double hCatenary;
     private File file;
+    private double L[][];
+    private double A[][];
+
+    public double[][] getL() {
+        return L;
+    }
+
+    public double[][] getA() {
+        return A;
+    }
 
     public double getaCatenary() {
         return aCatenary;
@@ -41,7 +51,7 @@ public class Parabola {
     void getParabolaParameters() {
         observations = getDataFromFile(file);
         int numberOfObservations = observations.size();
-        double A[][] = new double[numberOfObservations][3];
+        A = new double[numberOfObservations][3];
         double P[][] = new double[numberOfObservations][numberOfObservations];
         for (int i = 0; i < numberOfObservations; i++) {
             for (int j = 0; j < numberOfObservations; j++) {
@@ -51,7 +61,7 @@ public class Parabola {
                     P[i][j]=1.0d;
             }
         }
-        double L[][] = new double[numberOfObservations][1];
+        L = new double[numberOfObservations][1];
 
         int i = 0;
         for (Chain_LH list : observations) {
@@ -82,6 +92,7 @@ public class Parabola {
         System.out.println(aCatenary);
         System.out.println(lCatenary);
         System.out.println(hCatenary);
+        System.out.println(dx.getM0(results));
     }
 
     private List getDataFromFile(File file) {
