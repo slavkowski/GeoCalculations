@@ -8,7 +8,7 @@ public class FileUtils {
 
     public void readFile() throws IOException {
 
-        file = new File("D:/Test.txt");
+        file = new File("C:/Test/Test.txt");
         String line;
         FileReader fr = new FileReader(file);
         BufferedReader f = new BufferedReader(fr);

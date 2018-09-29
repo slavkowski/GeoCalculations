@@ -9,5 +9,8 @@
         <module name="GeoCalculations" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="GeoCalculations" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

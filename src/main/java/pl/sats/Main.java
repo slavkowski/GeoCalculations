@@ -1,5 +1,7 @@
 package pl.sats;
 
+import pl.sats.CatenaryCalculations.Catenary;
+
 import java.io.IOException;
 
 public class Main {
@@ -17,6 +19,8 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Catenary catenary = new Catenary();
+        catenary.calculateApproxValues();
 
 
     }
