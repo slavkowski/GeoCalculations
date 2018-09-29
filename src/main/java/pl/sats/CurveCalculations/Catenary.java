@@ -1,4 +1,4 @@
-package pl.sats.CatenaryCalculations;
+package pl.sats.CurveCalculations;
 
 public class Catenary {
     private double hApprox;

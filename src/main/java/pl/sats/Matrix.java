@@ -114,7 +114,7 @@ public class Matrix {
             //mnozenie
             for (int i = 0; i < A.length; i++) {
                 for (int j = 0; j < B[0].length; j++) {
-                    int suma = 0;
+                    double suma = 0;
                     for (int k = 0; k < A[0].length; k++) {
                         suma += A[i][k] * B[k][j];
                     }
