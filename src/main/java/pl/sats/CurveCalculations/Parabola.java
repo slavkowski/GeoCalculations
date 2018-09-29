@@ -5,6 +5,7 @@ import pl.sats.FileUtils;
 import pl.sats.Matrix;
 import pl.sats.RMSEstimations.DX;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ public class Parabola {
     private double aCatenary;
     private double lCatenary;
     private double hCatenary;
+    private File file;
 
     public double getaCatenary() {
         return aCatenary;
@@ -32,11 +34,12 @@ public class Parabola {
 
     private List<Chain_LH> observations = new ArrayList<>();
 
-    public Parabola() {
+    public Parabola(File file) {
+        this.file = file;
     }
 
-    public void getParabolaParameters() {
-        observations = getDataFromFile();
+    void getParabolaParameters() {
+        observations = getDataFromFile(file);
         int numberOfObservations = observations.size();
         double A[][] = new double[numberOfObservations][3];
         double P[][] = new double[numberOfObservations][numberOfObservations];
@@ -81,10 +84,10 @@ public class Parabola {
         System.out.println(hCatenary);
     }
 
-    private List getDataFromFile() {
+    private List getDataFromFile(File file) {
         FileUtils f = new FileUtils();
         try {
-            observations = f.readFile();
+            observations = f.readFile(file);
         } catch (IOException e) {
             e.printStackTrace();
         }

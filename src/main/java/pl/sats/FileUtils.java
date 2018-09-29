@@ -8,9 +8,7 @@ import java.util.List;
 
 public class FileUtils {
 
-    public List readFile() throws IOException {
-
-        File file = new File("C:/Test/Chain1.txt");
+    public List readFile(File file) throws IOException {
         String line;
         FileReader fr = new FileReader(file);
         BufferedReader f = new BufferedReader(fr);

@@ -1,7 +1,9 @@
 package pl.sats;
 
+import pl.sats.CurveCalculations.Catenary;
 import pl.sats.CurveCalculations.Parabola;
 
+import java.io.File;
 import java.io.IOException;
 
 public class Main {
@@ -14,9 +16,8 @@ public class Main {
 //        GaussKrugerProjection gaussKrugerProjection = new GaussKrugerProjection();
 //        gaussKrugerProjection.getUTM(B, L);
 
-        Parabola parabola = new Parabola();
-
-        parabola.getParabolaParameters();
+        Catenary catenary = new Catenary(new File("C:/Test/Chain1.txt"));
+        catenary.calculateCatenary();
 
 
 
