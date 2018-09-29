@@ -1,16 +1,13 @@
 package pl.sats.CurveCalculations;
 
 public class Catenary {
-    private double hApprox;
-    private double lApprox;
-    private double aApprox;
+    private Parabola parabola;
+    private double A;
+    private double L;
+    private double H;
 
-    public void calculateApproxValues(){
 
-        hApprox = 1.0d;
-        lApprox = 1.0d;
-        aApprox = Math.pow(150.0,2)/(2.0*10.0);
 
-    }
+
 
 }

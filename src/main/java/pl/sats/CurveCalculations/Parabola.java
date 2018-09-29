@@ -10,12 +10,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Parabola {
-    private double a;
-    private double b;
-    private double c;
-    private double delta;
     private double p;
     private double q;
+    private double h;
+    private double bCatenary;
+    private double aCatenary;
+    private double lCatenary;
+    private double hCatenary;
+
+    public double getaCatenary() {
+        return aCatenary;
+    }
+
+    public double getlCatenary() {
+        return lCatenary;
+    }
+
+    public double gethCatenary() {
+        return hCatenary;
+    }
+
     private List<Chain_LH> observations = new ArrayList<>();
 
     public Parabola() {
@@ -33,7 +47,6 @@ public class Parabola {
                 }else
                     P[i][j]=1.0d;
             }
-
         }
         double L[][] = new double[numberOfObservations][1];
 
@@ -47,24 +60,25 @@ public class Parabola {
         }
         DX dx = new DX(A, P, L);
         double[][] results = dx.getDX();
-        a = results[0][0];
-        b = results[1][0];
-        c = results[2][0];
-
-        delta = Math.pow(b,2)-4.0*a*c;
-        p = -b/(2.0*a);
-        q = -delta/(4.0*a);
-
-
-        System.out.println(results[0][0]);
-        System.out.println(results[1][0]);
-        System.out.println(results[2][0]);
-        System.out.println(delta);
-        System.out.println(p);
-        System.out.println(q);
-        System.out.println(dx.getM0(results));
-
-
+        double a = results[0][0];
+        double b = results[1][0];
+        double c = results[2][0];
+        double delta = Math.pow(b, 2) - 4.0 * a * c;
+        p = -b /(2.0* a);
+        q = -delta /(4.0* a);
+        if (L[0][0] >= L[L.length-1][0]) {
+            h = L[0][0] - q;
+            bCatenary = Math.abs(p-A[0][1]);
+        }else{
+            h = L[L.length-1][0] - q;
+            bCatenary = Math.abs(p-A[A.length-1][1]);
+        }
+        aCatenary = Math.pow(bCatenary,2)/(2.0*h);
+        lCatenary = -p;
+        hCatenary = aCatenary - q;
+        System.out.println(aCatenary);
+        System.out.println(lCatenary);
+        System.out.println(hCatenary);
     }
 
     private List getDataFromFile() {
