@@ -1,6 +1,10 @@
 package pl.sats.CurveCalculations;
 
+import pl.sats.Matrix;
+import pl.sats.RMSEstimations.DX;
+
 import java.io.File;
+import java.sql.SQLOutput;
 
 public class Catenary {
     private Parabola parabola;
@@ -13,7 +17,7 @@ public class Catenary {
         this.file = file;
     }
 
-    public void calculateCatenary(){
+    public void calculateCatenary() {
         parabola = new Parabola(file);
         parabola.getParabolaParameters();
 
@@ -23,31 +27,40 @@ public class Catenary {
 
         double AParabola[][] = parabola.getA();
         double LParabola[][] = parabola.getL();
-        double A[][] = new double [AParabola.length][3];
-        double L[][] = new double [LParabola.length][1];
+        double PParabola[][] = parabola.getP();
+        int numberOfObservations = parabola.getNumberOfObservations();
+        double A[][] = new double[numberOfObservations][3];
+        double L[][] = new double[numberOfObservations][1];
+        double X[][];
+        int k = 0;
 
-        int i = 0;
-        while (i<5){
+        while (k < 5) {
 
-            for (int j = 0; j < AParabola.length; j++) {
-                A[j][0] = 1.0d;
-                A[j][1] = -1.0d;
-                A[j][2] = 1.0d;
-
-                L[j][0] = -LParabola[j][0];
-
+            for (int i = 0; i < numberOfObservations; i++) {
+                double alfa = (AParabola[i][1] + l0) / a0;
+                A[i][0] = Math.sinh(alfa);
+                A[i][1] = -1.0d;
+                A[i][2] = Math.cosh(alfa) - alfa * Math.sinh(alfa);
+                L[i][0] = a0 * Math.cosh(alfa) - h0 - LParabola[i][0];
             }
+            DX dx = new DX(A, PParabola, L);
+            X = dx.getDX();
+            a0 = a0 - X[2][0];
+            l0 = l0 - X[0][0];
+            h0 = h0 - X[1][0];
 
 
 
 
-            i++;
+
+
+
+
+
+
+            k++;
         }
-
-
-
-
-
+        System.out.println("END");
 
 
     }

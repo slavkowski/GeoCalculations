@@ -17,7 +17,7 @@ public class Main {
 //        gaussKrugerProjection.getUTM(B, L);
 
         ClassLoader loader = Main.class.getClassLoader();
-        File file = new File(loader.getResource("TxtFiles/Chain1.txt").getFile());
+        File file = new File(loader.getResource("TxtFiles/Chain2.txt").getFile());
 
         Catenary catenary = new Catenary(file);
         catenary.calculateCatenary();
