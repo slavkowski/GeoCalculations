@@ -48,18 +48,11 @@ public class Catenary {
             a0 = a0 - X[2][0];
             l0 = l0 - X[0][0];
             h0 = h0 - X[1][0];
-
-
-
-
-
-
-
-
-
-
             k++;
         }
+        System.out.println(a0);
+        System.out.println(l0);
+        System.out.println(h0);
         System.out.println("END");
 
 

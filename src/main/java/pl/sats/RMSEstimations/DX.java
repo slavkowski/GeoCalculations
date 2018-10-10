@@ -14,6 +14,9 @@ public class DX {
         L = l;
     }
 
+    public DX() {
+    }
+
     private Matrix matrix = new Matrix();
 
     public double[][] getDX() {
@@ -30,5 +33,17 @@ public class DX {
             sigma += Math.pow(V[i][0],2);
         }
         return Math.sqrt(sigma/(A.length-dx.length));
+    }
+
+    public void setA(double[][] a) {
+        A = a;
+    }
+
+    public void setP(double[][] p) {
+        P = p;
+    }
+
+    public void setL(double[][] l) {
+        L = l;
     }
 }

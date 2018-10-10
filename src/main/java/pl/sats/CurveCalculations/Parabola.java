@@ -1,8 +1,7 @@
 package pl.sats.CurveCalculations;
 
-import pl.sats.FieldObservationsObjects.Chain_LH;
+import pl.sats.FieldObservationsObjects.LHD;
 import pl.sats.FileUtils;
-import pl.sats.Matrix;
 import pl.sats.RMSEstimations.DX;
 
 import java.io.File;
@@ -52,7 +51,7 @@ public class Parabola {
         return hCatenary;
     }
 
-    private List<Chain_LH> observations = new ArrayList<>();
+    private List<LHD> observations = new ArrayList<>();
 
     public Parabola(File file) {
         this.file = file;
@@ -74,7 +73,7 @@ public class Parabola {
         L = new double[numberOfObservations][1];
 
         int i = 0;
-        for (Chain_LH list : observations) {
+        for (LHD list : observations) {
             A[i][0] = Math.pow(list.getL(), 2);
             A[i][1] = list.getL();
             A[i][2] = 1.0d;
@@ -99,10 +98,6 @@ public class Parabola {
         aCatenary = Math.pow(bCatenary,2)/(2.0*h);
         lCatenary = -p;
         hCatenary = aCatenary - q;
-        System.out.println(aCatenary);
-        System.out.println(lCatenary);
-        System.out.println(hCatenary);
-        System.out.println(dx.getM0(results));
     }
 
     private List getDataFromFile(File file) {

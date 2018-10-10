@@ -3,11 +3,11 @@ import org.junit.Test;
 import pl.sats.AzimuthDistanceCalculation;
 
 public class AzimuthDistanceCalculationTest {
-    AzimuthDistanceCalculation azimuthDistanceCalculation = new AzimuthDistanceCalculation();
+    private AzimuthDistanceCalculation azimuthDistanceCalculation = new AzimuthDistanceCalculation();
     @Test
     public void distanceTest(){
-        Assert.assertEquals(0, azimuthDistanceCalculation.calcualteDistance(0,0,0,0),0.0000001);
-        Assert.assertEquals(141.4213562373, azimuthDistanceCalculation.calcualteDistance(0,0,100.0,100.0),0.00000001);
+        Assert.assertEquals(0, azimuthDistanceCalculation.calculateDistance(0,0,0,0),0.0000001);
+        Assert.assertEquals(141.4213562373, azimuthDistanceCalculation.calculateDistance(0,0,100.0,100.0),0.00000001);
     }
     @Test
     public void azimuthTest(){

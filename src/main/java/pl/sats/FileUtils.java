@@ -1,6 +1,6 @@
 package pl.sats;
 
-import pl.sats.FieldObservationsObjects.Chain_LH;
+import pl.sats.FieldObservationsObjects.LHD;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -12,10 +12,10 @@ public class FileUtils {
         String line;
         FileReader fr = new FileReader(file);
         BufferedReader f = new BufferedReader(fr);
-        List<Chain_LH> setOfLHObservations = new ArrayList<>();
+        List<LHD> setOfLHObservations = new ArrayList<>();
 
         while ((line = f.readLine()) != null) {
-            Chain_LH chain_lh = new Chain_LH();
+            LHD chain_lh = new LHD();
             String[] splitLine = line.split(",");
             if (splitLine.length == 2) {
                 chain_lh.setL(Double.valueOf(splitLine[0]));

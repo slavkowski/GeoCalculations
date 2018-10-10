@@ -4,7 +4,7 @@ import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
 public class AzimuthDistanceCalculation {
-    public double calcualteDistance(double N1, double E1, double N2, double E2) {
+    public double calculateDistance(double N1, double E1, double N2, double E2) {
         return sqrt(pow((N1 - N2), 2) + pow((E1 - E2), 2));
     }
     public double calculateAzimuth(double N1, double E1, double N2, double E2){
