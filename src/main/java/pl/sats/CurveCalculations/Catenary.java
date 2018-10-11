@@ -53,8 +53,6 @@ public class Catenary {
         System.out.println(a0);
         System.out.println(l0);
         System.out.println(h0);
-        System.out.println("END");
-
 
     }
 }

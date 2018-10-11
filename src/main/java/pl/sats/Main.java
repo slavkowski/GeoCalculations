@@ -26,25 +26,8 @@ public class Main {
 //        Catenary catenary = new Catenary(file);
 //        catenary.calculateCatenary();
 
-        PointToLineProjection pointToLineProjection = new PointToLineProjection();
-//        XYH p1 = new XYH(101.11, 99.23, 55.23);
-//        XYH p2 = new XYH(101.25, 125.33, 50.30);
-//        XYH p3 = new XYH(201.99, 202.33, 58.666);
 
-//        XYH p1 = new XYH(101.11, 99.23, 55.23);
-//        XYH p2 = new XYH(101.11, 99.23, 55.23);
-//        XYH p3 = new XYH(201.99, 202.33, 58.666);
 
-        XYH p1 = new XYH(101.11, 99.23, 55.23);
-        XYH p2 = new XYH(1101.25, 99.23, 55.23);
-        XYH p3 = new XYH(201.99, 202.33, 58.666);
-
-        List<XYH> l = new ArrayList<>();
-        l.add(p1);
-        l.add(p2);
-        l.add(p3);
-
-        pointToLineProjection.getLHD(l);
 
 
     }

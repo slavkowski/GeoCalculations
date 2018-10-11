@@ -8,11 +8,9 @@ import java.util.List;
 
 public class PointToLineTest {
     private PointToLineProjection pointToLineProjection = new PointToLineProjection();
-    XYH p1 = new XYH(101.11, 99.23, 55.23);
-    XYH p2 = new XYH(2101.25, 99.23, 55.23);
-    XYH p3 = new XYH(201.99, 202.33, 58.666);
-
-
+    private XYH p1 = new XYH(101.11, 99.23, 55.23);
+    private XYH p2 = new XYH(2101.25, 99.23, 55.23);
+    private XYH p3 = new XYH(201.99, 202.33, 58.666);
 
     @Test
     public void shouldReturnCorrectLHD(){
@@ -30,7 +28,6 @@ public class PointToLineTest {
         expectedLHD[0] = 1398.837;
         expectedLHD[1] = 55.23;
         expectedLHD[2] = -1429.620;
-
 
         Assert.assertArrayEquals(expectedLHD, calculatedLHD, 0.001);
 
