@@ -20,11 +20,13 @@ public class Main {
 //        GaussKrugerProjection gaussKrugerProjection = new GaussKrugerProjection();
 //        gaussKrugerProjection.getUTM(B, L);
 
-//        ClassLoader loader = Main.class.getClassLoader();
+        ClassLoader loader = Main.class.getClassLoader();
 //        File file = new File(loader.getResource("TxtFiles/Chain2.txt").getFile());
-//
-//        Catenary catenary = new Catenary(file);
-//        catenary.calculateCatenary();
+        File file = new File(loader.getResource("TxtFiles/Field1.txt").getFile());
+
+        Catenary catenary = new Catenary(file);
+        catenary.calculateCatenary();
+        System.out.println(catenary.getMinH() + "dla" + catenary.getLminH());
 
 
 

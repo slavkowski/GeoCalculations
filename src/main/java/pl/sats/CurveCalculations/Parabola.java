@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 public class Parabola {
     private double p;
     private double q;
@@ -23,37 +26,9 @@ public class Parabola {
     private double A[][];
     private double P[][];
 
-    public double[][] getL() {
-        return L;
-    }
-
-    public double[][] getA() {
-        return A;
-    }
-
-    public double[][] getP() {
-        return P;
-    }
-
-    public int getNumberOfObservations() {
-        return numberOfObservations;
-    }
-
-    public double getaCatenary() {
-        return aCatenary;
-    }
-
-    public double getlCatenary() {
-        return lCatenary;
-    }
-
-    public double gethCatenary() {
-        return hCatenary;
-    }
-
     private List<LHD> observations = new ArrayList<>();
 
-    public Parabola(File file) {
+    Parabola(File file) {
         this.file = file;
     }
 
@@ -64,10 +39,10 @@ public class Parabola {
         P = new double[numberOfObservations][numberOfObservations];
         for (int i = 0; i < numberOfObservations; i++) {
             for (int j = 0; j < numberOfObservations; j++) {
-                if(i!=j){
-                    P[i][j]=0.0d;
-                }else
-                    P[i][j]=1.0d;
+                if (i != j) {
+                    P[i][j] = 0.0d;
+                } else
+                    P[i][j] = 1.0d;
             }
         }
         L = new double[numberOfObservations][1];
@@ -86,16 +61,17 @@ public class Parabola {
         double b = results[1][0];
         double c = results[2][0];
         double delta = Math.pow(b, 2) - 4.0 * a * c;
-        p = -b /(2.0* a);
-        q = -delta /(4.0* a);
-        if (L[0][0] >= L[L.length-1][0]) {
+        p = -b / (2.0 * a);
+        q = -delta / (4.0 * a);
+
+        if (L[0][0] >= L[L.length - 1][0]) {
             h = L[0][0] - q;
-            bCatenary = Math.abs(p-A[0][1]);
-        }else{
-            h = L[L.length-1][0] - q;
-            bCatenary = Math.abs(p-A[A.length-1][1]);
+            bCatenary = Math.abs(p - A[0][1]);
+        } else {
+            h = L[L.length - 1][0] - q;
+            bCatenary = Math.abs(p - A[A.length - 1][1]);
         }
-        aCatenary = Math.pow(bCatenary,2)/(2.0*h);
+        aCatenary = Math.pow(bCatenary, 2) / (2.0 * h);
         lCatenary = -p;
         hCatenary = aCatenary - q;
     }
@@ -109,5 +85,42 @@ public class Parabola {
         }
         return observations;
     }
+
+    double[][] getL() {
+        return L;
+    }
+
+    double[][] getA() {
+        return A;
+    }
+
+    double[][] getP() {
+        return P;
+    }
+
+    int getNumberOfObservations() {
+        return numberOfObservations;
+    }
+
+    double getaCatenary() {
+        return aCatenary;
+    }
+
+    double getlCatenary() {
+        return lCatenary;
+    }
+
+    double gethCatenary() {
+        return hCatenary;
+    }
+
+    public double getMinH() {
+        return q;
+    }
+
+    public double getLMinH() {
+        return p;
+    }
+
 
 }

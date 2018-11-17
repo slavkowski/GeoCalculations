@@ -1,10 +1,10 @@
 package pl.sats.CurveCalculations;
 
-import pl.sats.Matrix;
+
 import pl.sats.RMSEstimations.DX;
 
 import java.io.File;
-import java.sql.SQLOutput;
+
 
 public class Catenary {
     private Parabola parabola;
@@ -12,6 +12,8 @@ public class Catenary {
     private double a;
     private double l;
     private double h;
+    private double minH;
+    private double LminH;
 
     public Catenary(File file) {
         this.file = file;
@@ -24,6 +26,8 @@ public class Catenary {
         double a0 = parabola.getaCatenary();
         double l0 = parabola.getlCatenary();
         double h0 = parabola.gethCatenary();
+        minH = parabola.getMinH();
+        LminH = parabola.getLMinH();
 
         double AParabola[][] = parabola.getA();
         double LParabola[][] = parabola.getL();
@@ -34,7 +38,7 @@ public class Catenary {
         double X[][];
         int k = 0;
 
-        while (k < 5) {
+        while (k < 10) {
 
             for (int i = 0; i < numberOfObservations; i++) {
                 double alfa = (AParabola[i][1] + l0) / a0;
@@ -50,9 +54,40 @@ public class Catenary {
             h0 = h0 - X[1][0];
             k++;
         }
-        System.out.println(a0);
-        System.out.println(l0);
-        System.out.println(h0);
+        a = a0;
+        l = l0;
+        h = h0;
 
+    }
+
+    public double getA() {
+        return a;
+    }
+
+    public double getL() {
+        return l;
+    }
+
+    public double getH() {
+        return h;
+    }
+
+    public double getMinH() {
+        return minH;
+    }
+
+    public double getLminH() {
+        return LminH;
+    }
+
+    @Override
+    public String toString() {
+        return "Catenary{" +
+                "a=" + a +
+                ", l=" + l +
+                ", h=" + h +
+                ", minH=" + minH +
+                ", LminH=" + LminH +
+                '}';
     }
 }

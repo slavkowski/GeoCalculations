@@ -8,6 +8,7 @@ import java.util.List;
 
 public class FileUtils {
 
+
     public List readFile(File file) throws IOException {
         String line;
         FileReader fr = new FileReader(file);
@@ -22,7 +23,6 @@ public class FileUtils {
                 chain_lh.setH(Double.valueOf(splitLine[1]));
                 setOfLHObservations.add(chain_lh);
             }
-
         }
         return setOfLHObservations;
     }
