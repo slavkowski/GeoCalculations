@@ -5,6 +5,9 @@ public class XYH {
     private double Y;
     private double H;
 
+    public XYH() {
+    }
+
     public XYH(double x, double y, double h) {
         X = x;
         Y = y;

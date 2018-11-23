@@ -1,26 +1,26 @@
 package pl.sats.CurveCalculations;
 
 
+import pl.sats.FieldObservationsObjects.LHD;
 import pl.sats.RMSEstimations.DX;
 
-import java.io.File;
+import java.util.List;
 
 
 public class Catenary {
-    private Parabola parabola;
-    private File file;
     private double a;
     private double l;
     private double h;
     private double minH;
     private double LminH;
+    private List<LHD> fieldObservations;
 
-    public Catenary(File file) {
-        this.file = file;
+    public Catenary(List<LHD> fieldObservations) {
+        this.fieldObservations = fieldObservations;
     }
 
     public void calculateCatenary() {
-        parabola = new Parabola(file);
+        Parabola parabola = new Parabola(fieldObservations);
         parabola.getParabolaParameters();
 
         double a0 = parabola.getaCatenary();

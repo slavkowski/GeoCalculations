@@ -6,7 +6,6 @@ import pl.sats.RMSEstimations.DX;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,20 +20,17 @@ public class Parabola {
     private double lCatenary;
     private double hCatenary;
     private int numberOfObservations;
-    private File file;
     private double L[][];
     private double A[][];
     private double P[][];
+    private List<LHD> fieldObservations;
 
-    private List<LHD> observations = new ArrayList<>();
-
-    Parabola(File file) {
-        this.file = file;
+    Parabola(List<LHD> fieldObservations) {
+        this.fieldObservations = fieldObservations;
     }
 
     void getParabolaParameters() {
-        observations = getDataFromFile(file);
-        numberOfObservations = observations.size();
+        numberOfObservations = fieldObservations.size();
         A = new double[numberOfObservations][3];
         P = new double[numberOfObservations][numberOfObservations];
         for (int i = 0; i < numberOfObservations; i++) {
@@ -48,7 +44,7 @@ public class Parabola {
         L = new double[numberOfObservations][1];
 
         int i = 0;
-        for (LHD list : observations) {
+        for (LHD list : fieldObservations) {
             A[i][0] = Math.pow(list.getL(), 2);
             A[i][1] = list.getL();
             A[i][2] = 1.0d;
@@ -74,16 +70,6 @@ public class Parabola {
         aCatenary = Math.pow(bCatenary, 2) / (2.0 * h);
         lCatenary = -p;
         hCatenary = aCatenary - q;
-    }
-
-    private List getDataFromFile(File file) {
-        FileUtils f = new FileUtils();
-        try {
-            observations = f.readFile(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return observations;
     }
 
     double[][] getL() {
@@ -114,11 +100,11 @@ public class Parabola {
         return hCatenary;
     }
 
-    public double getMinH() {
+    double getMinH() {
         return q;
     }
 
-    public double getLMinH() {
+    double getLMinH() {
         return p;
     }
 

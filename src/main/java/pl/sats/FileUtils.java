@@ -8,8 +8,7 @@ import java.util.List;
 
 public class FileUtils {
 
-
-    public List readFile(File file) throws IOException {
+    public List<LHD> readLhdFile(File file) throws IOException {
         String line;
         FileReader fr = new FileReader(file);
         BufferedReader f = new BufferedReader(fr);
