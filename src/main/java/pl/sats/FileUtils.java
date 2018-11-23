@@ -1,5 +1,4 @@
 package pl.sats;
-
 import pl.sats.FieldObservationsObjects.LHD;
 
 import java.io.*;
