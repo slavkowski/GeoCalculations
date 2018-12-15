@@ -4,7 +4,7 @@ import pl.sats.AngleConverter;
 
 
 public class AngleConverterTest {
-    AngleConverter angleConverter = new AngleConverter();
+    private AngleConverter angleConverter = new AngleConverter();
     @Test
     public void testGradToRad() {
         Assert.assertEquals((2 * Math.PI), angleConverter.gradToRad(400.0), 0.0000000000000000001);
