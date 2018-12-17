@@ -1,6 +1,6 @@
 import org.junit.Assert;
 import org.junit.Test;
-import pl.sats.FieldObservationsObjects.XYH;
+import pl.sats.FieldObservationsObjects.NEH;
 import pl.sats.LineCalculations.PointToLineProjection;
 
 import java.util.ArrayList;
@@ -8,13 +8,13 @@ import java.util.List;
 
 public class PointToLineTest {
     private PointToLineProjection pointToLineProjection = new PointToLineProjection();
-    private XYH p1 = new XYH(101.11, 99.23, 55.23);
-    private XYH p2 = new XYH(2101.25, 99.23, 55.23);
-    private XYH p3 = new XYH(201.99, 202.33, 58.666);
+    private NEH p1 = new NEH(101.11, 99.23, 55.23);
+    private NEH p2 = new NEH(2101.25, 99.23, 55.23);
+    private NEH p3 = new NEH(201.99, 202.33, 58.666);
 
     @Test
     public void shouldReturnCorrectLHD(){
-        List<XYH> l = new ArrayList<>();
+        List<NEH> l = new ArrayList<>();
         l.add(p1);
         l.add(p2);
         l.add(p3);

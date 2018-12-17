@@ -1,17 +1,14 @@
 package pl.sats.CurveCalculations;
 
 import pl.sats.FieldObservationsObjects.LHD;
-import pl.sats.FileUtils;
-import pl.sats.RMSEstimations.DX;
+import pl.sats.LSEstimations.LeastSquaresEstimation;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 /**
  *
  */
-public class Parabola {
+class Parabola {
     private double p;
     private double q;
     private double h;
@@ -29,6 +26,9 @@ public class Parabola {
         this.fieldObservations = fieldObservations;
     }
 
+    /**
+     *
+     */
     void getParabolaParameters() {
         numberOfObservations = fieldObservations.size();
         A = new double[numberOfObservations][3];
@@ -51,8 +51,8 @@ public class Parabola {
             L[i][0] = list.getH();
             i++;
         }
-        DX dx = new DX(A, P, L);
-        double[][] results = dx.getDX();
+        LeastSquaresEstimation dx = new LeastSquaresEstimation(A, P, L);
+        double[][] results = dx.getX();
         double a = results[0][0];
         double b = results[1][0];
         double c = results[2][0];

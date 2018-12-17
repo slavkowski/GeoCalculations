@@ -2,7 +2,7 @@ package pl.sats.CurveCalculations;
 
 
 import pl.sats.FieldObservationsObjects.LHD;
-import pl.sats.RMSEstimations.DX;
+import pl.sats.LSEstimations.LeastSquaresEstimation;
 
 import java.util.List;
 
@@ -29,13 +29,13 @@ public class Catenary {
         minH = parabola.getMinH();
         LminH = parabola.getLMinH();
 
-        double AParabola[][] = parabola.getA();
-        double LParabola[][] = parabola.getL();
-        double PParabola[][] = parabola.getP();
+        double[][] AParabola = parabola.getA();
+        double[][] LParabola = parabola.getL();
+        double[][] PParabola = parabola.getP();
         int numberOfObservations = parabola.getNumberOfObservations();
-        double A[][] = new double[numberOfObservations][3];
-        double L[][] = new double[numberOfObservations][1];
-        double X[][];
+        double[][] A = new double[numberOfObservations][3];
+        double[][] L = new double[numberOfObservations][1];
+        double[][] X;
         int k = 0;
 
         while (k < 10) {
@@ -47,8 +47,8 @@ public class Catenary {
                 A[i][2] = Math.cosh(alfa) - alfa * Math.sinh(alfa);
                 L[i][0] = a0 * Math.cosh(alfa) - h0 - LParabola[i][0];
             }
-            DX dx = new DX(A, PParabola, L);
-            X = dx.getDX();
+            LeastSquaresEstimation dx = new LeastSquaresEstimation(A, PParabola, L);
+            X = dx.getX();
             a0 = a0 - X[2][0];
             l0 = l0 - X[0][0];
             h0 = h0 - X[1][0];

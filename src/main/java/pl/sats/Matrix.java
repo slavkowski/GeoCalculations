@@ -1,9 +1,18 @@
 package pl.sats;
 
+import pl.sats.Exceptions.MatrixDegenerateException;
+import pl.sats.Exceptions.MatrixWrongSizeException;
+
 import java.lang.*;
 
 /**
  * This class contains basic matrix calculations.
+ *
+ * <ul>
+ * <li>Matrix Inverse</li>
+ * <li>Matrix Transpose</li>
+ * <li>Matrix Multiplication</li>
+ * </ul>
  *
  * @author Slawomir Szwed
  * @version 1.0
@@ -14,9 +23,18 @@ public class Matrix {
     public Matrix() {
     }
 
-    //*********************************************************************************************************************
-//odwracanie macierezy - metoda z osiwaniem i permutacjami wierszy i kolumn w macierzy
-    public double[][] MatrixI(double[][] A) {
+    /**
+     * Algorithm by Donald E. Knuth described in "The Art of Computer Programming"
+     *
+     * @param A n-by-n square matrix
+     * @return n-by-n inverse of matrix A
+     * @throws MatrixWrongSizeException if A is not square
+     * @throws MatrixDegenerateException if A is invertible
+     */
+    public double[][] getMatrixInverse(double[][] A) throws MatrixWrongSizeException, MatrixDegenerateException {
+        if (A[0].length != A.length) {
+            throw new MatrixWrongSizeException();
+        }
 
         int s = A.length;
         int q = 0;
@@ -24,7 +42,6 @@ public class Matrix {
         int[] C = new int[s];
         boolean[] O = new boolean[s];
 
-        //osiowanie macierzy
         for (int i = 0; i < s; i++) {
 
             double max = 0;
@@ -38,9 +55,7 @@ public class Matrix {
                 }
             }
             if (max == 0) {
-                System.out.println("Wiersz " + i + " jest zerowy");
-                System.out.println("Macierz jest osobliwa");
-                break;
+                throw new MatrixDegenerateException();
             }
             C[i] = q;
             O[q] = true;
@@ -66,7 +81,6 @@ public class Matrix {
             A[p][q] = 1 / A[p][q];
         }
 
-        //permutacje wierszy i kolumn wykorzystując macierz pomocniczą
         double[][] Apom = new double[s][s];
 
         for (int w1 = 0; w1 < s; w1++) {
@@ -93,7 +107,7 @@ public class Matrix {
     }
 
     /**
-     * This method is responsible for matrix transpose
+     * This method is responsible for matrix transpose.
      *
      * @param A double matrix A in [n * m] size
      * @return transpose of matrix A in [m * n] size
@@ -110,35 +124,32 @@ public class Matrix {
     }
 
     /**
-     * This method is responsible for multiplication two matrix
+     * This method is responsible for multiplication two matrix.
      * All values in A and B matrix must be double
      *
      * @param A first matrix with [n * m] size, where in n - number of rows and m - number of columns
      * @param B second matrix with [m * p] size, where in m - number of rows and p - number of columns
      * @return double  - matrix with size [n * p]
-     * @throws
+     * @throws MatrixWrongSizeException if number of columns first matrix - A is not equal to number
+     *                                  of rows second matrix - B
      */
-    public double[][] getMatrixProduct(double[][] A, double[][] B) {
+    public double[][] getMatrixProduct(double[][] A, double[][] B) throws MatrixWrongSizeException {
 
-        double[][] AB = new double[0][];
+        double[][] AB;
 
-        if (A[0].length == B.length) {
-            AB = new double[A.length][B[0].length];
-            for (int i = 0; i < A.length; i++) {
-                for (int j = 0; j < B[0].length; j++) {
-                    double suma = 0;
-                    for (int k = 0; k < A[0].length; k++) {
-                        suma += A[i][k] * B[k][j];
-                    }
-                    AB[i][j] = suma;
+        if (A[0].length != B.length) {
+            throw new MatrixWrongSizeException();
+        }
+        AB = new double[A.length][B[0].length];
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < B[0].length; j++) {
+                double suma = 0;
+                for (int k = 0; k < A[0].length; k++) {
+                    suma += A[i][k] * B[k][j];
                 }
+                AB[i][j] = suma;
             }
-        } else {
-            System.out.println("Bad size");
         }
         return AB;
     }
 }
-
-
-
