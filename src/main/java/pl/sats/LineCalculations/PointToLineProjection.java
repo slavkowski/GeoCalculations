@@ -1,7 +1,9 @@
 package pl.sats.LineCalculations;
 
 import pl.sats.AzimuthDistanceCalculation;
-import pl.sats.FieldObservationsObjects.LHD;
+import pl.sats.Exceptions.MatrixDegenerateException;
+import pl.sats.Exceptions.MatrixWrongSizeException;
+import pl.sats.FieldObservationsObjects.LDH;
 import pl.sats.FieldObservationsObjects.NEH;
 import pl.sats.LSEstimations.LeastSquaresEstimation;
 
@@ -10,52 +12,35 @@ import java.util.List;
 
 public class PointToLineProjection {
 
-
-    private boolean error;
-
-
-    public List<LHD> getLHD(List<NEH> xyhList) {
-        List<LHD> lhList = new ArrayList<>();
-        int lenghtOfList = xyhList.size();
+    public List<LDH> getLHD(List<NEH> xyhList) throws MatrixDegenerateException, MatrixWrongSizeException {
+        List<LDH> lhList = new ArrayList<>();
+        int lengthOfList = xyhList.size();
         NEH firstPoint = xyhList.get(0);
-        NEH lastPoint = xyhList.get(lenghtOfList - 1);
-        double L[][] = new double[2][1];
-        double A[][] = new double[2][2];
-        double P[][] = new double[2][2];
-        double resultLD [][];
+        NEH lastPoint = xyhList.get(lengthOfList - 1);
+        double[][] L = new double[2][1];
+        double[][] A = new double[2][2];
+        double[][] P = new double[2][2];
+        double[][] resultLD;
 
         AzimuthDistanceCalculation azimuthDistanceCalculation = new AzimuthDistanceCalculation();
-        double Az = azimuthDistanceCalculation.calculateAzimuth(firstPoint.getX(), firstPoint.getY(), lastPoint.getX(), lastPoint.getY());
+        double Az = azimuthDistanceCalculation.calculateAzimuth(firstPoint.getN(), firstPoint.getE(), lastPoint.getN(), lastPoint.getE());
 
         A[0][0] = Math.sin(Az);
         A[1][0] = Math.cos(Az);
         A[0][1] = Math.cos(Az);
         A[1][1] = -Math.sin(Az);
 
-        P[0][0] = 1.0;
-        P[1][0] = 0.0;
-        P[0][1] = 0.0;
-        P[1][1] = 1.0;
-
-
-
+        LeastSquaresEstimation leastSquaresEstimation;
 
         for (NEH aXyhList : xyhList) {
-            LeastSquaresEstimation dx = new LeastSquaresEstimation();
-            L[0][0] = aXyhList.getY() - firstPoint.getY();
-            L[1][0] = aXyhList.getX() - firstPoint.getX();
-            dx.setA(A);
-            dx.setP(P);
-            dx.setL(L);
-            resultLD = dx.getX();
-            LHD lhd = new LHD(resultLD[0][0], aXyhList.getH(), resultLD[1][0]);
-            lhList.add(lhd);
+            L[0][0] = aXyhList.getE() - firstPoint.getE();
+            L[1][0] = aXyhList.getN() - firstPoint.getN();
+            leastSquaresEstimation = new LeastSquaresEstimation(A,L);
+            leastSquaresEstimation.executeLeastSquaresEstimation();
+            resultLD = leastSquaresEstimation.getX();
+            LDH LDH = new LDH(resultLD[0][0], aXyhList.getH(), resultLD[1][0]);
+            lhList.add(LDH);
         }
         return lhList;
-
     }
-
-
-
-
 }

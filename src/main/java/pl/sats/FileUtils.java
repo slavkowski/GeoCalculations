@@ -1,6 +1,6 @@
 package pl.sats;
 
-import pl.sats.FieldObservationsObjects.LHD;
+import pl.sats.FieldObservationsObjects.LDH;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -8,14 +8,14 @@ import java.util.List;
 
 public class FileUtils {
 
-    public List<LHD> readLhdFile(File file) throws IOException {
+    public List<LDH> readLhdFile(File file) throws IOException {
         String line;
         FileReader fr = new FileReader(file);
         BufferedReader f = new BufferedReader(fr);
-        List<LHD> setOfLHObservations = new ArrayList<>();
+        List<LDH> setOfLHObservations = new ArrayList<>();
 
         while ((line = f.readLine()) != null) {
-            LHD chain_lh = new LHD();
+            LDH chain_lh = new LDH();
             String[] splitLine = line.split(",");
             if (splitLine.length == 2) {
                 chain_lh.setL(Double.valueOf(splitLine[0]));

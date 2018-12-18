@@ -24,7 +24,7 @@ public class Matrix {
     }
 
     /**
-     * Algorithm by Donald E. Knuth described in "The Art of Computer Programming"
+     * Algorithm by Donald E Knuth described in "The Art of Computer Programming"
      *
      * @param A n-by-n square matrix
      * @return n-by-n inverse of matrix A

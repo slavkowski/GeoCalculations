@@ -1,7 +1,7 @@
 package pl.sats.CurveCalculations;
 
 
-import pl.sats.FieldObservationsObjects.LHD;
+import pl.sats.FieldObservationsObjects.LDH;
 import pl.sats.LSEstimations.LeastSquaresEstimation;
 
 import java.util.List;
@@ -13,9 +13,9 @@ public class Catenary {
     private double h;
     private double minH;
     private double LminH;
-    private List<LHD> fieldObservations;
+    private List<LDH> fieldObservations;
 
-    public Catenary(List<LHD> fieldObservations) {
+    public Catenary(List<LDH> fieldObservations) {
         this.fieldObservations = fieldObservations;
     }
 

@@ -3,11 +3,17 @@ package pl.sats.FieldObservationsObjects;
 /**
  * This class contains coordinates which uniquely determines the position of the point in
  * 3-dimensional Cartesian coordinate system.
+ * <p>
+ * Horizontal components:
  * <ul>
  * <li>N - north coordinate</li>
  * <li>mN - north coordinate's mean error</li>
  * <li>E - east coordinate</li>
  * <li>mE - east coordinate's mean error</li>
+ * </ul>
+ * <p>
+ * Vertical component:
+ * <ul>
  * <li>H - height(vertical) coordinate</li>
  * <li>mH - height(vertical) coordinate's mean error</li>
  * </ul>

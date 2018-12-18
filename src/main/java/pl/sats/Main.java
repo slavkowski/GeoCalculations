@@ -1,7 +1,7 @@
 package pl.sats;
 
 import pl.sats.CurveCalculations.Catenary;
-import pl.sats.FieldObservationsObjects.LHD;
+import pl.sats.FieldObservationsObjects.LDH;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class Main {
 //        File file = new File(loader.getResource("TxtFiles/Chain2.txt").getFile());
         File file = new File(loader.getResource("TxtFiles/Field1.txt").getFile());
 
-        List<LHD> fieldObservations = new ArrayList<>();
+        List<LDH> fieldObservations = new ArrayList<>();
 
         FileUtils fileUtils = new FileUtils();
         try {
