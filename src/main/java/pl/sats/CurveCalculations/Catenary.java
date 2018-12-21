@@ -1,6 +1,8 @@
 package pl.sats.CurveCalculations;
 
 
+import pl.sats.Exceptions.MatrixDegenerateException;
+import pl.sats.Exceptions.MatrixWrongSizeException;
 import pl.sats.FieldObservationsObjects.LDH;
 import pl.sats.LSEstimations.LeastSquaresEstimation;
 
@@ -19,7 +21,7 @@ public class Catenary {
         this.fieldObservations = fieldObservations;
     }
 
-    public void calculateCatenary() {
+    public void calculateCatenary() throws MatrixDegenerateException, MatrixWrongSizeException {
         Parabola parabola = new Parabola(fieldObservations);
         parabola.getParabolaParameters();
 
@@ -45,10 +47,11 @@ public class Catenary {
                 A[i][0] = Math.sinh(alfa);
                 A[i][1] = -1.0d;
                 A[i][2] = Math.cosh(alfa) - alfa * Math.sinh(alfa);
-                L[i][0] = a0 * Math.cosh(alfa) - h0 - LParabola[i][0];
+                L[i][0] = -1.0*(a0 * Math.cosh(alfa) - h0 - LParabola[i][0]);
             }
-            LeastSquaresEstimation dx = new LeastSquaresEstimation(A, PParabola, L);
-            X = dx.getX();
+            LeastSquaresEstimation leastSquaresEstimation = new LeastSquaresEstimation(A, PParabola, L);
+            leastSquaresEstimation.executeLeastSquaresEstimation();
+            X = leastSquaresEstimation.getX();
             a0 = a0 - X[2][0];
             l0 = l0 - X[0][0];
             h0 = h0 - X[1][0];

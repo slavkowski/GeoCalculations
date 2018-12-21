@@ -5,14 +5,14 @@ import pl.sats.Exceptions.MatrixWrongSizeException;
 import pl.sats.LSEstimations.LeastSquaresEstimation;
 
 public class LeastSquaresEstimationTest {
-    double A[][] = {
+    private double[][] A = {
             {1.0d, 0.0d, 0.0d},
             {-1.0d, 1.0d, 0.0d},
             {0.0d, 1.0d, 0.0d},
             {0.0d, 1.0d, -1.0d},
             {1.0d, 0.0d, -1.0d}
     };
-    double L[][] = {
+    private double[][] L = {
             {-102.498},
             {-4.768},
             {-107.288},
@@ -20,7 +20,7 @@ public class LeastSquaresEstimationTest {
             {1.774}
     };
     private double w = 1 / (Math.pow(0.02, 2));
-    double P[][] = {
+    private double[][] P = {
             {w, 0.0d, 0.0d, 0.0d, 0.0d},
             {0.0d, w, 0.0d, 0.0d, 0.0d},
             {0.0d, 0.0d, w, 0.0d, 0.0d},
@@ -31,6 +31,16 @@ public class LeastSquaresEstimationTest {
 
     @Test
     public void shouldReturnUnknownParameters() {
+        try {
+            leastSquaresEstimation.executeLeastSquaresEstimation();
+            Assert.assertEquals(102.510, leastSquaresEstimation.getX()[0][0], 0.001);
+            Assert.assertEquals(107.276, leastSquaresEstimation.getX()[1][0], 0.001);
+            Assert.assertEquals(104.300, leastSquaresEstimation.getX()[2][0], 0.001);
+        } catch (MatrixDegenerateException e) {
+            e.printStackTrace();
+        } catch (MatrixWrongSizeException e) {
+            e.printStackTrace();
+        }
 
     }
 

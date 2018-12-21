@@ -1,5 +1,7 @@
 package pl.sats.CurveCalculations;
 
+import pl.sats.Exceptions.MatrixDegenerateException;
+import pl.sats.Exceptions.MatrixWrongSizeException;
 import pl.sats.FieldObservationsObjects.LDH;
 import pl.sats.LSEstimations.LeastSquaresEstimation;
 
@@ -17,9 +19,9 @@ class Parabola {
     private double lCatenary;
     private double hCatenary;
     private int numberOfObservations;
-    private double L[][];
-    private double A[][];
-    private double P[][];
+    private double[][] L;
+    private double[][] A;
+    private double[][] P;
     private List<LDH> fieldObservations;
 
     Parabola(List<LDH> fieldObservations) {
@@ -29,7 +31,7 @@ class Parabola {
     /**
      *
      */
-    void getParabolaParameters() {
+    void getParabolaParameters() throws MatrixDegenerateException, MatrixWrongSizeException {
         numberOfObservations = fieldObservations.size();
         A = new double[numberOfObservations][3];
         P = new double[numberOfObservations][numberOfObservations];
@@ -51,8 +53,9 @@ class Parabola {
             L[i][0] = list.getH();
             i++;
         }
-        LeastSquaresEstimation dx = new LeastSquaresEstimation(A, P, L);
-        double[][] results = dx.getX();
+        LeastSquaresEstimation leastSquaresEstimation = new LeastSquaresEstimation(A, P, L);
+        leastSquaresEstimation.executeLeastSquaresEstimation();
+        double[][] results = leastSquaresEstimation.getX();
         double a = results[0][0];
         double b = results[1][0];
         double c = results[2][0];
