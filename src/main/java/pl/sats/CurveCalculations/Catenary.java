@@ -17,6 +17,14 @@ public class Catenary {
     private double h;
     private double minH;
     private double LminH;
+    private double firstL;
+    private double firstH;
+    private double lastL;
+    private double lastH;
+    private double horizontalLength;
+    private double minHeight;
+    private double maxHeight;
+
     private List<LDH> fieldObservations;
 
     public Catenary(List<LDH> fieldObservations) {
@@ -49,7 +57,7 @@ public class Catenary {
                 A[i][0] = Math.sinh(alfa);
                 A[i][1] = -1.0d;
                 A[i][2] = Math.cosh(alfa) - alfa * Math.sinh(alfa);
-                L[i][0] = -1.0*(a0 * Math.cosh(alfa) - h0 - LParabola[i][0]);
+                L[i][0] = -1.0 * (a0 * Math.cosh(alfa) - h0 - LParabola[i][0]);
             }
             LeastSquaresEstimation leastSquaresEstimation = new LeastSquaresEstimation(A, PParabola, L);
             leastSquaresEstimation.executeLeastSquaresEstimation();
@@ -62,6 +70,15 @@ public class Catenary {
         a = a0;
         l = l0;
         h = h0;
+
+        firstL = fieldObservations.get(0).getL();
+        firstH = fieldObservations.get(0).getH();
+        lastL = fieldObservations.get(fieldObservations.size() - 1).getL();
+        lastH = fieldObservations.get(fieldObservations.size() - 1).getH();
+        horizontalLength = lastL - firstL;
+        maxHeight = (firstH >= lastH) ? firstH : lastH;
+        minHeight = (firstL < LminH && LminH < lastL) ? minH : Math.max(firstH, lastH);
+
 
     }
 
@@ -83,5 +100,37 @@ public class Catenary {
 
     public double getLminH() {
         return LminH;
+    }
+
+    public double getFirstL() {
+        return firstL;
+    }
+
+    public double getFirstH() {
+        return firstH;
+    }
+
+    public double getLastL() {
+        return lastL;
+    }
+
+    public double getLastH() {
+        return lastH;
+    }
+
+    public double getHorizontalLength() {
+        return horizontalLength;
+    }
+
+    public double getMinHeight() {
+        return minHeight;
+    }
+
+    public double getMaxHeight() {
+        return maxHeight;
+    }
+
+    public List<LDH> getFieldObservations() {
+        return fieldObservations;
     }
 }
