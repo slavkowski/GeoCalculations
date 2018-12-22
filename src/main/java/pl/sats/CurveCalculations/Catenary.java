@@ -8,7 +8,9 @@ import pl.sats.LSEstimations.LeastSquaresEstimation;
 
 import java.util.List;
 
-
+/**
+ *
+ */
 public class Catenary {
     private double a;
     private double l;
@@ -81,16 +83,5 @@ public class Catenary {
 
     public double getLminH() {
         return LminH;
-    }
-
-    @Override
-    public String toString() {
-        return "Catenary{" +
-                "a=" + a +
-                ", l=" + l +
-                ", h=" + h +
-                ", minH=" + minH +
-                ", LminH=" + LminH +
-                '}';
     }
 }

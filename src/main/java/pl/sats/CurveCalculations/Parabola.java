@@ -56,9 +56,9 @@ class Parabola {
         LeastSquaresEstimation leastSquaresEstimation = new LeastSquaresEstimation(A, P, L);
         leastSquaresEstimation.executeLeastSquaresEstimation();
         double[][] results = leastSquaresEstimation.getX();
-        double a = results[0][0];
-        double b = results[1][0];
-        double c = results[2][0];
+        double a = -1.0 * results[0][0];
+        double b = -1.0 * results[1][0];
+        double c = -1.0 * results[2][0];
         double delta = Math.pow(b, 2) - 4.0 * a * c;
         p = -b / (2.0 * a);
         q = -delta / (4.0 * a);
