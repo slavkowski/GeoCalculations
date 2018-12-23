@@ -77,7 +77,7 @@ public class Catenary {
         lastH = fieldObservations.get(fieldObservations.size() - 1).getH();
         horizontalLength = lastL - firstL;
         maxHeight = (firstH >= lastH) ? firstH : lastH;
-        minHeight = (firstL < LminH && LminH < lastL) ? minH : Math.max(firstH, lastH);
+        minHeight = (firstL < LminH && LminH < lastL) ? minH : Math.min(firstH, lastH);
 
 
     }

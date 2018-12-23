@@ -33,9 +33,9 @@ public class PointToLineProjection {
         LeastSquaresEstimation leastSquaresEstimation;
 
         for (NEH aXyhList : xyhList) {
-            L[0][0] = aXyhList.getE() - firstPoint.getE();
-            L[1][0] = aXyhList.getN() - firstPoint.getN();
-            leastSquaresEstimation = new LeastSquaresEstimation(A,L);
+            L[0][0] = -(aXyhList.getE() - firstPoint.getE());
+            L[1][0] = -(aXyhList.getN() - firstPoint.getN());
+            leastSquaresEstimation = new LeastSquaresEstimation(A, L);
             leastSquaresEstimation.executeLeastSquaresEstimation();
             resultLD = leastSquaresEstimation.getX();
             LDH LDH = new LDH(resultLD[0][0], aXyhList.getH(), resultLD[1][0]);
