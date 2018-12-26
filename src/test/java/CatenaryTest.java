@@ -36,5 +36,6 @@ public class CatenaryTest {
         Assert.assertEquals(4, catenary.getFieldObservations().size());
         Assert.assertEquals(135.817, catenary.getMaxHeight(), 0.00000000001);
         Assert.assertEquals(130.931, catenary.getMinHeight(), 0.001);
+        Assert.assertEquals("[[0.0,134.879],[17.51,132.292],[63.98,131.973],[89.21,135.817]]", catenary.getFieldObservationsString());
     }
 }
