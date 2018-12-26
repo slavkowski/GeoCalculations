@@ -1,25 +1,37 @@
 package pl.sats.CurveCalculations;
 
 
-import pl.sats.FieldObservationsObjects.LHD;
-import pl.sats.RMSEstimations.DX;
+import pl.sats.Exceptions.MatrixDegenerateException;
+import pl.sats.Exceptions.MatrixWrongSizeException;
+import pl.sats.FieldObservationsObjects.LDH;
+import pl.sats.LSEstimations.LeastSquaresEstimation;
 
 import java.util.List;
 
-
+/**
+ *
+ */
 public class Catenary {
     private double a;
     private double l;
     private double h;
     private double minH;
     private double LminH;
-    private List<LHD> fieldObservations;
+    private double firstL;
+    private double firstH;
+    private double lastL;
+    private double lastH;
+    private double horizontalLength;
+    private double minHeight;
+    private double maxHeight;
+    private String fieldObservationsString;
+    private List<LDH> fieldObservations;
 
-    public Catenary(List<LHD> fieldObservations) {
+    public Catenary(List<LDH> fieldObservations) {
         this.fieldObservations = fieldObservations;
     }
 
-    public void calculateCatenary() {
+    public void calculateCatenary() throws MatrixDegenerateException, MatrixWrongSizeException {
         Parabola parabola = new Parabola(fieldObservations);
         parabola.getParabolaParameters();
 
@@ -29,13 +41,13 @@ public class Catenary {
         minH = parabola.getMinH();
         LminH = parabola.getLMinH();
 
-        double AParabola[][] = parabola.getA();
-        double LParabola[][] = parabola.getL();
-        double PParabola[][] = parabola.getP();
+        double[][] AParabola = parabola.getA();
+        double[][] LParabola = parabola.getL();
+        double[][] PParabola = parabola.getP();
         int numberOfObservations = parabola.getNumberOfObservations();
-        double A[][] = new double[numberOfObservations][3];
-        double L[][] = new double[numberOfObservations][1];
-        double X[][];
+        double[][] A = new double[numberOfObservations][3];
+        double[][] L = new double[numberOfObservations][1];
+        double[][] X;
         int k = 0;
 
         while (k < 10) {
@@ -45,10 +57,11 @@ public class Catenary {
                 A[i][0] = Math.sinh(alfa);
                 A[i][1] = -1.0d;
                 A[i][2] = Math.cosh(alfa) - alfa * Math.sinh(alfa);
-                L[i][0] = a0 * Math.cosh(alfa) - h0 - LParabola[i][0];
+                L[i][0] = -1.0 * (a0 * Math.cosh(alfa) - h0 - LParabola[i][0]);
             }
-            DX dx = new DX(A, PParabola, L);
-            X = dx.getDX();
+            LeastSquaresEstimation leastSquaresEstimation = new LeastSquaresEstimation(A, PParabola, L);
+            leastSquaresEstimation.executeLeastSquaresEstimation();
+            X = leastSquaresEstimation.getX();
             a0 = a0 - X[2][0];
             l0 = l0 - X[0][0];
             h0 = h0 - X[1][0];
@@ -57,6 +70,24 @@ public class Catenary {
         a = a0;
         l = l0;
         h = h0;
+
+        firstL = fieldObservations.get(0).getL();
+        firstH = fieldObservations.get(0).getH();
+        lastL = fieldObservations.get(fieldObservations.size() - 1).getL();
+        lastH = fieldObservations.get(fieldObservations.size() - 1).getH();
+        horizontalLength = lastL - firstL;
+        maxHeight = (firstH >= lastH) ? firstH : lastH;
+        minHeight = (firstL < LminH && LminH < lastL) ? minH : Math.min(firstH, lastH);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (LDH ldh : fieldObservations) {
+            sb.append("[").append(ldh.getL()).append(",").append(ldh.getH()).append("],");
+        }
+        sb.deleteCharAt(sb.length()-1);
+        sb.append("]");
+
+        fieldObservationsString = sb.toString();
 
     }
 
@@ -80,14 +111,39 @@ public class Catenary {
         return LminH;
     }
 
-    @Override
-    public String toString() {
-        return "Catenary{" +
-                "a=" + a +
-                ", l=" + l +
-                ", h=" + h +
-                ", minH=" + minH +
-                ", LminH=" + LminH +
-                '}';
+    public double getFirstL() {
+        return firstL;
+    }
+
+    public double getFirstH() {
+        return firstH;
+    }
+
+    public double getLastL() {
+        return lastL;
+    }
+
+    public double getLastH() {
+        return lastH;
+    }
+
+    public double getHorizontalLength() {
+        return horizontalLength;
+    }
+
+    public double getMinHeight() {
+        return minHeight;
+    }
+
+    public double getMaxHeight() {
+        return maxHeight;
+    }
+
+    public List<LDH> getFieldObservations() {
+        return fieldObservations;
+    }
+
+    public String getFieldObservationsString() {
+        return fieldObservationsString;
     }
 }

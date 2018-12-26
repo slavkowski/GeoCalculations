@@ -1,17 +1,16 @@
 package pl.sats.CurveCalculations;
 
-import pl.sats.FieldObservationsObjects.LHD;
-import pl.sats.FileUtils;
-import pl.sats.RMSEstimations.DX;
+import pl.sats.Exceptions.MatrixDegenerateException;
+import pl.sats.Exceptions.MatrixWrongSizeException;
+import pl.sats.FieldObservationsObjects.LDH;
+import pl.sats.LSEstimations.LeastSquaresEstimation;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 /**
  *
  */
-public class Parabola {
+class Parabola {
     private double p;
     private double q;
     private double h;
@@ -20,16 +19,19 @@ public class Parabola {
     private double lCatenary;
     private double hCatenary;
     private int numberOfObservations;
-    private double L[][];
-    private double A[][];
-    private double P[][];
-    private List<LHD> fieldObservations;
+    private double[][] L;
+    private double[][] A;
+    private double[][] P;
+    private List<LDH> fieldObservations;
 
-    Parabola(List<LHD> fieldObservations) {
+    Parabola(List<LDH> fieldObservations) {
         this.fieldObservations = fieldObservations;
     }
 
-    void getParabolaParameters() {
+    /**
+     *
+     */
+    void getParabolaParameters() throws MatrixDegenerateException, MatrixWrongSizeException {
         numberOfObservations = fieldObservations.size();
         A = new double[numberOfObservations][3];
         P = new double[numberOfObservations][numberOfObservations];
@@ -44,18 +46,19 @@ public class Parabola {
         L = new double[numberOfObservations][1];
 
         int i = 0;
-        for (LHD list : fieldObservations) {
+        for (LDH list : fieldObservations) {
             A[i][0] = Math.pow(list.getL(), 2);
             A[i][1] = list.getL();
             A[i][2] = 1.0d;
             L[i][0] = list.getH();
             i++;
         }
-        DX dx = new DX(A, P, L);
-        double[][] results = dx.getDX();
-        double a = results[0][0];
-        double b = results[1][0];
-        double c = results[2][0];
+        LeastSquaresEstimation leastSquaresEstimation = new LeastSquaresEstimation(A, P, L);
+        leastSquaresEstimation.executeLeastSquaresEstimation();
+        double[][] results = leastSquaresEstimation.getX();
+        double a = -1.0 * results[0][0];
+        double b = -1.0 * results[1][0];
+        double c = -1.0 * results[2][0];
         double delta = Math.pow(b, 2) - 4.0 * a * c;
         p = -b / (2.0 * a);
         q = -delta / (4.0 * a);
