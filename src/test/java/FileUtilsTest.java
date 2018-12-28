@@ -1,6 +1,6 @@
 import org.junit.Assert;
 import org.junit.Test;
-import pl.sats.FieldObservationsObjects.LDH;
+import pl.sats.FieldObservationsObjects.PointLDH;
 import pl.sats.FileUtils;
 import pl.sats.Main;
 
@@ -16,7 +16,7 @@ public class FileUtilsTest {
 
     @Test
     public void shouldReturnLdhObject() throws IOException {
-        List<LDH> fieldLdhObservations = fileUtils.readLdhFile(file);
+        List<PointLDH> fieldLdhObservations = fileUtils.readLdhFile(file);
         Assert.assertEquals(4,fieldLdhObservations.size());
         Assert.assertEquals("1",fieldLdhObservations.get(0).getName());
         Assert.assertEquals(0.0,fieldLdhObservations.get(0).getL(),0.00001);

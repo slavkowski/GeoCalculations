@@ -15,7 +15,7 @@ package pl.sats.FieldObservationsObjects;
  * @version 1.0
  * @since 2018-12-15
  */
-public class LDH {
+public class PointLDH {
     private String name;
     private double L;
     private double mL;
@@ -24,10 +24,10 @@ public class LDH {
     private double D;
     private double mD;
 
-    public LDH() {
+    public PointLDH() {
     }
 
-    public LDH(double l, double h, double d) {
+    public PointLDH(double l, double h, double d) {
         L = l;
         H = h;
         D = d;
@@ -35,7 +35,7 @@ public class LDH {
 
     @Override
     public String toString() {
-        return "LDH{" +
+        return "PointLDH{" +
                 "name='" + name + '\'' +
                 ", L=" + L +
                 ", mL=" + mL +

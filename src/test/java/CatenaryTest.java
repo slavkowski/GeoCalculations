@@ -3,9 +3,8 @@ import org.junit.Test;
 import pl.sats.CurveCalculations.Catenary;
 import pl.sats.Exceptions.MatrixDegenerateException;
 import pl.sats.Exceptions.MatrixWrongSizeException;
-import pl.sats.FieldObservationsObjects.LDH;
+import pl.sats.FieldObservationsObjects.PointLDH;
 import pl.sats.FileUtils;
-import pl.sats.Main;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +18,7 @@ public class CatenaryTest {
 
     @Test
     public void shouldReturnCatenaryParameters() throws IOException, MatrixDegenerateException, MatrixWrongSizeException {
-        List<LDH> fieldLdhObservations = fileUtils.readLdhFile(file);
+        List<PointLDH> fieldLdhObservations = fileUtils.readLdhFile(file);
         Catenary catenary = new Catenary(fieldLdhObservations);
         catenary.calculateCatenary();
 
@@ -37,5 +36,6 @@ public class CatenaryTest {
         Assert.assertEquals(135.817, catenary.getMaxHeight(), 0.00000000001);
         Assert.assertEquals(130.931, catenary.getMinHeight(), 0.001);
         Assert.assertEquals("[[0.0,134.879],[17.51,132.292],[63.98,131.973],[89.21,135.817]]", catenary.getFieldObservationsString());
+        Assert.assertEquals(42.24438, catenary.getMinHeightL(),0.00001);
     }
 }

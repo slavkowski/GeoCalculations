@@ -42,7 +42,7 @@ public class LeastSquaresEstimation {
     private double[][] Cl;
     private double[][] mL;
     private double[][] N;
-    private double [][] VtPV;
+    private double[][] VtPV;
     private double m0;
 
     private boolean ifMoreObservationsThanParameters = false;
@@ -79,20 +79,26 @@ public class LeastSquaresEstimation {
         }
     }
 
+    /**
+     * This method is responsible for calculating unknown parameters
+     *
+     * @throws MatrixWrongSizeException
+     * @throws MatrixDegenerateException
+     */
     private void calculateX() throws MatrixWrongSizeException, MatrixDegenerateException {
         N = matrix.getMatrixInverse(matrix.getMatrixProduct(matrix.getMatrixProduct(matrix.getMatrixTranspose(A), P), A));
         X = matrix.getMatrixProduct(matrix.getMatrixProduct(matrix.getMatrixProduct(N, matrix.getMatrixTranspose(A)), P), L);
-        for (int i = 0; i < X.length ; i++) {
+        for (int i = 0; i < X.length; i++) {
             X[i][0] *= -1.0;
         }
     }
 
     private void calculateV() throws MatrixWrongSizeException {
         V = matrix.getMatrixProduct(A, X);
-        for (int i = 0; i < V.length ; i++) {
+        for (int i = 0; i < V.length; i++) {
             V[i][0] += L[i][0];
         }
-        VtPV = matrix.getMatrixProduct(matrix.getMatrixProduct(matrix.getMatrixTranspose(V), P),V);
+        VtPV = matrix.getMatrixProduct(matrix.getMatrixProduct(matrix.getMatrixTranspose(V), P), V);
     }
 
     private void calculateM0() {

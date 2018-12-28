@@ -1,6 +1,8 @@
 package pl.sats;
 
-import pl.sats.FieldObservationsObjects.LDH;
+import pl.sats.FieldObservationsObjects.DeltaHeight;
+import pl.sats.FieldObservationsObjects.PointLDH;
+import pl.sats.FieldObservationsObjects.PointNEH;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -16,19 +18,20 @@ import java.util.List;
  */
 public class FileUtils {
     /**
-     * This method is responsible for reading txt file and converting it to LDH Object.
+     * This method is responsible for reading txt file and converting it to PointLDH Object.
+     *
      * @param file which contains data in format (String(name of the point), Double(L), Double(H)
-     * @return collection of LDH objects
+     * @return collection of PointLDH objects
      * @throws IOException IO Exception
      */
-    public List<LDH> readLdhFile(File file) throws IOException {
+    public List<PointLDH> readLdhFile(File file) throws IOException {
         String line;
         FileReader fr = new FileReader(file);
         BufferedReader f = new BufferedReader(fr);
-        List<LDH> setOfLHObservations = new ArrayList<>();
+        List<PointLDH> setOfLHObservations = new ArrayList<>();
 
         while ((line = f.readLine()) != null) {
-            LDH pointLdh = new LDH();
+            PointLDH pointLdh = new PointLDH();
             String[] splitLine = line.split(",");
             if (splitLine.length == 3) {
                 pointLdh.setName(String.valueOf(splitLine[0]));
@@ -39,4 +42,57 @@ public class FileUtils {
         }
         return setOfLHObservations;
     }
+
+    /**
+     * This method is responsible for reading txt file  and converting it to PointNEH Object.
+     *
+     * @param file which contains data in format (String(name of the point), Double(H)
+     * @return collection of PointNEH objects
+     * @throws IOException IO Exception
+     */
+    public List<PointNEH> readNehFile(File file) throws IOException {
+        String line;
+        FileReader fr = new FileReader(file);
+        BufferedReader f = new BufferedReader(fr);
+        List<PointNEH> setOfNehObservations = new ArrayList<>();
+
+        while ((line = f.readLine()) != null) {
+            PointNEH pointNeh = new PointNEH();
+            String[] splitLine = line.split(",");
+            if (splitLine.length == 2) {
+                pointNeh.setName(String.valueOf(splitLine[0]));
+                pointNeh.setH(Double.valueOf(splitLine[1]));
+                setOfNehObservations.add(pointNeh);
+            }
+        }
+        return setOfNehObservations;
+    }
+
+    /**
+     * This method is responsible for reading txt file  and converting it to DeltaHeight Object.
+     *
+     * @param file which contains data in format (String(name of the pointFrom), String(name of the pointTo),
+     *             Double(height difference between point From and To)
+     * @return collection of DeltaHeight objects
+     * @throws IOException
+     */
+    public List<DeltaHeight> readLevelingObservations(File file) throws IOException {
+        String line;
+        FileReader fr = new FileReader(file);
+        BufferedReader f = new BufferedReader(fr);
+        List<DeltaHeight> setOfDeltaHeightObservations = new ArrayList<>();
+        while ((line = f.readLine()) != null) {
+            DeltaHeight deltaHeight = new DeltaHeight();
+            String[] splitLine = line.split(",");
+            if (splitLine.length == 4) {
+                deltaHeight.setPointFrom(String.valueOf(splitLine[0]));
+                deltaHeight.setPointTo(String.valueOf(splitLine[1]));
+                deltaHeight.setHeightDifferenceValue(Double.valueOf(splitLine[2]));
+                deltaHeight.setHeightDifferenceStdMeanError(Double.valueOf(splitLine[3]));
+                setOfDeltaHeightObservations.add(deltaHeight);
+            }
+        }
+        return setOfDeltaHeightObservations;
+    }
+
 }

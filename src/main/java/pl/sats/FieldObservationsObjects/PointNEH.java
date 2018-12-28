@@ -22,7 +22,7 @@ package pl.sats.FieldObservationsObjects;
  * @version 1.0
  * @since 2018-12-15
  */
-public class NEH {
+public class PointNEH {
     private String name;
     private double N;
     private double mN;
@@ -31,21 +31,21 @@ public class NEH {
     private double H;
     private double mH;
 
-    public NEH() {
+    public PointNEH() {
     }
 
-    public NEH(String name, double n, double e) {
+    public PointNEH(String name, double n, double e) {
         this.name = name;
         N = n;
         E = e;
     }
 
-    public NEH(String name, double h) {
+    public PointNEH(String name, double h) {
         this.name = name;
         H = h;
     }
 
-    public NEH(String name, double n, double e, double h) {
+    public PointNEH(String name, double n, double e, double h) {
         this.name = name;
         N = n;
         E = e;
@@ -54,7 +54,7 @@ public class NEH {
 
     @Override
     public String toString() {
-        return "NEH{" +
+        return "PointNEH{" +
                 "name='" + name + '\'' +
                 ", N=" + N +
                 ", mN=" + mN +
