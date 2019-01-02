@@ -102,14 +102,4 @@ class Parabola {
     double gethCatenary() {
         return hCatenary;
     }
-
-    double getMinH() {
-        return q;
-    }
-
-    double getLMinH() {
-        return p;
-    }
-
-
 }

@@ -39,8 +39,6 @@ public class Catenary {
         double a0 = parabola.getaCatenary();
         double l0 = parabola.getlCatenary();
         double h0 = parabola.gethCatenary();
-        minH = parabola.getMinH();
-        LminH = parabola.getLMinH();
 
         double[][] AParabola = parabola.getA();
         double[][] LParabola = parabola.getL();
@@ -77,6 +75,10 @@ public class Catenary {
         lastL = fieldObservations.get(fieldObservations.size() - 1).getL();
         lastH = fieldObservations.get(fieldObservations.size() - 1).getH();
         horizontalLength = lastL - firstL;
+
+        minH = a - h;
+        LminH = -l;
+
         maxHeight = (firstH >= lastH) ? firstH : lastH;
         minHeight = (firstL < LminH && LminH < lastL) ? minH : Math.min(firstH, lastH);
         minHeightL = (firstL < LminH && LminH < lastL) ? LminH : (firstH < lastH) ? firstL : lastL;

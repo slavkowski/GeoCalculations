@@ -25,8 +25,6 @@ public class CatenaryTest {
         Assert.assertEquals(226.791149971774, catenary.getA(), 0.00000000001);
         Assert.assertEquals(-42.2493922571074, catenary.getL(), 0.00000000001);
         Assert.assertEquals(95.855569803779, catenary.getH(), 0.00000000001);
-        Assert.assertEquals(130.93170679362677, catenary.getMinH(), 0.00000000001);
-        Assert.assertEquals(42.24438073207841, catenary.getLminH(), 0.00000000001);
         Assert.assertEquals(89.21, catenary.getHorizontalLength(), 0.00000000001);
         Assert.assertEquals(0.0, catenary.getFirstL(), 0.00000000001);
         Assert.assertEquals(134.879, catenary.getFirstH(), 0.00000000001);
@@ -34,8 +32,8 @@ public class CatenaryTest {
         Assert.assertEquals(135.817, catenary.getLastH(), 0.00000000001);
         Assert.assertEquals(4, catenary.getFieldObservations().size());
         Assert.assertEquals(135.817, catenary.getMaxHeight(), 0.00000000001);
-        Assert.assertEquals(130.931, catenary.getMinHeight(), 0.001);
+        Assert.assertEquals(130.935, catenary.getMinHeight(), 0.001);
         Assert.assertEquals("[[0.0,134.879],[17.51,132.292],[63.98,131.973],[89.21,135.817]]", catenary.getFieldObservationsString());
-        Assert.assertEquals(42.24438, catenary.getMinHeightL(),0.00001);
+        Assert.assertEquals(42.249, catenary.getMinHeightL(),0.001);
     }
 }
