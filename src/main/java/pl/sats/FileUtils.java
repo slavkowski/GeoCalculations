@@ -8,91 +8,35 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This is class which contains methods responsible for reading files
- * and converting them to different Field Observation Objects
- *
- * @author Slawomir Szwed
- * @version 1.0
- * @since 2018-12-15
- */
-public class FileUtils {
-    /**
-     * This method is responsible for reading txt file and converting it to PointLDH Object.
-     *
-     * @param file which contains data in format (String(name of the point), Double(L), Double(H)
-     * @return collection of PointLDH objects
-     * @throws IOException IO Exception
-     */
-    public List<PointLDH> readLdhFile(File file) throws IOException {
-        String line;
-        FileReader fr = new FileReader(file);
-        BufferedReader f = new BufferedReader(fr);
-        List<PointLDH> setOfLHObservations = new ArrayList<>();
 
-        while ((line = f.readLine()) != null) {
-            PointLDH pointLdh = new PointLDH();
-            String[] splitLine = line.split(",");
-            if (splitLine.length == 3) {
-                pointLdh.setName(String.valueOf(splitLine[0]));
-                pointLdh.setL(Double.valueOf(splitLine[1]));
-                pointLdh.setH(Double.valueOf(splitLine[2]));
-                setOfLHObservations.add(pointLdh);
-            }
-        }
-        return setOfLHObservations;
+public class FileUtils<T> {
+    private T setOfObservations;
+    private File file;
+
+    public FileUtils(File file) {
+        this.file = file;
     }
 
-    /**
-     * This method is responsible for reading txt file  and converting it to PointNEH Object.
-     *
-     * @param file which contains data in format (String(name of the point), Double(H)
-     * @return collection of PointNEH objects
-     * @throws IOException IO Exception
-     */
-    public List<PointNEH> readNehFile(File file) throws IOException {
-        String line;
-        FileReader fr = new FileReader(file);
-        BufferedReader f = new BufferedReader(fr);
-        List<PointNEH> setOfNehObservations = new ArrayList<>();
+    public void readFile() throws IOException {
+            String line;
+            FileReader fr = new FileReader(file);
+            BufferedReader f = new BufferedReader(fr);
+            List<PointLDH> setOfLHObservations = new ArrayList<>();
 
-        while ((line = f.readLine()) != null) {
-            PointNEH pointNeh = new PointNEH();
-            String[] splitLine = line.split(",");
-            if (splitLine.length == 2) {
-                pointNeh.setName(String.valueOf(splitLine[0]));
-                pointNeh.setH(Double.valueOf(splitLine[1]));
-                setOfNehObservations.add(pointNeh);
+            while ((line = f.readLine()) != null) {
+                PointLDH pointLdh = new PointLDH();
+                String[] splitLine = line.split(",");
+                if (splitLine.length == 3) {
+                    pointLdh.setName(String.valueOf(splitLine[0]));
+                    pointLdh.setL(Double.valueOf(splitLine[1]));
+                    pointLdh.setH(Double.valueOf(splitLine[2]));
+                    setOfLHObservations.add(pointLdh);
+                }
             }
+            setOfObservations = (T) setOfLHObservations;
         }
-        return setOfNehObservations;
-    }
 
-    /**
-     * This method is responsible for reading txt file  and converting it to DeltaHeight Object.
-     *
-     * @param file which contains data in format (String(name of the pointFrom), String(name of the pointTo),
-     *             Double(height difference between point From and To)
-     * @return collection of DeltaHeight objects
-     * @throws IOException
-     */
-    public List<DeltaHeight> readLevelingObservations(File file) throws IOException {
-        String line;
-        FileReader fr = new FileReader(file);
-        BufferedReader f = new BufferedReader(fr);
-        List<DeltaHeight> setOfDeltaHeightObservations = new ArrayList<>();
-        while ((line = f.readLine()) != null) {
-            DeltaHeight deltaHeight = new DeltaHeight();
-            String[] splitLine = line.split(",");
-            if (splitLine.length == 4) {
-                deltaHeight.setPointFrom(String.valueOf(splitLine[0]));
-                deltaHeight.setPointTo(String.valueOf(splitLine[1]));
-                deltaHeight.setHeightDifferenceValue(Double.valueOf(splitLine[2]));
-                deltaHeight.setHeightDifferenceStdMeanError(Double.valueOf(splitLine[3]));
-                setOfDeltaHeightObservations.add(deltaHeight);
-            }
+        public T getSetOfObservations () {
+            return setOfObservations;
         }
-        return setOfDeltaHeightObservations;
     }
-
-}
