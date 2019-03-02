@@ -45,8 +45,6 @@ public class LeastSquaresEstimation {
     private double[][] VtPV;
     private double m0;
 
-    private boolean ifMoreObservationsThanParameters = false;
-
     public LeastSquaresEstimation(double[][] a, double[][] p, double[][] l) {
         A = a;
         P = p;
@@ -68,19 +66,19 @@ public class LeastSquaresEstimation {
     private Matrix matrix = new Matrix();
 
     public void executeLeastSquaresEstimation() throws MatrixDegenerateException, MatrixWrongSizeException {
-        ifMoreObservationsThanParameters = (A.length - A[0].length) > 0;
+        boolean ifMoreObservationsThanParameters = (A.length - A[0].length) > 0;
         calculateX();
         calculateV();
         if (ifMoreObservationsThanParameters) {
             calculateM0();
-            calculateMX();
-            calculateML();
-            calculateMV();
+//            calculateMX();
+//            calculateML();
+//            calculateMV();
         }
     }
 
     /**
-     * This method is responsible for calculating unknown parameters
+     * This method is responsible for calculating vector of unknown parameters
      *
      * @throws MatrixWrongSizeException
      * @throws MatrixDegenerateException
@@ -117,12 +115,15 @@ public class LeastSquaresEstimation {
 
     }
 
-
     public double[][] getX() {
         return X;
     }
 
     public double getM0() {
         return m0;
+    }
+
+    public double[][] getVtPV() {
+        return VtPV;
     }
 }

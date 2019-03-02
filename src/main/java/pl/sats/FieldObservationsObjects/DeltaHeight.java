@@ -31,4 +31,28 @@ public class DeltaHeight {
     public void setLengthOfSection(double lengthOfSection) {
         this.lengthOfSection = lengthOfSection;
     }
+
+    public String getPointFrom() {
+        return pointFrom;
+    }
+
+    public String getPointTo() {
+        return pointTo;
+    }
+
+    public double getHeightDifferenceValue() {
+        return heightDifferenceValue;
+    }
+
+    public double getHeightDifferenceStdMeanError() {
+        return heightDifferenceStdMeanError;
+    }
+
+    public int getNumberOfSetupsInSection() {
+        return numberOfSetupsInSection;
+    }
+
+    public double getLengthOfSection() {
+        return lengthOfSection;
+    }
 }

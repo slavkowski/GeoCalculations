@@ -26,20 +26,15 @@ public class VerticalAdjustmentTest {
     }
     @Test
     public void shouldReturnNumberOfFixedPoints(){
-        Assert.assertEquals(2,fixedPoints.size());
+        Assert.assertEquals(3,fixedPoints.size());
     }
     @Test
     public void shouldReturnNumberOfObservations(){
         Assert.assertEquals(5,verticalObservations.size());
     }
+    @Test
+    public void shouldReturnValidationOfData(){
 
-//    @Test
-//    public void shouldReturnCorrectM0(){
-//        verticalAdjustment.proceedAdjustment();
-//        Assert.assertEquals(0.98, verticalAdjustment.getM0(),0.01 );
-//    }
-//    @Test
-//    public void shouldReturnUnknownParameters(){
-//        Assert.assertEquals("102.510", verticalAdjustment.getResults()[0][0]);
-//    }
+        verticalAdjustment.proceedAdjustment();
+    }
 }
