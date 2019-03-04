@@ -14,12 +14,20 @@ public class VerticalAdjustmentTest {
     private ClassLoader loader = VerticalAdjustment.class.getClassLoader();
     private File file1 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/ex5_1_1/FixedPoints.txt")).getFile());
     private File file2 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/ex5_1_1/HeightDifferenceObservations.txt")).getFile());
+
+    private File file3 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/P1/2.1/FixedPoints.txt")).getFile());
+    private File file4 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/P1/2.1/HeightDifferenceObservations.txt")).getFile());
+
     private FileUtils fileUtils = new FileUtils();
     private List<PointNEH> fixedPoints = fileUtils.readNehFile(file1);
     private List<DeltaHeight> verticalObservations = fileUtils.readLevelingObservations(file2);
 
+    private FileUtils fileUtils2 = new FileUtils();
+    private List<PointNEH> fixedPoints2 = fileUtils2.readNehFile(file3);
+    private List<DeltaHeight> verticalObservations2 = fileUtils.readLevelingObservations(file4);
 
-    private VerticalAdjustment verticalAdjustment = new VerticalAdjustment(fixedPoints, verticalObservations);
+    private VerticalAdjustment verticalAdjustment = new VerticalAdjustment(fixedPoints, verticalObservations,1.0);
+    private VerticalAdjustment verticalAdjustment2 = new VerticalAdjustment(fixedPoints2, verticalObservations2,0.01);
 
 
     public VerticalAdjustmentTest() throws IOException {
@@ -36,5 +44,10 @@ public class VerticalAdjustmentTest {
     public void shouldReturnValidationOfData(){
 
         verticalAdjustment.proceedAdjustment();
+    }
+    @Test
+    public void shouldReturnValidationOfData2(){
+
+        verticalAdjustment2.proceedAdjustment();
     }
 }

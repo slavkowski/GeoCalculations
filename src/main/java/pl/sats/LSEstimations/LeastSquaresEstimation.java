@@ -35,8 +35,7 @@ public class LeastSquaresEstimation {
     private double[][] L;
     private double[][] X;
     private double[][] V;
-    private double[][] Cx;
-    private double[][] mX;
+    private double[] mX;
     private double[][] Cv;
     private double[][] mV;
     private double[][] Cl;
@@ -44,6 +43,9 @@ public class LeastSquaresEstimation {
     private double[][] N;
     private double[][] VtPV;
     private double m0;
+    private double m0Sqr;
+    private double aPrioriStdDeviation;
+    private ResultsOfLse resultsOfLse;
 
     public LeastSquaresEstimation(double[][] a, double[][] p, double[][] l) {
         A = a;
@@ -67,11 +69,16 @@ public class LeastSquaresEstimation {
 
     public void executeLeastSquaresEstimation() throws MatrixDegenerateException, MatrixWrongSizeException {
         boolean ifMoreObservationsThanParameters = (A.length - A[0].length) > 0;
+        resultsOfLse = new ResultsOfLse();
+        resultsOfLse.setNumberOfFieldObservations(A.length);
+        resultsOfLse.setNumberOfUnknownParameters(A[0].length);
+        resultsOfLse.setaPrioriStdDeviation(aPrioriStdDeviation);
+
         calculateX();
         calculateV();
         if (ifMoreObservationsThanParameters) {
             calculateM0();
-//            calculateMX();
+            calculateCX();
 //            calculateML();
 //            calculateMV();
         }
@@ -89,6 +96,7 @@ public class LeastSquaresEstimation {
         for (int i = 0; i < X.length; i++) {
             X[i][0] *= -1.0;
         }
+        resultsOfLse.setAdjustedParameters(X,1);
     }
 
     private void calculateV() throws MatrixWrongSizeException {
@@ -97,14 +105,23 @@ public class LeastSquaresEstimation {
             V[i][0] += L[i][0];
         }
         VtPV = matrix.getMatrixProduct(matrix.getMatrixProduct(matrix.getMatrixTranspose(V), P), V);
+        resultsOfLse.setWeightedSquareSumOfResiduals(VtPV[0][0]);
     }
 
     private void calculateM0() {
-        m0 = Math.sqrt(VtPV[0][0] / (A.length - A[0].length));
+        m0Sqr = VtPV[0][0] / (A.length - A[0].length);
+        m0 = Math.sqrt(m0Sqr);
+        double ratio = m0 / aPrioriStdDeviation;
+        resultsOfLse.setaPosterioriEstimatedStdDeviation(m0);
+        resultsOfLse.setRatio(ratio);
     }
 
-    private void calculateMX() {
-
+    private void calculateCX() {
+        mX = new double[X.length];
+        for (int i = 0; i < X.length; i++) {
+            mX[i] = Math.sqrt(m0Sqr*N[i][i]);
+        }
+        resultsOfLse.setAdjustedParameters(mX,2);
     }
 
     private void calculateML() {
@@ -115,6 +132,14 @@ public class LeastSquaresEstimation {
 
     }
 
+    public ResultsOfLse getResultsOfLse() {
+        return resultsOfLse;
+    }
+
+    public void setaPrioriStdDeviation(double aPrioriStdDeviation) {
+        this.aPrioriStdDeviation = aPrioriStdDeviation;
+    }
+
     public double[][] getX() {
         return X;
     }
@@ -123,7 +148,4 @@ public class LeastSquaresEstimation {
         return m0;
     }
 
-    public double[][] getVtPV() {
-        return VtPV;
-    }
 }

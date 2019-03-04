@@ -29,28 +29,27 @@ public class VerticalAdjustment {
     private double[][] A;
     private double[][] P;
     private double[][] L;
-    /* Results */
-    private int unknownParameters;
-    private int observedLevelledHeightDifferences;
+    private double aPrioriStdDeviation;
 
 
-    public VerticalAdjustment(List<PointNEH> listOfFixedPoints, List<DeltaHeight> listOfHeightDifferences) {
+    public VerticalAdjustment(List<PointNEH> listOfFixedPoints, List<DeltaHeight> listOfHeightDifferences, double aPrioriStdDeviation) {
         this.listOfFixedPoints = listOfFixedPoints;
         this.listOfHeightDifferences = listOfHeightDifferences;
+        this.aPrioriStdDeviation = aPrioriStdDeviation;
     }
 
     public void proceedAdjustment() {
         checkDataCorrectness();
         createVariablesForAdjustment();
         LeastSquaresEstimation rms = new LeastSquaresEstimation(A,P,L);
+        rms.setaPrioriStdDeviation(aPrioriStdDeviation);
+
         try {
             rms.executeLeastSquaresEstimation();
-            System.out.println(rms.getVtPV()[0][0]);
+            System.out.println(rms.getResultsOfLse());
         } catch (MatrixDegenerateException | MatrixWrongSizeException e) {
             e.printStackTrace();
         }
-        System.out.println(toString());
-
     }
 
     private void createVariablesForAdjustment() {
@@ -100,24 +99,11 @@ public class VerticalAdjustment {
         /* create list of unknowns points. The order of points is very important in order to create matrix N */
         listOfUnknownPoints = setOfUnknownPoints.stream().sorted().collect(Collectors.toList());
 
-        unknownParameters = setOfUnknownPoints.size();
-        observedLevelledHeightDifferences = listOfHeightDifferences.size();
+        int unknownParameters = setOfUnknownPoints.size();
+        int observedLevelledHeightDifferences = listOfHeightDifferences.size();
+
         A = new double[observedLevelledHeightDifferences][unknownParameters];
         P = new double[observedLevelledHeightDifferences][observedLevelledHeightDifferences];
         L = new double[observedLevelledHeightDifferences][1];
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sB = new StringBuilder();
-        sB.append("*** Supplementary information ***\n");
-        sB.append("***    Vertical adjustment    ***\n");
-        sB.append("______________________________________________________________________\n");
-        sB.append("Observed levelled height differences : ").append(observedLevelledHeightDifferences).append("\n");
-        sB.append("______________________________________________________________________\n");
-        sB.append("Height unknowns                      : ").append(unknownParameters).append("\n");
-
-
-        return sB.toString();
     }
 }
