@@ -51,7 +51,6 @@ public class VerticalAdjustment {
 
         try {
             rms.executeLeastSquaresEstimation();
-            System.out.println(rms.getResultsOfLse());
         } catch (MatrixDegenerateException | MatrixWrongSizeException e) {
             log.warn("Matrix degenerate or matrix wrong size exception -> " + e.toString());
         }
