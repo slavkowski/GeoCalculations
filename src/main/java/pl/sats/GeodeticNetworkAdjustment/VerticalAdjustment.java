@@ -1,5 +1,7 @@
 package pl.sats.GeodeticNetworkAdjustment;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.sats.Exceptions.MatrixDegenerateException;
 import pl.sats.Exceptions.MatrixWrongSizeException;
 import pl.sats.FieldObservationsObjects.DeltaHeight;
@@ -13,6 +15,9 @@ import java.util.stream.Collectors;
  *
  */
 public class VerticalAdjustment {
+
+    private final Logger log = LoggerFactory.getLogger(VerticalAdjustment.class);
+
     /* List of all fixed points provided in txt file*/
     private List<PointNEH> listOfFixedPoints;
     /* List of height differences*/
@@ -48,7 +53,7 @@ public class VerticalAdjustment {
             rms.executeLeastSquaresEstimation();
             System.out.println(rms.getResultsOfLse());
         } catch (MatrixDegenerateException | MatrixWrongSizeException e) {
-            e.printStackTrace();
+            log.warn("Matrix degenerate or matrix wrong size exception -> " + e.toString());
         }
     }
 

@@ -31,7 +31,7 @@ public class GaussKrugerProjection {
         a6 = ellipsoidCalculatedParameters.getA6();
         a8 = ellipsoidCalculatedParameters.getA8();
     }
-    AngleConverter angleConverter = new AngleConverter();
+    private AngleConverter angleConverter = new AngleConverter();
 
     public void getUTM(double B, double L) {
         lagrangeProjection(B, L);

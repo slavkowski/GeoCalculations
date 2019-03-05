@@ -27,17 +27,18 @@ public class FileUtils {
     public List<PointLDH> readLdhFile(File file) throws IOException {
         String line;
         FileReader fr = new FileReader(file);
-        BufferedReader f = new BufferedReader(fr);
         List<PointLDH> setOfLHObservations = new ArrayList<>();
 
-        while ((line = f.readLine()) != null) {
-            PointLDH pointLdh = new PointLDH();
-            String[] splitLine = line.split(",");
-            if (splitLine.length == 3) {
-                pointLdh.setName(String.valueOf(splitLine[0]));
-                pointLdh.setL(Double.valueOf(splitLine[1]));
-                pointLdh.setH(Double.valueOf(splitLine[2]));
-                setOfLHObservations.add(pointLdh);
+        try (BufferedReader f = new BufferedReader(fr)) {
+            while ((line = f.readLine()) != null) {
+                PointLDH pointLdh = new PointLDH();
+                String[] splitLine = line.split(",");
+                if (splitLine.length == 3) {
+                    pointLdh.setName(String.valueOf(splitLine[0]));
+                    pointLdh.setL(Double.valueOf(splitLine[1]));
+                    pointLdh.setH(Double.valueOf(splitLine[2]));
+                    setOfLHObservations.add(pointLdh);
+                }
             }
         }
         return setOfLHObservations;
@@ -53,16 +54,17 @@ public class FileUtils {
     public List<PointNEH> readNehFile(File file) throws IOException {
         String line;
         FileReader fr = new FileReader(file);
-        BufferedReader f = new BufferedReader(fr);
         List<PointNEH> setOfNehObservations = new ArrayList<>();
 
-        while ((line = f.readLine()) != null) {
-            PointNEH pointNeh = new PointNEH();
-            String[] splitLine = line.split(",");
-            if (splitLine.length == 2) {
-                pointNeh.setName(String.valueOf(splitLine[0]));
-                pointNeh.setH(Double.valueOf(splitLine[1]));
-                setOfNehObservations.add(pointNeh);
+        try (BufferedReader f = new BufferedReader(fr)) {
+            while ((line = f.readLine()) != null) {
+                PointNEH pointNeh = new PointNEH();
+                String[] splitLine = line.split(",");
+                if (splitLine.length == 2) {
+                    pointNeh.setName(String.valueOf(splitLine[0]));
+                    pointNeh.setH(Double.valueOf(splitLine[1]));
+                    setOfNehObservations.add(pointNeh);
+                }
             }
         }
         return setOfNehObservations;
@@ -79,17 +81,18 @@ public class FileUtils {
     public List<DeltaHeight> readLevelingObservations(File file) throws IOException {
         String line;
         FileReader fr = new FileReader(file);
-        BufferedReader f = new BufferedReader(fr);
         List<DeltaHeight> setOfDeltaHeightObservations = new ArrayList<>();
-        while ((line = f.readLine()) != null) {
-            DeltaHeight deltaHeight = new DeltaHeight();
-            String[] splitLine = line.split(",");
-            if (splitLine.length == 4) {
-                deltaHeight.setPointFrom(String.valueOf(splitLine[0]));
-                deltaHeight.setPointTo(String.valueOf(splitLine[1]));
-                deltaHeight.setHeightDifferenceValue(Double.valueOf(splitLine[2]));
-                deltaHeight.setHeightDifferenceStdMeanError(Double.valueOf(splitLine[3]));
-                setOfDeltaHeightObservations.add(deltaHeight);
+        try (BufferedReader f = new BufferedReader(fr)) {
+            while ((line = f.readLine()) != null) {
+                DeltaHeight deltaHeight = new DeltaHeight();
+                String[] splitLine = line.split(",");
+                if (splitLine.length == 4) {
+                    deltaHeight.setPointFrom(String.valueOf(splitLine[0]));
+                    deltaHeight.setPointTo(String.valueOf(splitLine[1]));
+                    deltaHeight.setHeightDifferenceValue(Double.valueOf(splitLine[2]));
+                    deltaHeight.setHeightDifferenceStdMeanError(Double.valueOf(splitLine[3]));
+                    setOfDeltaHeightObservations.add(deltaHeight);
+                }
             }
         }
         return setOfDeltaHeightObservations;

@@ -9,9 +9,6 @@ package pl.sats;
  */
 public class AngleConverter {
 
-    public AngleConverter() {
-    }
-
     /**
      * Grad to Rad converter
      *
