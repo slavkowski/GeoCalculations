@@ -2,7 +2,10 @@ package pl.sats.LSEstimations;
 
 import pl.sats.Exceptions.MatrixDegenerateException;
 import pl.sats.Exceptions.MatrixWrongSizeException;
+import pl.sats.FieldObservationsObjects.DeltaHeight;
 import pl.sats.Matrix;
+
+import java.util.List;
 
 /**
  * Having following formula: AX = L + V
@@ -35,7 +38,6 @@ public class LeastSquaresEstimation {
     private double[][] L;
     private double[][] X;
     private double[][] V;
-    private double[] mX;
     private double[][] Cv;
     private double[][] mV;
     private double[][] Cl;
@@ -45,6 +47,8 @@ public class LeastSquaresEstimation {
     private double m0;
     private double m0Sqr;
     private double aPrioriStdDeviation;
+    private List<String> listOfUnknownParameters;
+    private List<DeltaHeight> listOfHeightDifferences;
     private ResultsOfLse resultsOfLse;
 
     public LeastSquaresEstimation(double[][] a, double[][] p, double[][] l) {
@@ -76,6 +80,7 @@ public class LeastSquaresEstimation {
 
         calculateX();
         calculateV();
+
         if (ifMoreObservationsThanParameters) {
             calculateM0();
             calculateCX();
@@ -97,6 +102,7 @@ public class LeastSquaresEstimation {
             X[i][0] *= -1.0;
         }
         resultsOfLse.setAdjustedParameters(X,1);
+        resultsOfLse.setListOfUnknownParameters(listOfUnknownParameters);
     }
 
     private void calculateV() throws MatrixWrongSizeException {
@@ -106,6 +112,8 @@ public class LeastSquaresEstimation {
         }
         VtPV = matrix.getMatrixProduct(matrix.getMatrixProduct(matrix.getMatrixTranspose(V), P), V);
         resultsOfLse.setWeightedSquareSumOfResiduals(VtPV[0][0]);
+        resultsOfLse.setListOfHeightDifferences(listOfHeightDifferences);
+        resultsOfLse.setAdjustedObservations(V);
     }
 
     private void calculateM0() {
@@ -117,7 +125,7 @@ public class LeastSquaresEstimation {
     }
 
     private void calculateCX() {
-        mX = new double[X.length];
+        double[] mX = new double[X.length];
         for (int i = 0; i < X.length; i++) {
             mX[i] = Math.sqrt(m0Sqr*N[i][i]);
         }
@@ -148,4 +156,11 @@ public class LeastSquaresEstimation {
         return m0;
     }
 
+    public void setListOfUnknownParameters(List<String> listOfUnknownParameters) {
+        this.listOfUnknownParameters = listOfUnknownParameters;
+    }
+
+    public void setListOfHeightDifferences(List<DeltaHeight> listOfHeightDifferences) {
+        this.listOfHeightDifferences = listOfHeightDifferences;
+    }
 }

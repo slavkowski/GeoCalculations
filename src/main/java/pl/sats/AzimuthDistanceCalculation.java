@@ -15,27 +15,27 @@ import static java.lang.Math.sqrt;
 public class AzimuthDistanceCalculation {
     /**
      * This method is responsible for calculate distance between two points
-     * @param N1 - north component of first point
-     * @param E1 - east component of first point
-     * @param N2 - north component of second point
-     * @param E2 - east component of second point
+     * @param northFrom - north component of first point
+     * @param eastFrom - east component of first point
+     * @param northTo - north component of second point
+     * @param eastTo - east component of second point
      * @return double - calculated distance
      */
-    public double calculateDistance(double N1, double E1, double N2, double E2) {
-        return sqrt(pow((N1 - N2), 2) + pow((E1 - E2), 2));
+    public double calculateDistance(double northFrom, double eastFrom, double northTo, double eastTo) {
+        return sqrt(pow((northFrom - northTo), 2) + pow((eastFrom - eastTo), 2));
     }
 
     /**
      * This method is responsible for calculate azimuth between two points
-     * @param N1 - north component of first point
-     * @param E1 - east component of first point
-     * @param N2 - north component of second point
-     * @param E2 - east component of second point
+     * @param northFrom - north component of first point
+     * @param eastFrom - east component of first point
+     * @param northTo - north component of second point
+     * @param eastTo - east component of second point
      * @return double - calculated azimuth in radians
      */
-    public double calculateAzimuth(double N1, double E1, double N2, double E2) {
-        double deltaN = N2 - N1;
-        double deltaE = E2 - E1;
+    public double calculateAzimuth(double northFrom, double eastFrom, double northTo, double eastTo) {
+        double deltaN = northTo - northFrom;
+        double deltaE = eastTo - eastFrom;
 
         if (deltaN > 0 && deltaE > 0) {
             return Math.atan(deltaE / deltaN);

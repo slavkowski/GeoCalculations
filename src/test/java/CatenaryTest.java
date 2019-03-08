@@ -1,6 +1,6 @@
 import org.junit.Assert;
 import org.junit.Test;
-import pl.sats.CurveCalculations.Catenary;
+import pl.sats.curveCalculations.Catenary;
 import pl.sats.Exceptions.MatrixDegenerateException;
 import pl.sats.Exceptions.MatrixWrongSizeException;
 import pl.sats.FieldObservationsObjects.PointLDH;

@@ -1,4 +1,4 @@
-package pl.sats.CurveCalculations;
+package pl.sats.curveCalculations;
 
 import pl.sats.Exceptions.MatrixDegenerateException;
 import pl.sats.Exceptions.MatrixWrongSizeException;

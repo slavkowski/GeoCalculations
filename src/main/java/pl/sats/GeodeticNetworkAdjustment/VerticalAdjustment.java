@@ -46,13 +46,16 @@ public class VerticalAdjustment {
     public void proceedAdjustment() {
         checkDataCorrectness();
         createVariablesForAdjustment();
-        LeastSquaresEstimation rms = new LeastSquaresEstimation(A,P,L);
-        rms.setaPrioriStdDeviation(aPrioriStdDeviation);
+        LeastSquaresEstimation lms = new LeastSquaresEstimation(A, P, L);
+        lms.setaPrioriStdDeviation(aPrioriStdDeviation);
+        lms.setListOfUnknownParameters(listOfUnknownPoints);
+        lms.setListOfHeightDifferences(listOfHeightDifferences);
 
         try {
-            rms.executeLeastSquaresEstimation();
+            lms.executeLeastSquaresEstimation();
+            System.out.println(lms.getResultsOfLse().toString());
         } catch (MatrixDegenerateException | MatrixWrongSizeException e) {
-            log.warn("Matrix degenerate or matrix wrong size exception -> " + e.toString());
+            log.warn("Matrix degenerate or matrix wrong size exception -> {}", e.toString());
         }
     }
 
@@ -83,7 +86,7 @@ public class VerticalAdjustment {
                 A[i][listOfUnknownPoints.indexOf(nameOfPointTo)] = 1.0d;
             }
             L[i][0] = fixedHeightTo - fixedHeightFrom - heightDifference;
-            P[i][i] = 1.0d/Math.pow(weightOfObservation,2);
+            P[i][i] = 1.0d / Math.pow(weightOfObservation, 2);
         }
     }
 
@@ -100,7 +103,7 @@ public class VerticalAdjustment {
         }
         /* create set of unknowns points */
         setOfAllPoints.stream().filter(x -> !mapOfFixedPoints.containsKey(x)).forEach(x -> setOfUnknownPoints.add(x));
-        /* create list of unknowns points. The order of points is very important in order to create matrix N */
+        /* create list of unknowns points. The order of points is important in order to create matrix A */
         listOfUnknownPoints = setOfUnknownPoints.stream().sorted().collect(Collectors.toList());
 
         int unknownParameters = setOfUnknownPoints.size();
