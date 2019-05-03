@@ -98,25 +98,26 @@ public class ResultsOfLse {
 
     @Override
     public String toString() {
+        String separator = "______________________________________________________________________\n";
         StringBuilder sB = new StringBuilder();
         sB.append("***       Supplementary information         ***\n");
         sB.append("***     Least square adjustment results     ***\n");
-        sB.append("______________________________________________________________________\n");
+        sB.append(separator);
         sB.append("Number of field observations                 : ").append(numberOfFieldObservations).append("\n");
         sB.append("Number of unknown parameters                 : ").append(numberOfUnknownParameters).append("\n");
-        sB.append("______________________________________________________________________\n");
+        sB.append(separator);
         sB.append("Weighted square sum of residuals Ω[-]        : ").append(weightedSquareSumOfResiduals).append("\n");
         sB.append("(a priori) standard deviation                : ").append(aPrioriStdDeviation).append("\n");
         sB.append("(a posteriori) estimated standard deviation  : ").append(aPosterioriEstimatedStdDeviation).append("\n");
         sB.append("Ratio                                        : ").append(ratio).append("\n");
-        sB.append("______________________________________________________________________\n");
+        sB.append(separator);
         sB.append("Adjusted parameters\n");
         for (int i = 0; i < numberOfUnknownParameters; i++) {
             sB.append(listOfUnknownParameters.get(i)).append(" : ").append(String.format("%.4f ± %.1fmm",
                     adjustedParameters[i][1],
                     adjustedParameters[i][2] * 1000)).append("\n");
         }
-        sB.append("______________________________________________________________________\n");
+        sB.append(separator);
         sB.append("Adjusted observations\n");
         for (int i = 0; i < numberOfFieldObservations; i++) {
             sB.append(listOfHeightDifferences.get(i).getPointFrom()).append(" -> ")

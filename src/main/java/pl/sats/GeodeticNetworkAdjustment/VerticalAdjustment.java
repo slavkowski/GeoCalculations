@@ -20,8 +20,10 @@ public class VerticalAdjustment {
 
     /* List of all fixed points provided in txt file*/
     private List<PointNEH> listOfFixedPoints;
-    /* List of height differences*/
+    /* List of height differences provided in txt file*/
     private List<DeltaHeight> listOfHeightDifferences;
+    /*A priori standard deviation provided in constructor */
+    private double aPrioriStdDeviation;
     /* Set of all unique points in txt file with height differences */
     private Set<String> setOfAllPoints;
     /* Map of fixed point needed for adjustment. Less number of fixed points than txt file is possible */
@@ -34,7 +36,7 @@ public class VerticalAdjustment {
     private double[][] A;
     private double[][] P;
     private double[][] L;
-    private double aPrioriStdDeviation;
+
 
 
     public VerticalAdjustment(List<PointNEH> listOfFixedPoints, List<DeltaHeight> listOfHeightDifferences, double aPrioriStdDeviation) {
@@ -99,7 +101,9 @@ public class VerticalAdjustment {
         listOfHeightDifferences.stream().map(DeltaHeight::getPointTo).forEach(x -> setOfAllPoints.add(x));
         /* create map of fixed points excluding points not used in height differences field observations  */
         for (PointNEH pointNEH : listOfFixedPoints) {
-            mapOfFixedPoints.put(pointNEH.getName(), pointNEH.getH());
+            if (setOfAllPoints.contains(pointNEH.getName())) {
+                mapOfFixedPoints.put(pointNEH.getName(), pointNEH.getH());
+            }
         }
         /* create set of unknowns points */
         setOfAllPoints.stream().filter(x -> !mapOfFixedPoints.containsKey(x)).forEach(x -> setOfUnknownPoints.add(x));

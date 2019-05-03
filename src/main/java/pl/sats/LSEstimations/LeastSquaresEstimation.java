@@ -84,8 +84,6 @@ public class LeastSquaresEstimation {
         if (ifMoreObservationsThanParameters) {
             calculateM0();
             calculateCX();
-//            calculateML();
-//            calculateMV();
         }
     }
 
@@ -130,14 +128,6 @@ public class LeastSquaresEstimation {
             mX[i] = Math.sqrt(m0Sqr*N[i][i]);
         }
         resultsOfLse.setAdjustedParameters(mX,2);
-    }
-
-    private void calculateML() {
-
-    }
-
-    private void calculateMV() {
-
     }
 
     public ResultsOfLse getResultsOfLse() {

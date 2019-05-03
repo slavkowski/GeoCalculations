@@ -34,7 +34,7 @@ public class VerticalAdjustmentTest {
     }
     @Test
     public void shouldReturnNumberOfFixedPoints(){
-        Assert.assertEquals(3,fixedPoints.size());
+        Assert.assertEquals(4,fixedPoints.size());
     }
     @Test
     public void shouldReturnNumberOfObservations(){
