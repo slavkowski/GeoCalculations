@@ -1,4 +1,4 @@
-package pl.sats;
+package pl.sats.BasicGeoCalculations;
 
 /**
  * This class is responsible for converting azimuth between different units

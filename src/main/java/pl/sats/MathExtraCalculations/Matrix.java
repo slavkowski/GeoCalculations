@@ -1,4 +1,4 @@
-package pl.sats;
+package pl.sats.MathExtraCalculations;
 
 import pl.sats.Exceptions.MatrixDegenerateException;
 import pl.sats.Exceptions.MatrixWrongSizeException;

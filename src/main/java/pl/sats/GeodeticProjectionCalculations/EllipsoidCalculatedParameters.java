@@ -1,4 +1,4 @@
-package pl.sats;
+package pl.sats.GeodeticProjectionCalculations;
 
 public class EllipsoidCalculatedParameters {
     private double a;

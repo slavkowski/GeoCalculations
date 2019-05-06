@@ -3,7 +3,7 @@ package pl.sats.LSEstimations;
 import pl.sats.Exceptions.MatrixDegenerateException;
 import pl.sats.Exceptions.MatrixWrongSizeException;
 import pl.sats.FieldObservationsObjects.DeltaHeight;
-import pl.sats.Matrix;
+import pl.sats.MathExtraCalculations.Matrix;
 
 import java.util.List;
 

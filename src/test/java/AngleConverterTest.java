@@ -1,6 +1,6 @@
 import org.junit.Assert;
 import org.junit.Test;
-import pl.sats.AngleConverter;
+import pl.sats.BasicGeoCalculations.AngleConverter;
 
 
 public class AngleConverterTest {

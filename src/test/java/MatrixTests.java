@@ -2,7 +2,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import pl.sats.Exceptions.MatrixDegenerateException;
 import pl.sats.Exceptions.MatrixWrongSizeException;
-import pl.sats.Matrix;
+import pl.sats.MathExtraCalculations.Matrix;
 
 public class MatrixTests {
     private Matrix matrix = new Matrix();

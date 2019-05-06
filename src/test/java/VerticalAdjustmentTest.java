@@ -3,7 +3,7 @@ import org.junit.Test;
 import pl.sats.Exceptions.DuplicatedFixedPionts;
 import pl.sats.FieldObservationsObjects.DeltaHeight;
 import pl.sats.FieldObservationsObjects.PointNEH;
-import pl.sats.FileUtils;
+import pl.sats.FileUtils.FileUtils;
 import pl.sats.GeodeticNetworkAdjustment.VerticalAdjustment;
 
 import java.io.File;

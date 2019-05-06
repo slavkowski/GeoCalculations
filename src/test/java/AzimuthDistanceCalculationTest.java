@@ -1,6 +1,6 @@
 import org.junit.Assert;
 import org.junit.Test;
-import pl.sats.AzimuthDistanceCalculation;
+import pl.sats.BasicGeoCalculations.AzimuthDistanceCalculation;
 
 public class AzimuthDistanceCalculationTest {
     private AzimuthDistanceCalculation azimuthDistanceCalculation = new AzimuthDistanceCalculation();

@@ -1,4 +1,4 @@
-package pl.sats;
+package pl.sats.FileUtils;
 
 import pl.sats.FieldObservationsObjects.DeltaHeight;
 import pl.sats.FieldObservationsObjects.PointLDH;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This is class which contains methods responsible for reading files
+ * This class contains methods responsible for reading files
  * and converting them to different Field Observation Objects
  *
  * @author Slawomir Szwed

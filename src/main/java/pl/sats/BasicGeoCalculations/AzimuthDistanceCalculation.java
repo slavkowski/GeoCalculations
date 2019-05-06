@@ -1,4 +1,4 @@
-package pl.sats;
+package pl.sats.BasicGeoCalculations;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
