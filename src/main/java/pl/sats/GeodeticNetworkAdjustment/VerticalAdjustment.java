@@ -2,6 +2,7 @@ package pl.sats.GeodeticNetworkAdjustment;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.sats.Exceptions.DuplicatedFixedPionts;
 import pl.sats.Exceptions.MatrixDegenerateException;
 import pl.sats.Exceptions.MatrixWrongSizeException;
 import pl.sats.FieldObservationsObjects.DeltaHeight;
@@ -45,7 +46,7 @@ public class VerticalAdjustment {
         this.aPrioriStdDeviation = aPrioriStdDeviation;
     }
 
-    public void proceedAdjustment() {
+    public void proceedAdjustment() throws DuplicatedFixedPionts {
         checkDataCorrectness();
         createVariablesForAdjustment();
         LeastSquaresEstimation lms = new LeastSquaresEstimation(A, P, L);
@@ -92,7 +93,7 @@ public class VerticalAdjustment {
         }
     }
 
-    private void checkDataCorrectness() {
+    private void checkDataCorrectness() throws DuplicatedFixedPionts {
         setOfAllPoints = new HashSet<>();
         mapOfFixedPoints = new HashMap<>();
         setOfUnknownPoints = new HashSet<>();
@@ -102,7 +103,11 @@ public class VerticalAdjustment {
         /* create map of fixed points excluding points not used in height differences field observations  */
         for (PointNEH pointNEH : listOfFixedPoints) {
             if (setOfAllPoints.contains(pointNEH.getName())) {
-                mapOfFixedPoints.put(pointNEH.getName(), pointNEH.getH());
+                if(mapOfFixedPoints.containsKey(pointNEH.getName())){
+                    throw new DuplicatedFixedPionts("At least one fixed point is duplicated in set of fixed points. Point: " + pointNEH.getName());
+                }else {
+                    mapOfFixedPoints.put(pointNEH.getName(), pointNEH.getH());
+                }
             }
         }
         /* create set of unknowns points */
