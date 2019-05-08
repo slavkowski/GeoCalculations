@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 /**
  *
  */
-public class VerticalAdjustment {
+public class VerticalAdjustment extends Adjustment {
 
     private final Logger log = LoggerFactory.getLogger(VerticalAdjustment.class);
 
@@ -62,7 +62,7 @@ public class VerticalAdjustment {
         }
     }
 
-    private void createVariablesForAdjustment() {
+    protected void createVariablesForAdjustment() {
         String nameOfPointFrom;
         String nameOfPointTo;
         double heightDifference;
@@ -93,7 +93,7 @@ public class VerticalAdjustment {
         }
     }
 
-    private void checkDataCorrectness() throws DuplicatedFixedPionts {
+    protected void checkDataCorrectness() throws DuplicatedFixedPionts {
         setOfAllPoints = new HashSet<>();
         mapOfFixedPoints = new HashMap<>();
         setOfUnknownPoints = new HashSet<>();

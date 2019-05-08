@@ -24,15 +24,15 @@ public class VerticalAdjustmentTest {
 
     private FileUtils fileUtils = new FileUtils();
     private List<PointNEH> fixedPoints = fileUtils.readNehFile(file1);
-    private List<DeltaHeight> verticalObservations = fileUtils.readLevelingObservations(file2);
+    private List<DeltaHeight> verticalObservations = fileUtils.readLevelingObservationsWithStdErrors(file2);
 
     private FileUtils fileUtils2 = new FileUtils();
     private List<PointNEH> fixedPoints2 = fileUtils2.readNehFile(file3);
-    private List<DeltaHeight> verticalObservations2 = fileUtils2.readLevelingObservations(file4);
+    private List<DeltaHeight> verticalObservations2 = fileUtils2.readLevelingObservationsWithStdErrors(file4);
 
     private FileUtils fileUtils3 = new FileUtils();
     private List<PointNEH> fixedPoints3 = fileUtils3.readNehFile(file5);
-    private List<DeltaHeight> verticalObservations3 = fileUtils3.readLevelingObservations(file6);
+    private List<DeltaHeight> verticalObservations3 = fileUtils3.readLevelingObservationsWithStdErrors(file6);
 
     private VerticalAdjustment verticalAdjustment = new VerticalAdjustment(fixedPoints, verticalObservations,1.0);
     private VerticalAdjustment verticalAdjustment2 = new VerticalAdjustment(fixedPoints2, verticalObservations2,0.01);
