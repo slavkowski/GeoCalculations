@@ -1,4 +1,4 @@
-package pl.sats;
+package pl.sats.FileUtils;
 
 import pl.sats.FieldObservationsObjects.DeltaHeight;
 import pl.sats.FieldObservationsObjects.PointLDH;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This is class which contains methods responsible for reading files
+ * This class contains methods responsible for reading files
  * and converting them to different Field Observation Objects
  *
  * @author Slawomir Szwed
@@ -78,7 +78,7 @@ public class FileUtils {
      * @return collection of DeltaHeight objects
      * @throws IOException
      */
-    public List<DeltaHeight> readLevelingObservations(File file) throws IOException {
+    public List<DeltaHeight> readLevelingObservationsWithStdErrors(File file) throws IOException {
         String line;
         FileReader fr = new FileReader(file);
         List<DeltaHeight> setOfDeltaHeightObservations = new ArrayList<>();
@@ -96,6 +96,28 @@ public class FileUtils {
             }
         }
         return setOfDeltaHeightObservations;
+    }
+    public List<DeltaHeight> readLevelingObservationsWithNumberOfSetups(File file, double errorPerSetup) throws IOException{
+        String line;
+        FileReader fr = new FileReader(file);
+        List<DeltaHeight> setOfDeltaHeightObservations = new ArrayList<>();
+        try (BufferedReader f = new BufferedReader(fr)) {
+            while ((line = f.readLine()) != null) {
+                DeltaHeight deltaHeight = new DeltaHeight();
+                String[] splitLine = line.split(",");
+                if (splitLine.length == 4) {
+                    deltaHeight.setPointFrom(String.valueOf(splitLine[0]));
+                    deltaHeight.setPointTo(String.valueOf(splitLine[1]));
+                    deltaHeight.setHeightDifferenceValue(Double.valueOf(splitLine[2]));
+                    deltaHeight.setHeightDifferenceStdMeanError(errorPerSetup*Math.sqrt(Double.valueOf(splitLine[3])));
+                    setOfDeltaHeightObservations.add(deltaHeight);
+                }
+            }
+        }
+        return setOfDeltaHeightObservations;
+    }
+    public List<DeltaHeight> readLevelingObservationsWithLengthOfSection(File file) throws IOException{
+        return null;
     }
 
 }

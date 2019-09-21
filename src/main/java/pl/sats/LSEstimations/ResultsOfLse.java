@@ -1,6 +1,10 @@
 package pl.sats.LSEstimations;
 
 
+import pl.sats.FieldObservationsObjects.DeltaHeight;
+
+import java.util.List;
+
 public class ResultsOfLse {
     private double weightedSquareSumOfResiduals;
     private int numberOfUnknownParameters;
@@ -10,6 +14,8 @@ public class ResultsOfLse {
     private double ratio;
     private double[][] adjustedParameters;
     private double[][] adjustedObservations;
+    private List<String> listOfUnknownParameters;
+    private List<DeltaHeight> listOfHeightDifferences;
 
     public double getWeightedSquareSumOfResiduals() {
         return weightedSquareSumOfResiduals;
@@ -34,6 +40,7 @@ public class ResultsOfLse {
 
     void setNumberOfFieldObservations(int numberOfFieldObservations) {
         this.numberOfFieldObservations = numberOfFieldObservations;
+        adjustedObservations = new double[numberOfFieldObservations][2];
     }
 
     public double getaPrioriStdDeviation() {
@@ -75,23 +82,49 @@ public class ResultsOfLse {
         }
     }
 
+    void setListOfUnknownParameters(List<String> listOfUnknownParameters) {
+        this.listOfUnknownParameters = listOfUnknownParameters;
+    }
+
+    void setListOfHeightDifferences(List<DeltaHeight> listOfHeightDifferences) {
+        this.listOfHeightDifferences = listOfHeightDifferences;
+    }
+
+    void setAdjustedObservations(double[][] adjustedObservations) {
+        for (int i = 0; i < numberOfFieldObservations; i++){
+            this.adjustedObservations[i][0] = adjustedObservations[i][0];
+        }
+    }
+
     @Override
     public String toString() {
+        String separator = "______________________________________________________________________\n";
         StringBuilder sB = new StringBuilder();
         sB.append("***       Supplementary information         ***\n");
         sB.append("***     Least square adjustment results     ***\n");
-        sB.append("______________________________________________________________________\n");
+        sB.append(separator);
         sB.append("Number of field observations                 : ").append(numberOfFieldObservations).append("\n");
         sB.append("Number of unknown parameters                 : ").append(numberOfUnknownParameters).append("\n");
-        sB.append("______________________________________________________________________\n");
+        sB.append(separator);
         sB.append("Weighted square sum of residuals Ω[-]        : ").append(weightedSquareSumOfResiduals).append("\n");
         sB.append("(a priori) standard deviation                : ").append(aPrioriStdDeviation).append("\n");
         sB.append("(a posteriori) estimated standard deviation  : ").append(aPosterioriEstimatedStdDeviation).append("\n");
         sB.append("Ratio                                        : ").append(ratio).append("\n");
-        sB.append("______________________________________________________________________\n");
+        sB.append(separator);
         sB.append("Adjusted parameters\n");
         for (int i = 0; i < numberOfUnknownParameters; i++) {
-            sB.append(String.format("%.4f ± %.1fmm", adjustedParameters[i][1], adjustedParameters[i][2]*1000)).append("\n");
+            sB.append(listOfUnknownParameters.get(i)).append(" : ").append(String.format("%.4f ± %.1fmm",
+                    adjustedParameters[i][1],
+                    adjustedParameters[i][2] * 1000)).append("\n");
+        }
+        sB.append(separator);
+        sB.append("Adjusted observations\n");
+        for (int i = 0; i < numberOfFieldObservations; i++) {
+            sB.append(listOfHeightDifferences.get(i).getPointFrom()).append(" -> ")
+                    .append(listOfHeightDifferences.get(i).getPointTo()).append(" : ")
+                    .append(listOfHeightDifferences.get(i).getHeightDifferenceValue())
+                    .append(" ± ").append(listOfHeightDifferences.get(i).getHeightDifferenceStdMeanError())
+                    .append(String.format(" %.4f",adjustedObservations[i][0])).append("\n");
         }
         return sB.toString();
     }

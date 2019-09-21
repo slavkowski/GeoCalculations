@@ -2,6 +2,7 @@ package pl.sats.GeodeticNetworkAdjustment;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.sats.Exceptions.DuplicatedFixedPionts;
 import pl.sats.Exceptions.MatrixDegenerateException;
 import pl.sats.Exceptions.MatrixWrongSizeException;
 import pl.sats.FieldObservationsObjects.DeltaHeight;
@@ -14,14 +15,16 @@ import java.util.stream.Collectors;
 /**
  *
  */
-public class VerticalAdjustment {
+public class VerticalAdjustment extends Adjustment {
 
     private final Logger log = LoggerFactory.getLogger(VerticalAdjustment.class);
 
     /* List of all fixed points provided in txt file*/
     private List<PointNEH> listOfFixedPoints;
-    /* List of height differences*/
+    /* List of height differences provided in txt file*/
     private List<DeltaHeight> listOfHeightDifferences;
+    /*A priori standard deviation provided in constructor */
+    private double aPrioriStdDeviation;
     /* Set of all unique points in txt file with height differences */
     private Set<String> setOfAllPoints;
     /* Map of fixed point needed for adjustment. Less number of fixed points than txt file is possible */
@@ -34,7 +37,7 @@ public class VerticalAdjustment {
     private double[][] A;
     private double[][] P;
     private double[][] L;
-    private double aPrioriStdDeviation;
+
 
 
     public VerticalAdjustment(List<PointNEH> listOfFixedPoints, List<DeltaHeight> listOfHeightDifferences, double aPrioriStdDeviation) {
@@ -43,20 +46,23 @@ public class VerticalAdjustment {
         this.aPrioriStdDeviation = aPrioriStdDeviation;
     }
 
-    public void proceedAdjustment() {
+    public void proceedAdjustment() throws DuplicatedFixedPionts {
         checkDataCorrectness();
         createVariablesForAdjustment();
-        LeastSquaresEstimation rms = new LeastSquaresEstimation(A,P,L);
-        rms.setaPrioriStdDeviation(aPrioriStdDeviation);
+        LeastSquaresEstimation lms = new LeastSquaresEstimation(A, P, L);
+        lms.setaPrioriStdDeviation(aPrioriStdDeviation);
+        lms.setListOfUnknownParameters(listOfUnknownPoints);
+        lms.setListOfHeightDifferences(listOfHeightDifferences);
 
         try {
-            rms.executeLeastSquaresEstimation();
+            lms.executeLeastSquaresEstimation();
+            System.out.println(lms.getResultsOfLse().toString());
         } catch (MatrixDegenerateException | MatrixWrongSizeException e) {
-            log.warn("Matrix degenerate or matrix wrong size exception -> " + e.toString());
+            log.warn("Matrix degenerate or matrix wrong size exception -> {}", e.toString());
         }
     }
 
-    private void createVariablesForAdjustment() {
+    protected void createVariablesForAdjustment() {
         String nameOfPointFrom;
         String nameOfPointTo;
         double heightDifference;
@@ -83,11 +89,11 @@ public class VerticalAdjustment {
                 A[i][listOfUnknownPoints.indexOf(nameOfPointTo)] = 1.0d;
             }
             L[i][0] = fixedHeightTo - fixedHeightFrom - heightDifference;
-            P[i][i] = 1.0d/Math.pow(weightOfObservation,2);
+            P[i][i] = 1.0d / Math.pow(weightOfObservation, 2);
         }
     }
 
-    private void checkDataCorrectness() {
+    protected void checkDataCorrectness() throws DuplicatedFixedPionts {
         setOfAllPoints = new HashSet<>();
         mapOfFixedPoints = new HashMap<>();
         setOfUnknownPoints = new HashSet<>();
@@ -96,11 +102,17 @@ public class VerticalAdjustment {
         listOfHeightDifferences.stream().map(DeltaHeight::getPointTo).forEach(x -> setOfAllPoints.add(x));
         /* create map of fixed points excluding points not used in height differences field observations  */
         for (PointNEH pointNEH : listOfFixedPoints) {
-            mapOfFixedPoints.put(pointNEH.getName(), pointNEH.getH());
+            if (setOfAllPoints.contains(pointNEH.getName())) {
+                if(mapOfFixedPoints.containsKey(pointNEH.getName())){
+                    throw new DuplicatedFixedPionts("At least one fixed point is duplicated in set of fixed points. Point: " + pointNEH.getName());
+                }else {
+                    mapOfFixedPoints.put(pointNEH.getName(), pointNEH.getH());
+                }
+            }
         }
         /* create set of unknowns points */
         setOfAllPoints.stream().filter(x -> !mapOfFixedPoints.containsKey(x)).forEach(x -> setOfUnknownPoints.add(x));
-        /* create list of unknowns points. The order of points is very important in order to create matrix N */
+        /* create list of unknowns points. The order of points is important in order to create matrix A */
         listOfUnknownPoints = setOfUnknownPoints.stream().sorted().collect(Collectors.toList());
 
         int unknownParameters = setOfUnknownPoints.size();

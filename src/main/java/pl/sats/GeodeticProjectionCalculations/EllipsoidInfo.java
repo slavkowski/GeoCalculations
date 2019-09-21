@@ -1,4 +1,4 @@
-package pl.sats;
+package pl.sats.GeodeticProjectionCalculations;
 
 public enum EllipsoidInfo {
     a(6378137.0, 6378137.0),

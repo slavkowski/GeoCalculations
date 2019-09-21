@@ -4,7 +4,7 @@ import pl.sats.CurveCalculations.Catenary;
 import pl.sats.Exceptions.MatrixDegenerateException;
 import pl.sats.Exceptions.MatrixWrongSizeException;
 import pl.sats.FieldObservationsObjects.PointLDH;
-import pl.sats.FileUtils;
+import pl.sats.FileUtils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;

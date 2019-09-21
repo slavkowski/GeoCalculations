@@ -1,7 +1,7 @@
 import org.junit.Assert;
 import org.junit.Test;
 import pl.sats.FieldObservationsObjects.PointLDH;
-import pl.sats.FileUtils;
+import pl.sats.FileUtils.FileUtils;
 import pl.sats.Main;
 
 import java.io.File;

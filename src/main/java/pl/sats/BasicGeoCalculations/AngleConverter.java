@@ -1,4 +1,4 @@
-package pl.sats;
+package pl.sats.BasicGeoCalculations;
 
 /**
  * This class is responsible for converting azimuth between different units
@@ -29,24 +29,43 @@ public class AngleConverter {
         return (200 * inputValue) / (Math.PI);
     }
 
+    /**
+     * @param inputValue given azimuth in Deg
+     * @return double - azimuth in Rad
+     */
+
     public double degToRad(double inputValue) {
         return (inputValue * Math.PI) / 180;
     }
+
+    /**
+     * @param inputValue given azimuth in Rad
+     * @return double - azimuth in Deg
+     */
 
     public double radToDeg(double inputValue) {
         return (180 * inputValue) / (Math.PI);
     }
 
+    /**
+     * @param inputValue given azimuth in Deg
+     * @return double - azimuth in Grad
+     */
     public double degToGrad(double inputValue) {
         return (200 * inputValue) / 180;
     }
 
+    /**
+     * @param inputValue given azimuth in Grad
+     * @return double - azimuth in Deg
+     */
     public double gradToDeg(double inputValue) {
         return (180 * inputValue) / 200;
     }
 
     /**
      * This method is responsible for converting azimuth in DEG format (Decimal Degrees) into DMS string format
+     *
      * @param inputValue azimuth in DEG format (Decimal Degrees - example: 111.432175448)
      * @return String DMS String representation of input value
      */

@@ -1,6 +1,6 @@
 package pl.sats.LineCalculations;
 
-import pl.sats.AzimuthDistanceCalculation;
+import pl.sats.BasicGeoCalculations.AzimuthDistanceCalculation;
 import pl.sats.Exceptions.MatrixDegenerateException;
 import pl.sats.Exceptions.MatrixWrongSizeException;
 import pl.sats.FieldObservationsObjects.PointLDH;

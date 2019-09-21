@@ -1,5 +1,7 @@
-package pl.sats;
+package pl.sats.GeodeticProjectionCalculations;
 
+
+import pl.sats.BasicGeoCalculations.AngleConverter;
 
 public class GaussKrugerProjection {
     double a;
