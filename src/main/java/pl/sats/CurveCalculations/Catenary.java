@@ -26,6 +26,7 @@ public class Catenary {
     private double minHeightL;
     private double maxHeight;
     private String fieldObservationsString;
+    private double[][] fieldObservationsDouble;
     private List<PointLDH> fieldObservations;
 
     public Catenary(List<PointLDH> fieldObservations) {
@@ -84,9 +85,16 @@ public class Catenary {
         minHeightL = (firstL < LminH && LminH < lastL) ? LminH : (firstH < lastH) ? firstL : lastL;
 
         StringBuilder sb = new StringBuilder();
+        StringBuilder sbSemiColonSeparator = new StringBuilder();
+
         sb.append("[");
+        fieldObservationsDouble = new double[fieldObservations.size()][2];
+        int i = 0;
         for (PointLDH ldh : fieldObservations) {
             sb.append("[").append(ldh.getL()-firstL).append(",").append(ldh.getH()).append("],");
+            fieldObservationsDouble[i][0] = ldh.getL()-firstL;
+            fieldObservationsDouble[i][1] = ldh.getH();
+            i++;
         }
         sb.deleteCharAt(sb.length()-1);
         sb.append("]");
@@ -153,5 +161,13 @@ public class Catenary {
 
     public double getMinHeightL() {
         return minHeightL;
+    }
+
+    public double[][] getFieldObservationsDouble() {
+        return fieldObservationsDouble;
+    }
+
+    public void setFieldObservationsDouble(double[][] fieldObservationsDouble) {
+        this.fieldObservationsDouble = fieldObservationsDouble;
     }
 }
