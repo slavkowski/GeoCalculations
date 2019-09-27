@@ -1,10 +1,12 @@
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import pl.sats.Exceptions.MatrixDegenerateException;
 import pl.sats.Exceptions.MatrixWrongSizeException;
 import pl.sats.MathExtraCalculations.Matrix;
 
-public class MatrixTests {
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+
+class MatrixTests {
     private Matrix matrix = new Matrix();
     private double[][] testMatrixA = {
             {1.1d, 2.2d, 3.3d},
@@ -20,9 +22,9 @@ public class MatrixTests {
             {37.51d, 22.99d},
             {102.85d, 66.55d}
     };
-    private double [][] expectedMatrixTranspose = {
+    private double[][] expectedMatrixTranspose = {
             {1.1d, 4.4d},
-            {2.2d,5.5d},
+            {2.2d, 5.5d},
             {3.3d, 6.6d}
     };
     private double[][] testMatrixC = {
@@ -40,32 +42,37 @@ public class MatrixTests {
 
 
     @Test
-    public void shouldReturnMatrixProduct() throws MatrixWrongSizeException {
+    void shouldReturnMatrixProduct() throws MatrixWrongSizeException {
         double[][] matrixProduct = matrix.getMatrixProduct(testMatrixA, testMatrixB);
-        Assert.assertArrayEquals(expectedMatrixProduct[0], matrixProduct[0],0.0000000000001d);
-        Assert.assertArrayEquals(expectedMatrixProduct[1], matrixProduct[1],0.0000000000001d);
-    }
-    @Test(expected = MatrixWrongSizeException.class)
-    public void shouldReturnException() throws MatrixWrongSizeException {
-        double[][] matrixProduct = matrix.getMatrixProduct(testMatrixA, testMatrixA);
+        assertArrayEquals(expectedMatrixProduct[0], matrixProduct[0], 0.0000000000001d);
+        assertArrayEquals(expectedMatrixProduct[1], matrixProduct[1], 0.0000000000001d);
     }
     @Test
-    public void shouldReturnMatrixTranspose(){
+    void shouldReturnException() {
+        Assertions.assertThrows(MatrixWrongSizeException.class, () -> matrix.getMatrixProduct(testMatrixA, testMatrixA));
+
+    }
+    @Test
+    void shouldReturnMatrixTranspose() {
         double[][] matrixTranspose = matrix.getMatrixTranspose(testMatrixA);
-        Assert.assertArrayEquals(expectedMatrixTranspose[0],matrixTranspose[0],0.00000000001);
+        assertArrayEquals(expectedMatrixTranspose[0], matrixTranspose[0], 0.00000000001);
     }
     @Test
-    public void shouldReturnInverseOfMatrix() throws MatrixDegenerateException, MatrixWrongSizeException {
-        double [][] matrixInverse = matrix.getMatrixInverse(testMatrixC);
-        Assert.assertArrayEquals(expectedMatrixInverse[0], matrixInverse[0],0.0000000000001d);
-        Assert.assertArrayEquals(expectedMatrixInverse[1], matrixInverse[1],0.0000000000001d);
+    void shouldReturnInverseOfMatrix() throws MatrixDegenerateException, MatrixWrongSizeException {
+        double[][] matrixInverse = matrix.getMatrixInverse(testMatrixC);
+        assertArrayEquals(expectedMatrixInverse[0], matrixInverse[0], 0.0000000000001d);
+        assertArrayEquals(expectedMatrixInverse[1], matrixInverse[1], 0.0000000000001d);
     }
-    @Test(expected = MatrixWrongSizeException.class)
-    public void shouldReturnWrongSizeExceptionOnInverseClass() throws MatrixDegenerateException, MatrixWrongSizeException {
-        double [][] matrixInverse = matrix.getMatrixInverse(testMatrixA);
+    @Test
+    void shouldReturnWrongSizeExceptionOnInverseClass(){
+        Assertions.assertThrows(MatrixWrongSizeException.class, () -> {
+            double[][] matrixInverse = matrix.getMatrixInverse(testMatrixA);
+        });
     }
-    @Test(expected = MatrixDegenerateException.class)
-    public void shouldReturnDegenerateExceptionOnInverseClass() throws MatrixDegenerateException, MatrixWrongSizeException {
-        double [][] matrixInverse = matrix.getMatrixInverse(testMatrixD);
+    @Test
+    void shouldReturnDegenerateExceptionOnInverseClass(){
+        Assertions.assertThrows(MatrixDegenerateException.class, () -> {
+            double[][] matrixInverse = matrix.getMatrixInverse(testMatrixD);
+        });
     }
 }

@@ -1,5 +1,4 @@
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import pl.sats.FieldObservationsObjects.PointLDH;
 import pl.sats.FileUtils.FileUtils;
 import pl.sats.Main;
@@ -9,17 +8,19 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-public class FileUtilsTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class FileUtilsTest {
     private ClassLoader loader = Main.class.getClassLoader();
     private File file = new File(Objects.requireNonNull(loader.getResource("TxtFiles/Field1.txt")).getFile());
     private FileUtils fileUtils = new FileUtils();
 
     @Test
-    public void shouldReturnLdhObject() throws IOException {
+    void shouldReturnLdhObject() throws IOException {
         List<PointLDH> fieldLdhObservations = fileUtils.readLdhFile(file);
-        Assert.assertEquals(4,fieldLdhObservations.size());
-        Assert.assertEquals("1",fieldLdhObservations.get(0).getName());
-        Assert.assertEquals(0.0,fieldLdhObservations.get(0).getL(),0.00001);
-        Assert.assertEquals(134.879,fieldLdhObservations.get(0).getH(), 0.00001);
+        assertEquals(4,fieldLdhObservations.size());
+        assertEquals("1",fieldLdhObservations.get(0).getName());
+        assertEquals(0.0,fieldLdhObservations.get(0).getL(),0.00001);
+        assertEquals(134.879,fieldLdhObservations.get(0).getH(), 0.00001);
     }
 }

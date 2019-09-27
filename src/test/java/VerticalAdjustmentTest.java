@@ -1,5 +1,5 @@
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import pl.sats.Exceptions.DuplicatedFixedPionts;
 import pl.sats.FieldObservationsObjects.DeltaHeight;
 import pl.sats.FieldObservationsObjects.PointNEH;
@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class VerticalAdjustmentTest {
     private ClassLoader loader = VerticalAdjustment.class.getClassLoader();
@@ -39,29 +41,28 @@ public class VerticalAdjustmentTest {
     private VerticalAdjustment verticalAdjustment3 = new VerticalAdjustment(fixedPoints3, verticalObservations3,1.0);
 
 
-    public VerticalAdjustmentTest() throws IOException {
+    VerticalAdjustmentTest() throws IOException {
     }
     @Test
-    public void shouldReturnNumberOfFixedPoints(){
-        Assert.assertEquals(3,fixedPoints.size());
+    void shouldReturnNumberOfFixedPoints(){
+        assertEquals(3,fixedPoints.size());
     }
     @Test
-    public void shouldReturnNumberOfObservations(){
-        Assert.assertEquals(5,verticalObservations.size());
+    void shouldReturnNumberOfObservations(){
+        assertEquals(5,verticalObservations.size());
     }
     @Test
-    public void shouldReturnValidationOfData() throws DuplicatedFixedPionts {
-
+    void shouldReturnValidationOfData() throws DuplicatedFixedPionts {
         verticalAdjustment.proceedAdjustment();
     }
     @Test
-    public void shouldReturnValidationOfData2() throws DuplicatedFixedPionts {
-
+    void shouldReturnValidationOfData2() throws DuplicatedFixedPionts {
         verticalAdjustment2.proceedAdjustment();
     }
-    @Test(expected = DuplicatedFixedPionts.class)
-    public void shouldReturnValidationOfData3() throws DuplicatedFixedPionts {
-
-        verticalAdjustment3.proceedAdjustment();
+    @Test
+    void shouldReturnValidationOfData3(){
+        Assertions.assertThrows(DuplicatedFixedPionts.class, ()->{
+            verticalAdjustment3.proceedAdjustment();
+        });
     }
 }

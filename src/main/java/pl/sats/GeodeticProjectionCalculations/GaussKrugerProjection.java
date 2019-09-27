@@ -3,6 +3,9 @@ package pl.sats.GeodeticProjectionCalculations;
 
 import pl.sats.BasicGeoCalculations.AngleConverter;
 
+/**
+ *
+ */
 public class GaussKrugerProjection {
     double a;
     double f;
@@ -25,7 +28,6 @@ public class GaussKrugerProjection {
         a = ellipsoidInfoA.getWGS84();
         f = ellipsoidInfoF.getWGS84();
         EllipsoidCalculatedParameters ellipsoidCalculatedParameters = new EllipsoidCalculatedParameters(a, f);
-        ellipsoidCalculatedParameters.calculateParameters();
         e = ellipsoidCalculatedParameters.getE();
         R = ellipsoidCalculatedParameters.getR();
         a2 = ellipsoidCalculatedParameters.getA2();
