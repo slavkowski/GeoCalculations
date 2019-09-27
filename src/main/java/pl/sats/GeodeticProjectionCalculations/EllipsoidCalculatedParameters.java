@@ -1,7 +1,7 @@
 package pl.sats.GeodeticProjectionCalculations;
 
 /**
- *
+ * This class contains various ellipsoid's parameters calculations.
  */
 class EllipsoidCalculatedParameters {
     private double a;
