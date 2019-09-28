@@ -10,7 +10,7 @@ public class BLHToXYZ {
     private EllipsoidCalculatedParameters ellipsoidCalculatedParameters;
 
     /**
-     * @param ellipsoidDetails - WGS84 or GRS80 ellipsoid
+     * @param ellipsoidDetails - Ellipsoid
      */
     public BLHToXYZ(EllipsoidDetails ellipsoidDetails) {
         double a = ellipsoidDetails.getA();
@@ -20,7 +20,7 @@ public class BLHToXYZ {
 
     /**
      * This method is responsible for transforming BLH into XYZ
-     * @param blh geodetic coordinates
+     * @param blh - geodetic coordinates
      * @return cartesian coordinates
      */
     public XYZ transformCoordinates(BLH blh) {

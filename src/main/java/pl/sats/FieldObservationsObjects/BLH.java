@@ -13,7 +13,7 @@ public class BLH {
     private double latitude;
     private double ellipsoidHeight;
 
-    public BLH(double longitude, double latitude, double ellipsoidHeight) {
+    public BLH(double latitude, double longitude, double ellipsoidHeight) {
         this.longitude = longitude;
         this.latitude = latitude;
         this.ellipsoidHeight = ellipsoidHeight;

@@ -10,6 +10,7 @@ class EllipsoidCalculatedParameters {
     private double b;
     private double e;
     private double firstEccentricity;
+    private double secondEccentricity;
     private double n;
     private double R;
     private double a2;
@@ -29,6 +30,7 @@ class EllipsoidCalculatedParameters {
         b = a * (1.0 - (1.0 / f));
         e = Math.sqrt(1 - (Math.pow(b, 2) / Math.pow(a, 2)));
         firstEccentricity = Math.sqrt((Math.pow(a, 2) - Math.pow(b, 2)) / Math.pow(a, 2));
+        secondEccentricity = Math.sqrt((Math.pow(a, 2) - Math.pow(b, 2)) / Math.pow(b, 2));
         n = (a - b) / (a + b);
         R = (a / (1.0 + n)) * (1 + (Math.pow(n, 2) / 4 + Math.pow(n, 4) / 64.0 + Math.pow(n, 6) / 256.0) + 25 * Math.pow(n, 8) / 16384.0);
         a2 = n / 2.0 - (2.0 / 3.0) * Math.pow(n, 2) + (5.0 / 16.0) * Math.pow(n, 3) + (41.0 / 180.0) * Math.pow(n, 4);
@@ -49,6 +51,10 @@ class EllipsoidCalculatedParameters {
 
     public double getA() {
         return a;
+    }
+
+    public double getB() {
+        return b;
     }
 
     double getE() {
@@ -81,5 +87,9 @@ class EllipsoidCalculatedParameters {
 
     double getFirstEccentricity() {
         return firstEccentricity;
+    }
+
+    public double getSecondEccentricity() {
+        return secondEccentricity;
     }
 }
