@@ -22,19 +22,18 @@ public class GaussKrugerProjection {
     private double a6;
     private double a8;
 
-    public GaussKrugerProjection() {
-        EllipsoidInfo ellipsoidInfoA = EllipsoidInfo.a;
-        EllipsoidInfo ellipsoidInfoF = EllipsoidInfo.f;
-        a = ellipsoidInfoA.getWGS84();
-        f = ellipsoidInfoF.getWGS84();
+    public GaussKrugerProjection(EllipsoidDetails ellipsoidDetails) {
+        a = ellipsoidDetails.getA();
+        double f = ellipsoidDetails.getF();
         EllipsoidCalculatedParameters ellipsoidCalculatedParameters = new EllipsoidCalculatedParameters(a, f);
-        e = ellipsoidCalculatedParameters.getE();
+        e = ellipsoidCalculatedParameters.getFirstEccentricity();
         R = ellipsoidCalculatedParameters.getR();
         a2 = ellipsoidCalculatedParameters.getA2();
         a4 = ellipsoidCalculatedParameters.getA4();
         a6 = ellipsoidCalculatedParameters.getA6();
         a8 = ellipsoidCalculatedParameters.getA8();
     }
+
     private AngleConverter angleConverter = new AngleConverter();
 
     public void getUTM(double B, double L) {
@@ -58,10 +57,10 @@ public class GaussKrugerProjection {
     private void gaussKrugerPlane() {
         double alfa = nMerk / R;
         double beta = eMerk / R;
-        nGK = nMerk + R*(a2*Math.sin(2.0*alfa)*Math.cosh(2.0*beta)+a4*Math.sin(4.0*alfa)*Math.cosh(4.0*beta)
-                +a6*Math.sin(6.0*alfa)*Math.cosh(6.0*beta)+a8*Math.sin(8*alfa)*Math.cosh(8*beta));
-        eGK = eMerk + R*(a2*Math.cos(2.0*alfa)*Math.sinh(2.0*beta)+a4*Math.cos(4.0*alfa)*Math.sinh(4.0*beta)
-                +a6*Math.cos(6.0*alfa)*Math.sinh(6.0*beta)+a8*Math.cos(8*alfa)*Math.sinh(8*beta));
+        nGK = nMerk + R * (a2 * Math.sin(2.0 * alfa) * Math.cosh(2.0 * beta) + a4 * Math.sin(4.0 * alfa) * Math.cosh(4.0 * beta)
+                + a6 * Math.sin(6.0 * alfa) * Math.cosh(6.0 * beta) + a8 * Math.sin(8 * alfa) * Math.cosh(8 * beta));
+        eGK = eMerk + R * (a2 * Math.cos(2.0 * alfa) * Math.sinh(2.0 * beta) + a4 * Math.cos(4.0 * alfa) * Math.sinh(4.0 * beta)
+                + a6 * Math.cos(6.0 * alfa) * Math.sinh(6.0 * beta) + a8 * Math.cos(8 * alfa) * Math.sinh(8 * beta));
     }
 
 

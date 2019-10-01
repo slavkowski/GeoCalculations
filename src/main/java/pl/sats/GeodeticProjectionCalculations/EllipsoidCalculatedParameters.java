@@ -4,11 +4,10 @@ package pl.sats.GeodeticProjectionCalculations;
  * This class contains various ellipsoid's parameters calculations.
  */
 class EllipsoidCalculatedParameters {
-    private double a;
-    private double f;
+    private double semiMajorAxis;
+    private double inverseFlattening;
 
-    private double b;
-    private double e;
+    private double semiMinorAxis;
     private double firstEccentricity;
     private double secondEccentricity;
     private double n;
@@ -19,20 +18,19 @@ class EllipsoidCalculatedParameters {
     private double a8;
     private double N;
 
-    EllipsoidCalculatedParameters(double a, double f) {
-        this.a = a;
-        this.f = f;
+    EllipsoidCalculatedParameters(double semiMajorAxis, double inverseFlattening) {
+        this.semiMajorAxis = semiMajorAxis;
+        this.inverseFlattening = inverseFlattening;
         calculateParameters();
     }
 
 
     private void calculateParameters() {
-        b = a * (1.0 - (1.0 / f));
-        e = Math.sqrt(1 - (Math.pow(b, 2) / Math.pow(a, 2)));
-        firstEccentricity = Math.sqrt((Math.pow(a, 2) - Math.pow(b, 2)) / Math.pow(a, 2));
-        secondEccentricity = Math.sqrt((Math.pow(a, 2) - Math.pow(b, 2)) / Math.pow(b, 2));
-        n = (a - b) / (a + b);
-        R = (a / (1.0 + n)) * (1 + (Math.pow(n, 2) / 4 + Math.pow(n, 4) / 64.0 + Math.pow(n, 6) / 256.0) + 25 * Math.pow(n, 8) / 16384.0);
+        semiMinorAxis = semiMajorAxis * (1.0 - (1.0 / inverseFlattening));
+        firstEccentricity = Math.sqrt((Math.pow(semiMajorAxis, 2) - Math.pow(semiMinorAxis, 2)) / Math.pow(semiMajorAxis, 2));
+        secondEccentricity = Math.sqrt((Math.pow(semiMajorAxis, 2) - Math.pow(semiMinorAxis, 2)) / Math.pow(semiMinorAxis, 2));
+        n = (semiMajorAxis - semiMinorAxis) / (semiMajorAxis + semiMinorAxis);
+        R = (semiMajorAxis / (1.0 + n)) * (1 + (Math.pow(n, 2) / 4 + Math.pow(n, 4) / 64.0 + Math.pow(n, 6) / 256.0) + 25 * Math.pow(n, 8) / 16384.0);
         a2 = n / 2.0 - (2.0 / 3.0) * Math.pow(n, 2) + (5.0 / 16.0) * Math.pow(n, 3) + (41.0 / 180.0) * Math.pow(n, 4);
         a4 = (13.0 / 48.0) * Math.pow(n, 2) - (3.0 / 5.0) * Math.pow(n, 3) + (557.0 / 1440.0) * Math.pow(n, 4);
         a6 = (61.0 / 240.0) * Math.pow(n, 3) - (103.0 / 140.0) * Math.pow(n, 4);
@@ -45,20 +43,16 @@ class EllipsoidCalculatedParameters {
      */
     void calculateParameters(double latitude) {
         calculateParameters();
-        N = a / Math.sqrt(1.0 - Math.pow(e, 2) * Math.pow(Math.sin(latitude), 2));
+        N = semiMajorAxis / Math.sqrt(1.0 - Math.pow(firstEccentricity, 2) * Math.pow(Math.sin(latitude), 2));
     }
 
 
-    public double getA() {
-        return a;
+    double getSemiMajorAxis() {
+        return semiMajorAxis;
     }
 
-    public double getB() {
-        return b;
-    }
-
-    double getE() {
-        return e;
+    double getSemiMinorAxis() {
+        return semiMinorAxis;
     }
 
     double getR() {
@@ -89,7 +83,7 @@ class EllipsoidCalculatedParameters {
         return firstEccentricity;
     }
 
-    public double getSecondEccentricity() {
+    double getSecondEccentricity() {
         return secondEccentricity;
     }
 }

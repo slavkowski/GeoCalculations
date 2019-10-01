@@ -27,10 +27,9 @@ public class XYZToBLH {
     public BLH transformCoordinates(XYZ xyz) {
 
         double e = ellipsoidCalculatedParameters.getFirstEccentricity();
-        double eSecond = ellipsoidCalculatedParameters.getSecondEccentricity();
-        double a = ellipsoidCalculatedParameters.getA();
-        double b_ellipsoid = ellipsoidCalculatedParameters.getB();
+        double a = ellipsoidCalculatedParameters.getSemiMajorAxis();
         double rp = Math.sqrt(Math.pow(xyz.getX(), 2) + Math.pow(xyz.getY(), 2));
+        double h;
 
         //***** Calculating longitude *****
         double sigma = 0.0;
@@ -49,8 +48,6 @@ public class XYZToBLH {
         }
 
         //***** Calculating longitude *****
-//        double l = Math.acos(xyz.getX() / rp);
-//        double l = Math.asin(xyz.getY() / rp);
         double l = Math.atan2(xyz.getY(), xyz.getX());
 
         //***** Calculating Ellipsoid Height *****
@@ -58,13 +55,14 @@ public class XYZToBLH {
         double N = ellipsoidCalculatedParameters.getPrimeVerticalRadiusOfCurvature();
 
 
-//        double deltaR = rp - (N * Math.sin(b));
-//        double deltaZ = xyz.getZ() - N * Math.cos(b);
-//        double h = Math.sqrt(Math.pow(deltaR, 2) + Math.pow(deltaZ, 2));
+        double deltaR = rp - N * Math.cos(b);
+        double deltaZ = xyz.getZ() - N * Math.sin(b) * (1.0 - Math.pow(e, 2));
+        if (deltaR < 0 || deltaZ < 0) {
+            h = -1.0 * Math.sqrt(Math.pow(deltaR, 2) + Math.pow(deltaZ, 2));
+        } else {
+            h = Math.sqrt(Math.pow(deltaR, 2) + Math.pow(deltaZ, 2));
+        }
 
-//        double h = (rp - C / (1.0 + Math.pow(eSecond, 2) + Math.pow(Math.tan(b), 2))) * Math.sqrt(1.0 + Math.pow(Math.tan(b), 2));
-
-        double h = rp / Math.cos(b) - N;
 
         return new BLH(b, l, h);
     }
