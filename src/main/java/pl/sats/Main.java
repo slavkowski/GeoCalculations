@@ -3,8 +3,6 @@ package pl.sats;
 
 import pl.sats.FieldObservationsObjects.Geoid;
 
-import java.io.*;
-import java.sql.SQLOutput;
 
 public class Main {
     public static void main(String[] args) {
@@ -30,20 +28,19 @@ public class Main {
 //        } catch (ClassNotFoundException | IOException e) {
 //            e.printStackTrace();
 //        }
-
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        try {
-            ObjectOutputStream oous2 = new ObjectOutputStream(bos);
-            oous2.writeObject(geoid);
-            oous2.flush();
-            oous2.close();
-            byte [] data = bos.toByteArray();
-            String s = new String(data);
-            System.out.println(s);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+//
+//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//        try {
+//            ObjectOutputStream oous2 = new ObjectOutputStream(bos);
+//            oous2.writeObject(geoid);
+//            oous2.flush();
+//            oous2.close();
+//            byte [] data = bos.toByteArray();
+//            String s = new String(data);
+//            System.out.println(s);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
 
     }

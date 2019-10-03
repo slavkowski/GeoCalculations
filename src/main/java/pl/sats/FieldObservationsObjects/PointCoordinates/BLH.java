@@ -8,8 +8,7 @@ package pl.sats.FieldObservationsObjects.PointCoordinates;
  * <li>H - Ellipsoid Height - H</li>
  * </ul>
  */
-public class BLH {
-    private String id;
+public class BLH extends Point {
     private double latitude;
     private double mLatitude;
     private double longitude;
@@ -24,7 +23,7 @@ public class BLH {
     }
 
     public BLH(String id, double latitude, double longitude, double ellipsoidHeight) {
-        this.id = id;
+        super(id);
         this.latitude = latitude;
         this.longitude = longitude;
         this.ellipsoidHeight = ellipsoidHeight;
@@ -40,7 +39,7 @@ public class BLH {
     }
 
     public BLH(String id, double latitude, double mLatitude, double longitude, double mLongitude, double ellipsoidHeight, double mEllipsoidHeight) {
-        this.id = id;
+        super(id);
         this.latitude = latitude;
         this.mLatitude = mLatitude;
         this.longitude = longitude;
@@ -71,10 +70,6 @@ public class BLH {
 
     public double getmEllipsoidHeight() {
         return mEllipsoidHeight;
-    }
-
-    public String getId() {
-        return id;
     }
 }
 

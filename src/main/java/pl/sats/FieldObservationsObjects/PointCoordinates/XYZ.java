@@ -15,8 +15,7 @@ package pl.sats.FieldObservationsObjects.PointCoordinates;
  * @version 1.3.3
  * @since 2019-10-03
  */
-public class XYZ {
-    private String id;
+public class XYZ extends Point {
     private double X;
     private double mX;
     private double Y;
@@ -31,7 +30,7 @@ public class XYZ {
     }
 
     public XYZ(String id, double x, double y, double z) {
-        this.id = id;
+        super(id);
         X = x;
         Y = y;
         Z = z;
@@ -47,7 +46,7 @@ public class XYZ {
     }
 
     public XYZ(String id, double x, double mX, double y, double mY, double z, double mZ) {
-        this.id = id;
+        super(id);
         X = x;
         this.mX = mX;
         Y = y;
@@ -78,9 +77,5 @@ public class XYZ {
 
     public double getmZ() {
         return mZ;
-    }
-
-    public String getId() {
-        return id;
     }
 }
