@@ -3,7 +3,7 @@ package pl.sats.CurveCalculations;
 
 import pl.sats.Exceptions.MatrixDegenerateException;
 import pl.sats.Exceptions.MatrixWrongSizeException;
-import pl.sats.FieldObservationsObjects.PointLDH;
+import pl.sats.FieldObservationsObjects.PointCoordinates.LDH;
 import pl.sats.LSEstimations.LeastSquaresEstimation;
 
 import java.util.List;
@@ -27,9 +27,9 @@ public class Catenary {
     private double maxHeight;
     private String fieldObservationsString;
     private double[][] fieldObservationsDouble;
-    private List<PointLDH> fieldObservations;
+    private List<LDH> fieldObservations;
 
-    public Catenary(List<PointLDH> fieldObservations) {
+    public Catenary(List<LDH> fieldObservations) {
         this.fieldObservations = fieldObservations;
     }
 
@@ -90,7 +90,7 @@ public class Catenary {
         sb.append("[");
         fieldObservationsDouble = new double[fieldObservations.size()][2];
         int i = 0;
-        for (PointLDH ldh : fieldObservations) {
+        for (LDH ldh : fieldObservations) {
             sb.append("[").append(ldh.getL()-firstL).append(",").append(ldh.getH()).append("],");
             fieldObservationsDouble[i][0] = ldh.getL()-firstL;
             fieldObservationsDouble[i][1] = ldh.getH();
@@ -151,7 +151,7 @@ public class Catenary {
         return maxHeight;
     }
 
-    public List<PointLDH> getFieldObservations() {
+    public List<LDH> getFieldObservations() {
         return fieldObservations;
     }
 

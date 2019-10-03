@@ -3,13 +3,13 @@ package TransformationsTests;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pl.sats.BasicGeoCalculations.AngleConverter;
-import pl.sats.FieldObservationsObjects.BLH;
-import pl.sats.FieldObservationsObjects.XYZ;
-import pl.sats.GeodeticProjectionCalculations.EllipsoidDetails;
+import pl.sats.FieldObservationsObjects.PointCoordinates.BLH;
+import pl.sats.FieldObservationsObjects.PointCoordinates.XYZ;
+import pl.sats.GeodeticProjectionCalculations.ReferenceEllipsoid;
 import pl.sats.GeodeticProjectionCalculations.XYZToBLH;
 
 class TransformationsXYZToBLHTest {
-    private XYZToBLH xyzToBLH = new XYZToBLH(EllipsoidDetails.GRS80);
+    private XYZToBLH xyzToBLH = new XYZToBLH(ReferenceEllipsoid.GRS80);
     private AngleConverter angleConverter = new AngleConverter();
     private XYZ xyz = new XYZ(3835563.202, 1170909.231, 4943210.796);
 

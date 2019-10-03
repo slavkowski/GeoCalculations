@@ -1,5 +1,5 @@
 import org.junit.jupiter.api.Test;
-import pl.sats.FieldObservationsObjects.PointLDH;
+import pl.sats.FieldObservationsObjects.PointCoordinates.LDH;
 import pl.sats.FileUtils.FileUtils;
 import pl.sats.Main;
 
@@ -17,9 +17,9 @@ class FileUtilsTest {
 
     @Test
     void shouldReturnLdhObject() throws IOException {
-        List<PointLDH> fieldLdhObservations = fileUtils.readLdhFile(file);
+        List<LDH> fieldLdhObservations = fileUtils.readLdhFile(file);
         assertEquals(4,fieldLdhObservations.size());
-        assertEquals("1",fieldLdhObservations.get(0).getName());
+        assertEquals("1",fieldLdhObservations.get(0).getId());
         assertEquals(0.0,fieldLdhObservations.get(0).getL(),0.00001);
         assertEquals(134.879,fieldLdhObservations.get(0).getH(), 0.00001);
     }

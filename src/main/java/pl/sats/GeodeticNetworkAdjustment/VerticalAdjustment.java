@@ -6,7 +6,7 @@ import pl.sats.Exceptions.DuplicatedFixedPionts;
 import pl.sats.Exceptions.MatrixDegenerateException;
 import pl.sats.Exceptions.MatrixWrongSizeException;
 import pl.sats.FieldObservationsObjects.DeltaHeight;
-import pl.sats.FieldObservationsObjects.PointNEH;
+import pl.sats.FieldObservationsObjects.PointCoordinates.NEH;
 import pl.sats.LSEstimations.LeastSquaresEstimation;
 
 import java.util.*;
@@ -20,7 +20,7 @@ public class VerticalAdjustment extends Adjustment {
     private final Logger log = LoggerFactory.getLogger(VerticalAdjustment.class);
 
     /* List of all fixed points provided in txt file*/
-    private List<PointNEH> listOfFixedPoints;
+    private List<NEH> listOfFixedPoints;
     /* List of height differences provided in txt file*/
     private List<DeltaHeight> listOfHeightDifferences;
     /*A priori standard deviation provided in constructor */
@@ -40,7 +40,7 @@ public class VerticalAdjustment extends Adjustment {
 
 
 
-    public VerticalAdjustment(List<PointNEH> listOfFixedPoints, List<DeltaHeight> listOfHeightDifferences, double aPrioriStdDeviation) {
+    public VerticalAdjustment(List<NEH> listOfFixedPoints, List<DeltaHeight> listOfHeightDifferences, double aPrioriStdDeviation) {
         this.listOfFixedPoints = listOfFixedPoints;
         this.listOfHeightDifferences = listOfHeightDifferences;
         this.aPrioriStdDeviation = aPrioriStdDeviation;
@@ -101,12 +101,12 @@ public class VerticalAdjustment extends Adjustment {
         listOfHeightDifferences.stream().map(DeltaHeight::getPointFrom).forEach(x -> setOfAllPoints.add(x));
         listOfHeightDifferences.stream().map(DeltaHeight::getPointTo).forEach(x -> setOfAllPoints.add(x));
         /* create map of fixed points excluding points not used in height differences field observations  */
-        for (PointNEH pointNEH : listOfFixedPoints) {
-            if (setOfAllPoints.contains(pointNEH.getName())) {
-                if(mapOfFixedPoints.containsKey(pointNEH.getName())){
-                    throw new DuplicatedFixedPionts("At least one fixed point is duplicated in set of fixed points. Point: " + pointNEH.getName());
+        for (NEH NEH : listOfFixedPoints) {
+            if (setOfAllPoints.contains(NEH.getId())) {
+                if(mapOfFixedPoints.containsKey(NEH.getId())){
+                    throw new DuplicatedFixedPionts("At least one fixed point is duplicated in set of fixed points. Point: " + NEH.getId());
                 }else {
-                    mapOfFixedPoints.put(pointNEH.getName(), pointNEH.getH());
+                    mapOfFixedPoints.put(NEH.getId(), NEH.getH());
                 }
             }
         }

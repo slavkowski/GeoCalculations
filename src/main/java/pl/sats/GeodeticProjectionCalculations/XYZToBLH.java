@@ -1,7 +1,7 @@
 package pl.sats.GeodeticProjectionCalculations;
 
-import pl.sats.FieldObservationsObjects.BLH;
-import pl.sats.FieldObservationsObjects.XYZ;
+import pl.sats.FieldObservationsObjects.PointCoordinates.BLH;
+import pl.sats.FieldObservationsObjects.PointCoordinates.XYZ;
 
 /**
  * This class provides method for converting between cartesian coordinates XYZ into Geodetic Latitude-Longitude-EllipsoidHeight.
@@ -10,11 +10,11 @@ public class XYZToBLH {
     private EllipsoidCalculatedParameters ellipsoidCalculatedParameters;
 
     /**
-     * @param ellipsoidDetails - Ellipsoid
+     * @param referenceEllipsoid - Ellipsoid
      */
-    public XYZToBLH(EllipsoidDetails ellipsoidDetails) {
-        double a = ellipsoidDetails.getA();
-        double f = ellipsoidDetails.getF();
+    public XYZToBLH(ReferenceEllipsoid referenceEllipsoid) {
+        double a = referenceEllipsoid.getA();
+        double f = referenceEllipsoid.getF();
         ellipsoidCalculatedParameters = new EllipsoidCalculatedParameters(a, f);
     }
 

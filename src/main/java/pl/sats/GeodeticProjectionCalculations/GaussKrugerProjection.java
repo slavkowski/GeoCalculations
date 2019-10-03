@@ -7,8 +7,6 @@ import pl.sats.BasicGeoCalculations.AngleConverter;
  *
  */
 public class GaussKrugerProjection {
-    double a;
-    double f;
     private double fi;
     private double lambda;
     private double nMerk;
@@ -22,9 +20,9 @@ public class GaussKrugerProjection {
     private double a6;
     private double a8;
 
-    public GaussKrugerProjection(EllipsoidDetails ellipsoidDetails) {
-        a = ellipsoidDetails.getA();
-        double f = ellipsoidDetails.getF();
+    public GaussKrugerProjection(ReferenceEllipsoid referenceEllipsoid) {
+        double a = referenceEllipsoid.getA();
+        double f = referenceEllipsoid.getF();
         EllipsoidCalculatedParameters ellipsoidCalculatedParameters = new EllipsoidCalculatedParameters(a, f);
         e = ellipsoidCalculatedParameters.getFirstEccentricity();
         R = ellipsoidCalculatedParameters.getR();
