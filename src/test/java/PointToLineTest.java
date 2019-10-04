@@ -1,22 +1,23 @@
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import pl.sats.Exceptions.MatrixDegenerateException;
 import pl.sats.Exceptions.MatrixWrongSizeException;
-import pl.sats.FieldObservationsObjects.PointNEH;
+import pl.sats.FieldObservationsObjects.PointCoordinates.NEH;
 import pl.sats.LineCalculations.PointToLineProjection;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PointToLineTest {
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+
+class PointToLineTest {
     private PointToLineProjection pointToLineProjection = new PointToLineProjection();
-    private PointNEH p1 = new PointNEH("1",101.11d, 99.23d, 55.23d);
-    private PointNEH p2 = new PointNEH("2",2101.25d, 99.23d, 55.23d);
-    private PointNEH p3 = new PointNEH("3",201.99d, 202.33d, 58.666d);
+    private NEH p1 = new NEH("1",101.11d, 99.23d, 55.23d);
+    private NEH p2 = new NEH("2",2101.25d, 99.23d, 55.23d);
+    private NEH p3 = new NEH("3",201.99d, 202.33d, 58.666d);
 
     @Test
-    public void shouldReturnCorrectLHD() throws MatrixDegenerateException, MatrixWrongSizeException {
-        List<PointNEH> l = new ArrayList<>();
+    void shouldReturnCorrectLHD() throws MatrixDegenerateException, MatrixWrongSizeException {
+        List<NEH> l = new ArrayList<>();
         l.add(p1);
         l.add(p2);
         l.add(p3);
@@ -29,6 +30,6 @@ public class PointToLineTest {
         expectedLHD[1] = 55.23;
         expectedLHD[2] = -1429.620;
 
-        Assert.assertArrayEquals(expectedLHD, calculatedLHD, 0.001);
+        assertArrayEquals(expectedLHD, calculatedLHD, 0.001);
     }
 }

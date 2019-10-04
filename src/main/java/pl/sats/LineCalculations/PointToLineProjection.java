@@ -3,8 +3,8 @@ package pl.sats.LineCalculations;
 import pl.sats.BasicGeoCalculations.AzimuthDistanceCalculation;
 import pl.sats.Exceptions.MatrixDegenerateException;
 import pl.sats.Exceptions.MatrixWrongSizeException;
-import pl.sats.FieldObservationsObjects.PointLDH;
-import pl.sats.FieldObservationsObjects.PointNEH;
+import pl.sats.FieldObservationsObjects.PointCoordinates.LDH;
+import pl.sats.FieldObservationsObjects.PointCoordinates.NEH;
 import pl.sats.LSEstimations.LeastSquaresEstimation;
 
 import java.util.ArrayList;
@@ -12,11 +12,11 @@ import java.util.List;
 
 public class PointToLineProjection {
 
-    public List<PointLDH> getLHD(List<PointNEH> xyhList) throws MatrixDegenerateException, MatrixWrongSizeException {
-        List<PointLDH> lhList = new ArrayList<>();
+    public List<LDH> getLHD(List<NEH> xyhList) throws MatrixDegenerateException, MatrixWrongSizeException {
+        List<LDH> lhList = new ArrayList<>();
         int lengthOfList = xyhList.size();
-        PointNEH firstPoint = xyhList.get(0);
-        PointNEH lastPoint = xyhList.get(lengthOfList - 1);
+        NEH firstPoint = xyhList.get(0);
+        NEH lastPoint = xyhList.get(lengthOfList - 1);
         double[][] L = new double[2][1];
         double[][] A = new double[2][2];
         double[][] P = new double[2][2];
@@ -32,13 +32,13 @@ public class PointToLineProjection {
 
         LeastSquaresEstimation leastSquaresEstimation;
 
-        for (PointNEH aXyhList : xyhList) {
+        for (NEH aXyhList : xyhList) {
             L[0][0] = -(aXyhList.getE() - firstPoint.getE());
             L[1][0] = -(aXyhList.getN() - firstPoint.getN());
             leastSquaresEstimation = new LeastSquaresEstimation(A, L);
             leastSquaresEstimation.executeLeastSquaresEstimation();
             resultLD = leastSquaresEstimation.getX();
-            PointLDH LDH = new PointLDH(resultLD[0][0], aXyhList.getH(), resultLD[1][0]);
+            LDH LDH = new LDH(resultLD[0][0], aXyhList.getH(), resultLD[1][0]);
             lhList.add(LDH);
         }
         return lhList;

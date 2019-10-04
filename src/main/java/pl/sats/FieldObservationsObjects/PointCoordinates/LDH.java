@@ -1,4 +1,4 @@
-package pl.sats.FieldObservationsObjects;
+package pl.sats.FieldObservationsObjects.PointCoordinates;
 
 /**
  * This class contains components which describe point
@@ -15,8 +15,8 @@ package pl.sats.FieldObservationsObjects;
  * @version 1.0
  * @since 2018-12-15
  */
-public class PointLDH {
-    private String name;
+public class LDH {
+    private String id;
     private double L;
     private double mL;
     private double H;
@@ -24,10 +24,10 @@ public class PointLDH {
     private double D;
     private double mD;
 
-    public PointLDH() {
+    public LDH() {
     }
 
-    public PointLDH(double l, double h, double d) {
+    public LDH(double l, double h, double d) {
         L = l;
         H = h;
         D = d;
@@ -35,8 +35,8 @@ public class PointLDH {
 
     @Override
     public String toString() {
-        return "PointLDH{" +
-                "name='" + name + '\'' +
+        return "LDH{" +
+                "name='" + id + '\'' +
                 ", L=" + L +
                 ", mL=" + mL +
                 ", H=" + H +
@@ -46,12 +46,12 @@ public class PointLDH {
                 '}';
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public double getL() {

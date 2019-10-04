@@ -1,8 +1,8 @@
 package pl.sats.FileUtils;
 
 import pl.sats.FieldObservationsObjects.DeltaHeight;
-import pl.sats.FieldObservationsObjects.PointLDH;
-import pl.sats.FieldObservationsObjects.PointNEH;
+import pl.sats.FieldObservationsObjects.PointCoordinates.LDH;
+import pl.sats.FieldObservationsObjects.PointCoordinates.NEH;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -18,26 +18,26 @@ import java.util.List;
  */
 public class FileUtils {
     /**
-     * This method is responsible for reading txt file and converting it to PointLDH Object.
+     * This method is responsible for reading txt file and converting it to LDH Object.
      *
      * @param file which contains data in format (String(name of the point), Double(L), Double(H)
-     * @return collection of PointLDH objects
+     * @return collection of LDH objects
      * @throws IOException IO Exception
      */
-    public List<PointLDH> readLdhFile(File file) throws IOException {
+    public List<LDH> readLdhFile(File file) throws IOException {
         String line;
         FileReader fr = new FileReader(file);
-        List<PointLDH> setOfLHObservations = new ArrayList<>();
+        List<LDH> setOfLHObservations = new ArrayList<>();
 
         try (BufferedReader f = new BufferedReader(fr)) {
             while ((line = f.readLine()) != null) {
-                PointLDH pointLdh = new PointLDH();
+                LDH ldh = new LDH();
                 String[] splitLine = line.split(",");
                 if (splitLine.length == 3) {
-                    pointLdh.setName(String.valueOf(splitLine[0]));
-                    pointLdh.setL(Double.valueOf(splitLine[1]));
-                    pointLdh.setH(Double.valueOf(splitLine[2]));
-                    setOfLHObservations.add(pointLdh);
+                    ldh.setId(String.valueOf(splitLine[0]));
+                    ldh.setL(Double.valueOf(splitLine[1]));
+                    ldh.setH(Double.valueOf(splitLine[2]));
+                    setOfLHObservations.add(ldh);
                 }
             }
         }
@@ -45,25 +45,25 @@ public class FileUtils {
     }
 
     /**
-     * This method is responsible for reading txt file  and converting it to PointNEH Object.
+     * This method is responsible for reading txt file  and converting it to NEH Object.
      *
      * @param file which contains data in format (String(name of the point), Double(H)
-     * @return collection of PointNEH objects
+     * @return collection of NEH objects
      * @throws IOException IO Exception
      */
-    public List<PointNEH> readNehFile(File file) throws IOException {
+    public List<NEH> readNehFile(File file) throws IOException {
         String line;
         FileReader fr = new FileReader(file);
-        List<PointNEH> setOfNehObservations = new ArrayList<>();
+        List<NEH> setOfNehObservations = new ArrayList<>();
 
         try (BufferedReader f = new BufferedReader(fr)) {
             while ((line = f.readLine()) != null) {
-                PointNEH pointNeh = new PointNEH();
+                NEH neh = new NEH();
                 String[] splitLine = line.split(",");
                 if (splitLine.length == 2) {
-                    pointNeh.setName(String.valueOf(splitLine[0]));
-                    pointNeh.setH(Double.valueOf(splitLine[1]));
-                    setOfNehObservations.add(pointNeh);
+                    neh.setId(String.valueOf(splitLine[0]));
+                    neh.setH(Double.valueOf(splitLine[1]));
+                    setOfNehObservations.add(neh);
                 }
             }
         }

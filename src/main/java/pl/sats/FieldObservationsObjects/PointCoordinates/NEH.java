@@ -1,4 +1,4 @@
-package pl.sats.FieldObservationsObjects;
+package pl.sats.FieldObservationsObjects.PointCoordinates;
 
 /**
  * This class contains coordinates which uniquely determines the position of the point in
@@ -6,24 +6,24 @@ package pl.sats.FieldObservationsObjects;
  * <p>
  * Horizontal components:
  * <ul>
- * <li>N - north coordinate</li>
- * <li>mN - north coordinate's mean error</li>
- * <li>E - east coordinate</li>
- * <li>mE - east coordinate's mean error</li>
+ * <li>N - north coordinate in m</li>
+ * <li>mN - north coordinate's mean error in m</li>
+ * <li>E - east coordinate in m</li>
+ * <li>mE - east coordinate's mean error in m</li>
  * </ul>
  * <p>
  * Vertical component:
  * <ul>
- * <li>H - height(vertical) coordinate</li>
- * <li>mH - height(vertical) coordinate's mean error</li>
+ * <li>H - height(vertical) coordinate in m</li>
+ * <li>mH - height(vertical) coordinate's mean error in m</li>
  * </ul>
  *
  * @author Slawomir Szwed
  * @version 1.0
  * @since 2018-12-15
  */
-public class PointNEH {
-    private String name;
+public class NEH {
+    private String id;
     private double N;
     private double mN;
     private double E;
@@ -31,22 +31,22 @@ public class PointNEH {
     private double H;
     private double mH;
 
-    public PointNEH() {
+    public NEH() {
     }
 
-    public PointNEH(String name, double n, double e) {
-        this.name = name;
+    public NEH(String id, double n, double e) {
+        this.id = id;
         N = n;
         E = e;
     }
 
-    public PointNEH(String name, double h) {
-        this.name = name;
+    public NEH(String id, double h) {
+        this.id = id;
         H = h;
     }
 
-    public PointNEH(String name, double n, double e, double h) {
-        this.name = name;
+    public NEH(String id, double n, double e, double h) {
+        this.id = id;
         N = n;
         E = e;
         H = h;
@@ -54,8 +54,8 @@ public class PointNEH {
 
     @Override
     public String toString() {
-        return "PointNEH{" +
-                "name='" + name + '\'' +
+        return "NEH{" +
+                "id='" + id + '\'' +
                 ", N=" + N +
                 ", mN=" + mN +
                 ", E=" + E +
@@ -65,12 +65,12 @@ public class PointNEH {
                 '}';
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public double getN() {
