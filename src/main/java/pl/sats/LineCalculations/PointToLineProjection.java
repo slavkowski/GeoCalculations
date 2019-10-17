@@ -3,7 +3,7 @@ package pl.sats.LineCalculations;
 import pl.sats.BasicGeoCalculations.AzimuthDistanceCalculation;
 import pl.sats.Exceptions.MatrixDegenerateException;
 import pl.sats.Exceptions.MatrixWrongSizeException;
-import pl.sats.FieldObservationsObjects.PointCoordinates.LDH;
+import pl.sats.FieldObservationsObjects.PointCoordinates.LHD;
 import pl.sats.FieldObservationsObjects.PointCoordinates.NEH;
 import pl.sats.LSEstimations.LeastSquaresEstimation;
 
@@ -12,8 +12,8 @@ import java.util.List;
 
 public class PointToLineProjection {
 
-    public List<LDH> getLHD(List<NEH> xyhList) throws MatrixDegenerateException, MatrixWrongSizeException {
-        List<LDH> lhList = new ArrayList<>();
+    public List<LHD> getLHD(List<NEH> xyhList) throws MatrixDegenerateException, MatrixWrongSizeException {
+        List<LHD> lhList = new ArrayList<>();
         int lengthOfList = xyhList.size();
         NEH firstPoint = xyhList.get(0);
         NEH lastPoint = xyhList.get(lengthOfList - 1);
@@ -38,8 +38,8 @@ public class PointToLineProjection {
             leastSquaresEstimation = new LeastSquaresEstimation(A, L);
             leastSquaresEstimation.executeLeastSquaresEstimation();
             resultLD = leastSquaresEstimation.getX();
-            LDH LDH = new LDH(resultLD[0][0], aXyhList.getH(), resultLD[1][0]);
-            lhList.add(LDH);
+            LHD LHD = new LHD(resultLD[0][0], aXyhList.getH(), resultLD[1][0]);
+            lhList.add(LHD);
         }
         return lhList;
     }

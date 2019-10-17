@@ -22,7 +22,7 @@ package pl.sats.FieldObservationsObjects.PointCoordinates;
  * @version 1.0
  * @since 2018-12-15
  */
-public class NEH {
+public class NEH extends Point{
     private String id;
     private double N;
     private double mN;

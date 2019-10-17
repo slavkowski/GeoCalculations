@@ -3,7 +3,7 @@ package pl.sats.CurveCalculations;
 
 import pl.sats.Exceptions.MatrixDegenerateException;
 import pl.sats.Exceptions.MatrixWrongSizeException;
-import pl.sats.FieldObservationsObjects.PointCoordinates.LDH;
+import pl.sats.FieldObservationsObjects.PointCoordinates.LHD;
 import pl.sats.LSEstimations.LeastSquaresEstimation;
 
 import java.util.List;
@@ -27,9 +27,9 @@ public class Catenary {
     private double maxHeight;
     private String fieldObservationsString;
     private double[][] fieldObservationsDouble;
-    private List<LDH> fieldObservations;
+    private List<LHD> fieldObservations;
 
-    public Catenary(List<LDH> fieldObservations) {
+    public Catenary(List<LHD> fieldObservations) {
         this.fieldObservations = fieldObservations;
     }
 
@@ -90,10 +90,10 @@ public class Catenary {
         sb.append("[");
         fieldObservationsDouble = new double[fieldObservations.size()][2];
         int i = 0;
-        for (LDH ldh : fieldObservations) {
-            sb.append("[").append(ldh.getL()-firstL).append(",").append(ldh.getH()).append("],");
-            fieldObservationsDouble[i][0] = ldh.getL()-firstL;
-            fieldObservationsDouble[i][1] = ldh.getH();
+        for (LHD LHD : fieldObservations) {
+            sb.append("[").append(LHD.getL()-firstL).append(",").append(LHD.getH()).append("],");
+            fieldObservationsDouble[i][0] = LHD.getL()-firstL;
+            fieldObservationsDouble[i][1] = LHD.getH();
             i++;
         }
         sb.deleteCharAt(sb.length()-1);
@@ -151,7 +151,7 @@ public class Catenary {
         return maxHeight;
     }
 
-    public List<LDH> getFieldObservations() {
+    public List<LHD> getFieldObservations() {
         return fieldObservations;
     }
 

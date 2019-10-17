@@ -2,7 +2,7 @@ import org.junit.jupiter.api.Test;
 import pl.sats.CurveCalculations.Catenary;
 import pl.sats.Exceptions.MatrixDegenerateException;
 import pl.sats.Exceptions.MatrixWrongSizeException;
-import pl.sats.FieldObservationsObjects.PointCoordinates.LDH;
+import pl.sats.FieldObservationsObjects.PointCoordinates.LHD;
 import pl.sats.FileUtils.FileUtils;
 
 import java.io.File;
@@ -19,8 +19,8 @@ class CatenaryTest {
 
     @Test
     void shouldReturnCatenaryParameters() throws IOException, MatrixDegenerateException, MatrixWrongSizeException {
-        List<LDH> fieldLdhObservations = fileUtils.readLdhFile(file);
-        Catenary catenary = new Catenary(fieldLdhObservations);
+        List<LHD> fieldLHDObservations = fileUtils.readLdhFile(file);
+        Catenary catenary = new Catenary(fieldLHDObservations);
         catenary.calculateCatenary();
 
         assertEquals(226.791149971774, catenary.getA(), 0.00000000001);

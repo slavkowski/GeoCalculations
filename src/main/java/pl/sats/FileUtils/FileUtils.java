@@ -1,8 +1,9 @@
 package pl.sats.FileUtils;
 
 import pl.sats.FieldObservationsObjects.DeltaHeight;
-import pl.sats.FieldObservationsObjects.PointCoordinates.LDH;
+import pl.sats.FieldObservationsObjects.PointCoordinates.LHD;
 import pl.sats.FieldObservationsObjects.PointCoordinates.NEH;
+import pl.sats.FieldObservationsObjects.PointCoordinates.Point;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -16,28 +17,62 @@ import java.util.List;
  * @version 1.0
  * @since 2018-12-15
  */
-public class FileUtils {
-    /**
-     * This method is responsible for reading txt file and converting it to LDH Object.
-     *
-     * @param file which contains data in format (String(name of the point), Double(L), Double(H)
-     * @return collection of LDH objects
-     * @throws IOException IO Exception
-     */
-    public List<LDH> readLdhFile(File file) throws IOException {
+public class FileUtils<T extends Point> {
+
+    private T t;
+
+    public FileUtils() {
+    }
+
+    public FileUtils(T t) {
+        this.t = t;
+    }
+
+
+
+
+
+    public List<T> readFile(File file) throws FileNotFoundException {
+        List<T> returnList = new ArrayList<>();
         String line;
         FileReader fr = new FileReader(file);
-        List<LDH> setOfLHObservations = new ArrayList<>();
+        int elementsInOneLine = identifyNumberOfElements(t);
+
+
+
+        return returnList;
+    }
+
+    private int identifyNumberOfElements(T t) {
+        int returnLength = 0;
+        if(t instanceof LHD ){
+            returnLength = 3;
+        }
+
+        return returnLength;
+    }
+
+    /**
+     * This method is responsible for reading txt file and converting it to LHD Object.
+     *
+     * @param file which contains data in format (String(name of the point), Double(L), Double(H)
+     * @return collection of LHD objects
+     * @throws IOException IO Exception
+     */
+    public List<LHD> readLdhFile(File file) throws IOException {
+        String line;
+        FileReader fr = new FileReader(file);
+        List<LHD> setOfLHObservations = new ArrayList<>();
 
         try (BufferedReader f = new BufferedReader(fr)) {
             while ((line = f.readLine()) != null) {
-                LDH ldh = new LDH();
+                LHD LHD = new LHD();
                 String[] splitLine = line.split(",");
                 if (splitLine.length == 3) {
-                    ldh.setId(String.valueOf(splitLine[0]));
-                    ldh.setL(Double.valueOf(splitLine[1]));
-                    ldh.setH(Double.valueOf(splitLine[2]));
-                    setOfLHObservations.add(ldh);
+                    LHD.setId(String.valueOf(splitLine[0]));
+                    LHD.setL(Double.valueOf(splitLine[1]));
+                    LHD.setH(Double.valueOf(splitLine[2]));
+                    setOfLHObservations.add(LHD);
                 }
             }
         }
@@ -119,5 +154,9 @@ public class FileUtils {
     public List<DeltaHeight> readLevelingObservationsWithLengthOfSection(File file) throws IOException{
         return null;
     }
+    public T getT() {
+        return t;
+    }
+
 
 }

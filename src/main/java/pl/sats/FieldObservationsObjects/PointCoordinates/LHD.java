@@ -15,8 +15,7 @@ package pl.sats.FieldObservationsObjects.PointCoordinates;
  * @version 1.0
  * @since 2018-12-15
  */
-public class LDH {
-    private String id;
+public class LHD extends Point{
     private double L;
     private double mL;
     private double H;
@@ -24,34 +23,19 @@ public class LDH {
     private double D;
     private double mD;
 
-    public LDH() {
+    public LHD() {
     }
-
-    public LDH(double l, double h, double d) {
+    public LHD(double l, double h, double d) {
         L = l;
         H = h;
         D = d;
     }
 
-    @Override
-    public String toString() {
-        return "LDH{" +
-                "name='" + id + '\'' +
-                ", L=" + L +
-                ", mL=" + mL +
-                ", H=" + H +
-                ", mH=" + mH +
-                ", D=" + D +
-                ", mD=" + mD +
-                '}';
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public LHD(String id, double l, double h, double d) {
+        super(id);
+        L = l;
+        H = h;
+        D = d;
     }
 
     public double getL() {
