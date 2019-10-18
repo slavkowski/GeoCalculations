@@ -64,6 +64,6 @@ public class XYZToBLH {
         }
 
 
-        return new BLH(b, l, h);
+        return new BLH(xyz.getId(), b, l, h);
     }
 }

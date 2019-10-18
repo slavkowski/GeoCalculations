@@ -23,12 +23,6 @@ public class XYZ extends Point {
     private double Z;
     private double mZ;
 
-    public XYZ(double x, double y, double z) {
-        X = x;
-        Y = y;
-        Z = z;
-    }
-
     public XYZ(String id, double x, double y, double z) {
         super(id);
         X = x;
@@ -36,16 +30,7 @@ public class XYZ extends Point {
         Z = z;
     }
 
-    public XYZ(double x, double mX, double y, double mY, double z, double mZ) {
-        X = x;
-        this.mX = mX;
-        Y = y;
-        this.mY = mY;
-        Z = z;
-        this.mZ = mZ;
-    }
-
-    public XYZ(String id, double x, double mX, double y, double mY, double z, double mZ) {
+    public XYZ(String id,double x, double mX, double y, double mY, double z, double mZ) {
         super(id);
         X = x;
         this.mX = mX;

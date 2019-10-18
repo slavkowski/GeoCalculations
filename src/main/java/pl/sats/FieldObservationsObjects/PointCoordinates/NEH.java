@@ -23,7 +23,6 @@ package pl.sats.FieldObservationsObjects.PointCoordinates;
  * @since 2018-12-15
  */
 public class NEH extends Point{
-    private String id;
     private double N;
     private double mN;
     private double E;
@@ -35,42 +34,21 @@ public class NEH extends Point{
     }
 
     public NEH(String id, double n, double e) {
-        this.id = id;
+        super(id);
         N = n;
         E = e;
     }
 
     public NEH(String id, double h) {
-        this.id = id;
+        super(id);
         H = h;
     }
 
     public NEH(String id, double n, double e, double h) {
-        this.id = id;
+        super(id);
         N = n;
         E = e;
         H = h;
-    }
-
-    @Override
-    public String toString() {
-        return "NEH{" +
-                "id='" + id + '\'' +
-                ", N=" + N +
-                ", mN=" + mN +
-                ", E=" + E +
-                ", mE=" + mE +
-                ", H=" + H +
-                ", mH=" + mH +
-                '}';
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public double getN() {

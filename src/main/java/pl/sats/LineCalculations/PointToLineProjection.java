@@ -32,14 +32,16 @@ public class PointToLineProjection {
 
         LeastSquaresEstimation leastSquaresEstimation;
 
+        int id = 1;
         for (NEH aXyhList : xyhList) {
             L[0][0] = -(aXyhList.getE() - firstPoint.getE());
             L[1][0] = -(aXyhList.getN() - firstPoint.getN());
             leastSquaresEstimation = new LeastSquaresEstimation(A, L);
             leastSquaresEstimation.executeLeastSquaresEstimation();
             resultLD = leastSquaresEstimation.getX();
-            LHD LHD = new LHD(resultLD[0][0], aXyhList.getH(), resultLD[1][0]);
+            LHD LHD = new LHD("lp" + id, resultLD[0][0], aXyhList.getH(), resultLD[1][0]);
             lhList.add(LHD);
+            id++;
         }
         return lhList;
     }

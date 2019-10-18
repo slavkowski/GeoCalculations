@@ -23,12 +23,8 @@ public class LHD extends Point{
     private double D;
     private double mD;
 
-    public LHD() {
-    }
-    public LHD(double l, double h, double d) {
-        L = l;
-        H = h;
-        D = d;
+    public LHD(){
+
     }
 
     public LHD(String id, double l, double h, double d) {
@@ -38,51 +34,37 @@ public class LHD extends Point{
         D = d;
     }
 
-    public double getL() {
-        return L;
+    public LHD(String id, double l, double mL, double h, double mH, double d, double mD) {
+        super(id);
+        L = l;
+        this.mL = mL;
+        H = h;
+        this.mH = mH;
+        D = d;
+        this.mD = mD;
     }
 
-    public void setL(double l) {
-        L = l;
+    public double getL() {
+        return L;
     }
 
     public double getmL() {
         return mL;
     }
 
-    public void setmL(double mL) {
-        this.mL = mL;
-    }
-
     public double getH() {
         return H;
-    }
-
-    public void setH(double h) {
-        H = h;
     }
 
     public double getmH() {
         return mH;
     }
 
-    public void setmH(double mH) {
-        this.mH = mH;
-    }
-
     public double getD() {
         return D;
     }
 
-    public void setD(double d) {
-        D = d;
-    }
-
     public double getmD() {
         return mD;
-    }
-
-    public void setmD(double mD) {
-        this.mD = mD;
     }
 }

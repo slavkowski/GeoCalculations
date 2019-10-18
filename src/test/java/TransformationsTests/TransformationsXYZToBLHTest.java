@@ -11,7 +11,7 @@ import pl.sats.GeodeticProjectionCalculations.XYZToBLH;
 class TransformationsXYZToBLHTest {
     private XYZToBLH xyzToBLH = new XYZToBLH(ReferenceEllipsoid.GRS80);
     private AngleConverter angleConverter = new AngleConverter();
-    private XYZ xyz = new XYZ(3835563.202, 1170909.231, 4943210.796);
+    private XYZ xyz = new XYZ("1", 3835563.202, 1170909.231, 4943210.796);
 
     @Test
     void transformationTest() {
