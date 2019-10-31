@@ -24,7 +24,6 @@ public class LHD extends Point{
     private double mD;
 
     public LHD(){
-
     }
 
     public LHD(String id, double l, double h, double d) {

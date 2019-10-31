@@ -23,6 +23,9 @@ public class XYZ extends Point {
     private double Z;
     private double mZ;
 
+    public XYZ() {
+    }
+
     public XYZ(String id, double x, double y, double z) {
         super(id);
         X = x;

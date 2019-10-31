@@ -96,13 +96,16 @@ public class FileUtils<T extends Point> {
                                 neh_4.setmE(Double.parseDouble(splitLine[4]));
                                 neh_4.setmH(Double.parseDouble(splitLine[6]));
                                 returnList.add((T) neh_4);
+                                break;
                             case H:
                                 NEH neh_5 = new NEH(String.valueOf(splitLine[0]), Double.parseDouble(splitLine[1]));
                                 returnList.add((T) neh_5);
+                                break;
                             case HE:
                                 NEH neh_6 = new NEH(String.valueOf(splitLine[0]), Double.parseDouble(splitLine[1]));
                                 neh_6.setmH(Double.parseDouble(splitLine[2]));
                                 returnList.add((T) neh_6);
+                                break;
                         }
                     }
                 }
@@ -130,32 +133,6 @@ public class FileUtils<T extends Point> {
         }
 
         return returnLength;
-    }
-
-    /**
-     * This method is responsible for reading txt file  and converting it to NEH Object.
-     *
-     * @param file which contains data in format (String(name of the point), Double(H)
-     * @return collection of NEH objects
-     * @throws IOException IO Exception
-     */
-    public List<NEH> readNehFile(File file) throws IOException {
-        String line;
-        FileReader fr = new FileReader(file);
-        List<NEH> setOfNehObservations = new ArrayList<>();
-
-        try (BufferedReader f = new BufferedReader(fr)) {
-            while ((line = f.readLine()) != null) {
-                NEH neh = new NEH();
-                String[] splitLine = line.split(",");
-                if (splitLine.length == 2) {
-                    neh.setId(String.valueOf(splitLine[0]));
-                    neh.setH(Double.valueOf(splitLine[1]));
-                    setOfNehObservations.add(neh);
-                }
-            }
-        }
-        return setOfNehObservations;
     }
 
     /**
