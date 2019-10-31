@@ -7,6 +7,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static pl.sats.FieldObservationsObjects.PointCoordinates.PointType.LHE;
+
 /**
  * This class contains methods responsible for reading files
  * and converting them to different Field Observation Objects
@@ -35,20 +37,81 @@ public class FileUtils<T extends Point> {
         String line;
         FileReader fr = new FileReader(file);
         int elementsInOneLine = identifyNumberOfElements(pointType);
-        if (t instanceof LHD){
-            try (BufferedReader f = new BufferedReader(fr)) {
-                while ((line = f.readLine()) != null) {
-                    String[] splitLine = line.split(",");
-                    if (splitLine.length == elementsInOneLine) {
-                        returnList.add((T) new LHD(String.valueOf(splitLine[0]), Double.parseDouble(splitLine[1]), Double.parseDouble(splitLine[2]), 0.0));
+        try (BufferedReader f = new BufferedReader(fr)) {
+            while ((line = f.readLine()) != null) {
+                String[] splitLine = line.split(",");
+                if (splitLine.length == elementsInOneLine) {
+                    if (t instanceof LHD) {
+                        switch (pointType) {
+                            case LH:
+                                returnList.add((T) new LHD(String.valueOf(splitLine[0]), Double.parseDouble(splitLine[1]), Double.parseDouble(splitLine[2]), 0.0));
+                                break;
+                            case LHD:
+                                returnList.add((T) new LHD(String.valueOf(splitLine[0]), Double.parseDouble(splitLine[1]), Double.parseDouble(splitLine[2]), Double.parseDouble(splitLine[3])));
+                                break;
+                            case LHDE:
+                                returnList.add((T) new LHD(String.valueOf(splitLine[0]), Double.parseDouble(splitLine[1]), Double.parseDouble(splitLine[2]), Double.parseDouble(splitLine[3]), Double.parseDouble(splitLine[4]), Double.parseDouble(splitLine[5]), Double.parseDouble(splitLine[6])));
+                                break;
+                            case LHE:
+                                returnList.add((T) new LHD(String.valueOf(splitLine[0]), Double.parseDouble(splitLine[1]), Double.parseDouble(splitLine[2]), Double.parseDouble(splitLine[3]), Double.parseDouble(splitLine[4]), 0.0, 0.0));
+                                break;
+                        }
+                    } else if (t instanceof XYZ) {
+                        switch (pointType) {
+                            case XYZ:
+                                returnList.add((T) new XYZ(String.valueOf(splitLine[0]), Double.parseDouble(splitLine[1]), Double.parseDouble(splitLine[2]), Double.parseDouble(splitLine[3])));
+                                break;
+                            case XYZE:
+                                returnList.add((T) new XYZ(String.valueOf(splitLine[0]), Double.parseDouble(splitLine[1]), Double.parseDouble(splitLine[2]), Double.parseDouble(splitLine[3]), Double.parseDouble(splitLine[4]), Double.parseDouble(splitLine[5]), Double.parseDouble(splitLine[6])));
+                                break;
+                        }
+                    } else if (t instanceof BLH) {
+                        switch (pointType) {
+                            case BLH:
+                                returnList.add((T) new BLH(String.valueOf(splitLine[0]), Double.parseDouble(splitLine[1]), Double.parseDouble(splitLine[2]), Double.parseDouble(splitLine[3])));
+                                break;
+                            case BLHE:
+                                returnList.add((T) new BLH(String.valueOf(splitLine[0]), Double.parseDouble(splitLine[1]), Double.parseDouble(splitLine[2]), Double.parseDouble(splitLine[3]), Double.parseDouble(splitLine[4]), Double.parseDouble(splitLine[5]), Double.parseDouble(splitLine[6])));
+                                break;
+                        }
+                    } else if (t instanceof NEH) {
+                        switch (pointType) {
+                            case NE:
+                                NEH neh_1 = new NEH(String.valueOf(splitLine[0]), Double.parseDouble(splitLine[1]), Double.parseDouble(splitLine[2]));
+                                returnList.add((T) neh_1);
+                                break;
+                            case NEE:
+                                NEH neh_2 = new NEH(String.valueOf(splitLine[0]), Double.parseDouble(splitLine[1]), Double.parseDouble(splitLine[3]));
+                                neh_2.setmN(Double.parseDouble(splitLine[2]));
+                                neh_2.setmE(Double.parseDouble(splitLine[4]));
+                                returnList.add((T) neh_2);
+                                break;
+                            case NEH:
+                                NEH neh_3 = new NEH(String.valueOf(splitLine[0]), Double.parseDouble(splitLine[1]), Double.parseDouble(splitLine[2]), Double.parseDouble(splitLine[3]));
+                                returnList.add((T) neh_3);
+                                break;
+                            case NEHE:
+                                NEH neh_4 = new NEH(String.valueOf(splitLine[0]), Double.parseDouble(splitLine[1]), Double.parseDouble(splitLine[3]), Double.parseDouble(splitLine[5]));
+                                neh_4.setmN(Double.parseDouble(splitLine[2]));
+                                neh_4.setmE(Double.parseDouble(splitLine[4]));
+                                neh_4.setmH(Double.parseDouble(splitLine[6]));
+                                returnList.add((T) neh_4);
+                            case H:
+                                NEH neh_5 = new NEH(String.valueOf(splitLine[0]), Double.parseDouble(splitLine[1]));
+                                returnList.add((T) neh_5);
+                            case HE:
+                                NEH neh_6 = new NEH(String.valueOf(splitLine[0]), Double.parseDouble(splitLine[1]));
+                                neh_6.setmH(Double.parseDouble(splitLine[2]));
+                                returnList.add((T) neh_6);
+                        }
                     }
                 }
+
             }
         }
-
-
         return returnList;
     }
+
 
     private int identifyNumberOfElements(PointType pointType) {
 
@@ -60,7 +123,7 @@ public class FileUtils<T extends Point> {
             returnLength = 3;
         } else if (pointType == PointType.XYZ || pointType == PointType.BLH || pointType == PointType.NEH || pointType == PointType.LHD) {
             returnLength = 4;
-        } else if (pointType == PointType.NEE || pointType == PointType.LHE) {
+        } else if (pointType == PointType.NEE || pointType == LHE) {
             returnLength = 5;
         } else if (pointType == PointType.XYZE || pointType == PointType.BLHE || pointType == PointType.NEHE || pointType == PointType.LHDE) {
             returnLength = 7;
