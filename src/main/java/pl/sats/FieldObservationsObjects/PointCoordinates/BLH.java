@@ -16,6 +16,10 @@ public class BLH extends Point {
     private double ellipsoidHeight;
     private double mEllipsoidHeight;
 
+    public BLH(){
+
+    }
+
     public BLH(String id, double latitude, double longitude, double ellipsoidHeight) {
         super(id);
         this.latitude = latitude;
