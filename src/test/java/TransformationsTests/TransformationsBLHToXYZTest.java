@@ -12,7 +12,7 @@ import pl.sats.GeodeticProjectionCalculations.ReferenceEllipsoid;
 class TransformationsBLHToXYZTest {
     private BLHToXYZ blhToXYZ = new BLHToXYZ(ReferenceEllipsoid.GRS80);
     private AngleConverter angleConverter = new AngleConverter();
-    private BLH blh = new BLH(angleConverter.degToRad(51.1365638888889), angleConverter.degToRad(16.976225), 153.080);
+    private BLH blh = new BLH("1", angleConverter.degToRad(51.1365638888889), angleConverter.degToRad(16.976225), 153.080);
 
     @Test
     void transformationTest() {

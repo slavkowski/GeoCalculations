@@ -2,7 +2,7 @@ package pl.sats.CurveCalculations;
 
 import pl.sats.Exceptions.MatrixDegenerateException;
 import pl.sats.Exceptions.MatrixWrongSizeException;
-import pl.sats.FieldObservationsObjects.PointCoordinates.LDH;
+import pl.sats.FieldObservationsObjects.PointCoordinates.LHD;
 import pl.sats.LSEstimations.LeastSquaresEstimation;
 
 import java.util.List;
@@ -22,9 +22,9 @@ class Parabola {
     private double[][] L;
     private double[][] A;
     private double[][] P;
-    private List<LDH> fieldObservations;
+    private List<LHD> fieldObservations;
 
-    Parabola(List<LDH> fieldObservations) {
+    Parabola(List<LHD> fieldObservations) {
         this.fieldObservations = fieldObservations;
     }
 
@@ -46,7 +46,7 @@ class Parabola {
         L = new double[numberOfObservations][1];
 
         int i = 0;
-        for (LDH list : fieldObservations) {
+        for (LHD list : fieldObservations) {
             A[i][0] = Math.pow(list.getL(), 2);
             A[i][1] = list.getL();
             A[i][2] = 1.0d;

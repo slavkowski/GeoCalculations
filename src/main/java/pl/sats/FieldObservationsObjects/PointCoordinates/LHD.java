@@ -15,8 +15,7 @@ package pl.sats.FieldObservationsObjects.PointCoordinates;
  * @version 1.0
  * @since 2018-12-15
  */
-public class LDH {
-    private String id;
+public class LHD extends Point{
     private double L;
     private double mL;
     private double H;
@@ -24,81 +23,47 @@ public class LDH {
     private double D;
     private double mD;
 
-    public LDH() {
+    public LHD(){
     }
 
-    public LDH(double l, double h, double d) {
+    public LHD(String id, double l, double h, double d) {
+        super(id);
         L = l;
         H = h;
         D = d;
     }
 
-    @Override
-    public String toString() {
-        return "LDH{" +
-                "name='" + id + '\'' +
-                ", L=" + L +
-                ", mL=" + mL +
-                ", H=" + H +
-                ", mH=" + mH +
-                ", D=" + D +
-                ", mD=" + mD +
-                '}';
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public LHD(String id, double l, double mL, double h, double mH, double d, double mD) {
+        super(id);
+        L = l;
+        this.mL = mL;
+        H = h;
+        this.mH = mH;
+        D = d;
+        this.mD = mD;
     }
 
     public double getL() {
         return L;
     }
 
-    public void setL(double l) {
-        L = l;
-    }
-
     public double getmL() {
         return mL;
-    }
-
-    public void setmL(double mL) {
-        this.mL = mL;
     }
 
     public double getH() {
         return H;
     }
 
-    public void setH(double h) {
-        H = h;
-    }
-
     public double getmH() {
         return mH;
-    }
-
-    public void setmH(double mH) {
-        this.mH = mH;
     }
 
     public double getD() {
         return D;
     }
 
-    public void setD(double d) {
-        D = d;
-    }
-
     public double getmD() {
         return mD;
-    }
-
-    public void setmD(double mD) {
-        this.mD = mD;
     }
 }

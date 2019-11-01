@@ -2,7 +2,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pl.sats.Exceptions.DuplicatedFixedPionts;
 import pl.sats.FieldObservationsObjects.DeltaHeight;
+import pl.sats.FieldObservationsObjects.PointCoordinates.LHD;
 import pl.sats.FieldObservationsObjects.PointCoordinates.NEH;
+import pl.sats.FieldObservationsObjects.PointCoordinates.PointType;
 import pl.sats.FileUtils.FileUtils;
 import pl.sats.GeodeticNetworkAdjustment.VerticalAdjustment;
 
@@ -24,16 +26,16 @@ public class VerticalAdjustmentTest {
     private File file5 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/Exception/FixedPoints.txt")).getFile());
     private File file6 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/Exception/HeightDifferenceObservations.txt")).getFile());
 
-    private FileUtils fileUtils = new FileUtils();
-    private List<NEH> fixedPoints = fileUtils.readNehFile(file1);
+    private FileUtils<NEH> fileUtils = new FileUtils<>(PointType.H, new NEH());
+    private List<NEH> fixedPoints = fileUtils.readFile(file1);
     private List<DeltaHeight> verticalObservations = fileUtils.readLevelingObservationsWithStdErrors(file2);
 
-    private FileUtils fileUtils2 = new FileUtils();
-    private List<NEH> fixedPoints2 = fileUtils2.readNehFile(file3);
+    private FileUtils<NEH> fileUtils2 = new FileUtils<>(PointType.H, new NEH());
+    private List<NEH> fixedPoints2 = fileUtils.readFile(file3);
     private List<DeltaHeight> verticalObservations2 = fileUtils2.readLevelingObservationsWithStdErrors(file4);
 
-    private FileUtils fileUtils3 = new FileUtils();
-    private List<NEH> fixedPoints3 = fileUtils3.readNehFile(file5);
+    private FileUtils<NEH> fileUtils3 = new FileUtils<>(PointType.H, new NEH());
+    private List<NEH> fixedPoints3 = fileUtils.readFile(file5);
     private List<DeltaHeight> verticalObservations3 = fileUtils3.readLevelingObservationsWithStdErrors(file6);
 
     private VerticalAdjustment verticalAdjustment = new VerticalAdjustment(fixedPoints, verticalObservations,1.0);

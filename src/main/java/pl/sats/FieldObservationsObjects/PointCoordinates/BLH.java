@@ -16,10 +16,8 @@ public class BLH extends Point {
     private double ellipsoidHeight;
     private double mEllipsoidHeight;
 
-    public BLH(double latitude, double longitude, double ellipsoidHeight) {
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.ellipsoidHeight = ellipsoidHeight;
+    public BLH(){
+
     }
 
     public BLH(String id, double latitude, double longitude, double ellipsoidHeight) {
@@ -27,15 +25,6 @@ public class BLH extends Point {
         this.latitude = latitude;
         this.longitude = longitude;
         this.ellipsoidHeight = ellipsoidHeight;
-    }
-
-    public BLH(double longitude, double mLongitude, double latitude, double mLatitude, double ellipsoidHeight, double mEllipsoidHeight) {
-        this.longitude = longitude;
-        this.mLongitude = mLongitude;
-        this.latitude = latitude;
-        this.mLatitude = mLatitude;
-        this.ellipsoidHeight = ellipsoidHeight;
-        this.mEllipsoidHeight = mEllipsoidHeight;
     }
 
     public BLH(String id, double latitude, double mLatitude, double longitude, double mLongitude, double ellipsoidHeight, double mEllipsoidHeight) {

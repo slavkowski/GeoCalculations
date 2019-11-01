@@ -20,6 +20,7 @@ public class BLHToXYZ {
 
     /**
      * This method is responsible for transforming BLH into XYZ
+     *
      * @param blh - geodetic coordinates
      * @return cartesian coordinates
      */
@@ -34,6 +35,6 @@ public class BLHToXYZ {
         double y = (N + blh.getEllipsoidHeight()) * Math.cos(blh.getLatitude()) * Math.sin(blh.getLongitude());
         double z = (N + blh.getEllipsoidHeight()) * Math.sin(blh.getLatitude()) - (Math.pow(e, 2) * N * Math.sin(blh.getLatitude()));
 
-        return new XYZ(x, y, z);
+        return new XYZ(blh.getId(), x, y, z);
     }
 }
