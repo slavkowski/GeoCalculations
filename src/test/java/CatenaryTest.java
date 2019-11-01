@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CatenaryTest {
     private ClassLoader loader = Catenary.class.getClassLoader();
-    private File file = new File(Objects.requireNonNull(loader.getResource("TxtFiles/LHD.txt")).getFile());
+    private File file = new File(Objects.requireNonNull(loader.getResource("TxtFiles/LH.txt")).getFile());
     private FileUtils<LHD> fileUtils = new FileUtils<>(PointType.LH, new LHD());
 
     @Test

@@ -14,6 +14,80 @@ class FileUtilsTest {
     private ClassLoader loader = Main.class.getClassLoader();
 
     @Test
+    void shouldReturnNEObject() throws IOException {
+        FileUtils<NEH> fileUtils = new FileUtils<>(PointType.NE, new NEH());
+        File file = new File(Objects.requireNonNull(loader.getResource("TxtFiles/NE.txt")).getFile());
+        List<NEH> fieldLHDObservations = fileUtils.readFile(file);
+        assertEquals(4, fieldLHDObservations.size());
+        assertEquals("1", fieldLHDObservations.get(0).getId());
+        assertEquals(0.0, fieldLHDObservations.get(0).getN(), 0.00001);
+        assertEquals(134.879, fieldLHDObservations.get(0).getE(), 0.00001);
+    }
+    @Test
+    void shouldReturnNEEObject() throws IOException {
+        FileUtils<NEH> fileUtils = new FileUtils<>(PointType.NEE, new NEH());
+        File file = new File(Objects.requireNonNull(loader.getResource("TxtFiles/NEE.txt")).getFile());
+        List<NEH> fieldLHDObservations = fileUtils.readFile(file);
+        assertEquals(2, fieldLHDObservations.size());
+        assertEquals("1", fieldLHDObservations.get(0).getId());
+        assertEquals(0.0, fieldLHDObservations.get(0).getN(), 0.00001);
+        assertEquals(0.1, fieldLHDObservations.get(0).getmN(), 0.00001);
+        assertEquals(134.879, fieldLHDObservations.get(0).getE(), 0.00001);
+        assertEquals(0.2, fieldLHDObservations.get(0).getmE(), 0.00001);
+    }
+    @Test
+    void shouldReturnNEHObject() throws IOException {
+        FileUtils<NEH> fileUtils = new FileUtils<>(PointType.NEH, new NEH());
+        File file = new File(Objects.requireNonNull(loader.getResource("TxtFiles/NEH.txt")).getFile());
+        List<NEH> list = fileUtils.readFile(file);
+        assertEquals(4, list.size());
+        assertEquals("1", list.get(0).getId());
+        assertEquals(0.0, list.get(0).getN());
+        assertEquals(1.1, list.get(0).getE());
+        assertEquals(2.2, list.get(0).getH());
+        assertEquals("4", list.get(3).getId());
+        assertEquals(6.6, list.get(3).getN());
+        assertEquals(7.7, list.get(3).getE());
+        assertEquals(8.8, list.get(3).getH());
+    }
+    @Test
+    void shouldReturnNEHEObject() throws IOException {
+        FileUtils<NEH> fileUtils = new FileUtils<>(PointType.NEHE, new NEH());
+        File file = new File(Objects.requireNonNull(loader.getResource("TxtFiles/NEHE.txt")).getFile());
+        List<NEH> list = fileUtils.readFile(file);
+        assertEquals(2, list.size());
+        assertEquals("1", list.get(0).getId());
+        assertEquals(0.0, list.get(0).getN(), 0.00001);
+        assertEquals(0.5, list.get(0).getmN(), 0.00001);
+        assertEquals(134.879, list.get(0).getE(), 0.00001);
+        assertEquals(0.6, list.get(0).getmE(), 0.00001);
+        assertEquals(1.11, list.get(0).getH(), 0.00001);
+        assertEquals(0.7, list.get(0).getmH(), 0.00001);
+        assertEquals(-2.22, list.get(1).getH(), 0.00001);
+        assertEquals(0.1, list.get(1).getmH(), 0.00001);
+    }
+    @Test
+    void shouldReturnHObject() throws IOException {
+        FileUtils<NEH> fileUtils = new FileUtils<>(PointType.H, new NEH());
+        File file = new File(Objects.requireNonNull(loader.getResource("TxtFiles/H.txt")).getFile());
+        List<NEH> list = fileUtils.readFile(file);
+        assertEquals(4, list.size());
+        assertEquals("1", list.get(0).getId());
+        assertEquals(0.0, list.get(0).getH(), 0.00001);
+        assertEquals(17.51, list.get(1).getH(), 0.00001);
+    }
+    @Test
+    void shouldReturnHEObject() throws IOException {
+        FileUtils<NEH> fileUtils = new FileUtils<>(PointType.HE, new NEH());
+        File file = new File(Objects.requireNonNull(loader.getResource("TxtFiles/HE.txt")).getFile());
+        List<NEH> fieldLHDObservations = fileUtils.readFile(file);
+        assertEquals(4, fieldLHDObservations.size());
+        assertEquals("1", fieldLHDObservations.get(0).getId());
+        assertEquals(0.0, fieldLHDObservations.get(0).getH(), 0.00001);
+        assertEquals(134.879, fieldLHDObservations.get(0).getmH(), 0.00001);
+    }
+
+    @Test
     void shouldReturnXYZObject() throws IOException {
         File fileXYZ = new File(Objects.requireNonNull(loader.getResource("TxtFiles/TestXYZ.txt")).getFile());
         FileUtils<XYZ> fileUtils = new FileUtils<>(PointType.XYZ, new XYZ());
