@@ -1,8 +1,8 @@
 import org.junit.jupiter.api.Test;
-import pl.sats.Exceptions.MatrixDegenerateException;
-import pl.sats.Exceptions.MatrixWrongSizeException;
-import pl.sats.FieldObservationsObjects.PointCoordinates.NEH;
-import pl.sats.LineCalculations.PointToLineProjection;
+import pl.sgeonet.Exceptions.MatrixDegenerateException;
+import pl.sgeonet.Exceptions.MatrixWrongSizeException;
+import pl.sgeonet.FieldObservationsObjects.PointCoordinates.NEH;
+import pl.sgeonet.LineCalculations.PointToLineProjection;
 
 import java.util.ArrayList;
 import java.util.List;

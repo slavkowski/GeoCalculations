@@ -1,10 +1,10 @@
 import org.junit.jupiter.api.Test;
-import pl.sats.CurveCalculations.Catenary;
-import pl.sats.Exceptions.MatrixDegenerateException;
-import pl.sats.Exceptions.MatrixWrongSizeException;
-import pl.sats.FieldObservationsObjects.PointCoordinates.LHD;
-import pl.sats.FieldObservationsObjects.PointCoordinates.PointType;
-import pl.sats.FileUtils.FileUtils;
+import pl.sgeonet.CurveCalculations.Catenary;
+import pl.sgeonet.Exceptions.MatrixDegenerateException;
+import pl.sgeonet.Exceptions.MatrixWrongSizeException;
+import pl.sgeonet.FieldObservationsObjects.PointCoordinates.LHD;
+import pl.sgeonet.FieldObservationsObjects.PointCoordinates.PointType;
+import pl.sgeonet.FileUtils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;

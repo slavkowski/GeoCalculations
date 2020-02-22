@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Test;
-import pl.sats.Exceptions.MatrixDegenerateException;
-import pl.sats.Exceptions.MatrixWrongSizeException;
-import pl.sats.LSEstimations.LeastSquaresEstimation;
+import pl.sgeonet.Exceptions.MatrixDegenerateException;
+import pl.sgeonet.Exceptions.MatrixWrongSizeException;
+import pl.sgeonet.LSEstimations.LeastSquaresEstimation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

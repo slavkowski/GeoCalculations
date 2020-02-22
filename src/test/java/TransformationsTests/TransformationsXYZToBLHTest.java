@@ -2,11 +2,11 @@ package TransformationsTests;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pl.sats.BasicGeoCalculations.AngleConverter;
-import pl.sats.FieldObservationsObjects.PointCoordinates.BLH;
-import pl.sats.FieldObservationsObjects.PointCoordinates.XYZ;
-import pl.sats.GeodeticProjectionCalculations.ReferenceEllipsoid;
-import pl.sats.GeodeticProjectionCalculations.XYZToBLH;
+import pl.sgeonet.BasicGeoCalculations.AngleConverter;
+import pl.sgeonet.FieldObservationsObjects.PointCoordinates.BLH;
+import pl.sgeonet.FieldObservationsObjects.PointCoordinates.XYZ;
+import pl.sgeonet.GeodeticProjectionCalculations.ReferenceEllipsoid;
+import pl.sgeonet.GeodeticProjectionCalculations.XYZToBLH;
 
 class TransformationsXYZToBLHTest {
     private XYZToBLH xyzToBLH = new XYZToBLH(ReferenceEllipsoid.GRS80);

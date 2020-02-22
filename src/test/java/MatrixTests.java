@@ -1,8 +1,8 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pl.sats.Exceptions.MatrixDegenerateException;
-import pl.sats.Exceptions.MatrixWrongSizeException;
-import pl.sats.MathExtraCalculations.Matrix;
+import pl.sgeonet.Exceptions.MatrixDegenerateException;
+import pl.sgeonet.Exceptions.MatrixWrongSizeException;
+import pl.sgeonet.MathExtraCalculations.Matrix;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 

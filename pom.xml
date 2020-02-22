@@ -57,7 +57,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>pl.sats.Main</mainClass>
+                    <mainClass>pl.sgeonet.Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>

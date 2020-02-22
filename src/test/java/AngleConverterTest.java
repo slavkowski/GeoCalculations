@@ -1,6 +1,6 @@
 
 import org.junit.jupiter.api.Test;
-import pl.sats.BasicGeoCalculations.AngleConverter;
+import pl.sgeonet.BasicGeoCalculations.AngleConverter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -1,9 +1,9 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pl.sats.CoordinatesTableManagement.CoordinateOrder;
-import pl.sats.CoordinatesTableManagement.CoordinatesTableManagementException;
-import pl.sats.CoordinatesTableManagement.impl.CoordinatesTableImpl;
-import pl.sats.FieldObservationsObjects.PointCoordinates.XYZ;
+import pl.sgeonet.CoordinatesTableManagement.CoordinateOrder;
+import pl.sgeonet.CoordinatesTableManagement.CoordinatesTableManagementException;
+import pl.sgeonet.CoordinatesTableManagement.impl.CoordinatesTableImpl;
+import pl.sgeonet.FieldObservationsObjects.PointCoordinates.XYZ;
 
 import java.util.HashSet;
 import java.util.Set;

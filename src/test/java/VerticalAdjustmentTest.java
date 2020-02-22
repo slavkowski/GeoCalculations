@@ -1,12 +1,11 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pl.sats.Exceptions.DuplicatedFixedPionts;
-import pl.sats.FieldObservationsObjects.DeltaHeight;
-import pl.sats.FieldObservationsObjects.PointCoordinates.LHD;
-import pl.sats.FieldObservationsObjects.PointCoordinates.NEH;
-import pl.sats.FieldObservationsObjects.PointCoordinates.PointType;
-import pl.sats.FileUtils.FileUtils;
-import pl.sats.GeodeticNetworkAdjustment.VerticalAdjustment;
+import pl.sgeonet.Exceptions.DuplicatedFixedPionts;
+import pl.sgeonet.FieldObservationsObjects.FieldObservation.DeltaHeight;
+import pl.sgeonet.FieldObservationsObjects.PointCoordinates.NEH;
+import pl.sgeonet.FieldObservationsObjects.PointCoordinates.PointType;
+import pl.sgeonet.FileUtils.FileUtils;
+import pl.sgeonet.GeodeticNetworkAdjustment.VerticalAdjustment;
 
 import java.io.File;
 import java.io.IOException;

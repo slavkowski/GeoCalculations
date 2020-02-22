@@ -1,5 +1,5 @@
 import org.junit.jupiter.api.Test;
-import pl.sats.BasicGeoCalculations.AzimuthDistanceCalculation;
+import pl.sgeonet.BasicGeoCalculations.AzimuthDistanceCalculation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

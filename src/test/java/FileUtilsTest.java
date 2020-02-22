@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Test;
-import pl.sats.FieldObservationsObjects.PointCoordinates.*;
-import pl.sats.FileUtils.FileUtils;
-import pl.sats.Main;
+import pl.sgeonet.FieldObservationsObjects.PointCoordinates.*;
+import pl.sgeonet.FileUtils.FileUtils;
+import pl.sgeonet.Main;
 
 import java.io.File;
 import java.io.IOException;
