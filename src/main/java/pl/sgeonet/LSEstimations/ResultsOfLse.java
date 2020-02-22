@@ -2,8 +2,9 @@ package pl.sgeonet.LSEstimations;
 
 
 import pl.sgeonet.FieldObservationsObjects.FieldObservation.DeltaHeight;
+import pl.sgeonet.RaportConfiguration.PrintSettings;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 public class ResultsOfLse {
@@ -17,6 +18,7 @@ public class ResultsOfLse {
     private double[][] adjustedParameters;
     private double[][] adjustedObservations;
     private List<DeltaHeight> listOfDeltaHeightFieldObservations;
+    private PrintSettings printSettings;
 
     public double getWeightedSquareSumOfResiduals() {
         return weightedSquareSumOfResiduals;
@@ -106,6 +108,7 @@ public class ResultsOfLse {
 
     @Override
     public String toString() {
+        printSettings = new PrintSettings();
         String separator = "______________________________________________________________________\n";
         StringBuilder sB = new StringBuilder();
         sB.append("***       Supplementary information         ***\n");
@@ -119,16 +122,19 @@ public class ResultsOfLse {
         sB.append("(a posteriori) estimated standard deviation  : ").append(aPosterioriEstimatedStdDeviation).append("\n");
         sB.append("Ratio                                        : ").append(ratio).append("\n");
         sB.append(separator);
-        sB.append("Adjusted parameters\n");
+        sB.append("Calculated parameters\n");
         for (int i = 0; i < numberOfUnknownParameters; i++) {
             if (listIdsOfUnknownParameters != null) {
                 sB.append(listIdsOfUnknownParameters.get(i));
             } else {
                 sB.append("N/A");
             }
-            sB.append(" : ").append(String.format("%.4f ± %.4f",
+            sB.append(" : ").append(String.format("%." + printSettings.getNumberOfDecimalDigitsOfCalculatedHeight().getPrintValue()
+                            + "f%s ± %." + printSettings.getNumberOfDecimalDigitsOfStdErrorOfCalculatedHeight().getPrintValue() + "f%s",
                     adjustedParameters[i][0],
-                    adjustedParameters[i][1])).append("\n");
+                    printSettings.getUnitOfCalculatedHeight().getPrintValue(),
+                    adjustedParameters[i][1] * printSettings.getCalculatedHeightVsStdErrorRatio(),
+                    printSettings.getUnitOfCalculatedStdErrorOfCalculatedHeight().getPrintValue())).append("\n");
         }
         sB.append(separator);
         sB.append("Fields observations\n");
