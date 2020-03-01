@@ -21,21 +21,18 @@ public class VerticalAdjustmentTest {
     private ClassLoader loader = VerticalAdjustment.class.getClassLoader();
     private File file1 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/ex5_1_1/FixedPoints.txt")).getFile());
     private File file2 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/ex5_1_1/HeightDifferenceObservations.txt")).getFile());
-
-    private File file3 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/P1/2.1/FixedPoints.txt")).getFile());
-    private File file4 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/P1/2.1/HeightDifferenceObservations.txt")).getFile());
-
-    private File file5 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/Exception/FixedPoints.txt")).getFile());
-    private File file6 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/Exception/HeightDifferenceObservations.txt")).getFile());
-
     private FileUtils<NEH> fileUtils = new FileUtils<>(PointType.H, new NEH());
     private List<NEH> fixedPoints = fileUtils.readFile(file1);
     private List<DeltaHeight> verticalObservations = fileUtils.readLevelingObservationsWithStdErrors(file2);
 
+    private File file3 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/P1/2.1/FixedPoints.txt")).getFile());
+    private File file4 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/P1/2.1/HeightDifferenceObservations.txt")).getFile());
     private FileUtils<NEH> fileUtils2 = new FileUtils<>(PointType.H, new NEH());
     private List<NEH> fixedPoints2 = fileUtils.readFile(file3);
     private List<DeltaHeight> verticalObservations2 = fileUtils2.readLevelingObservationsWithStdErrors(file4);
 
+    private File file5 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/Exception/FixedPoints.txt")).getFile());
+    private File file6 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/Exception/HeightDifferenceObservations.txt")).getFile());
     private FileUtils<NEH> fileUtils3 = new FileUtils<>(PointType.H, new NEH());
     private List<NEH> fixedPoints3 = fileUtils.readFile(file5);
     private List<DeltaHeight> verticalObservations3 = fileUtils3.readLevelingObservationsWithStdErrors(file6);
