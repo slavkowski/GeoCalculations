@@ -5,7 +5,6 @@ import pl.sgeonet.Exceptions.MatrixWrongSizeException;
 import pl.sgeonet.FieldObservationsObjects.FieldObservation.DeltaHeight;
 import pl.sgeonet.MathExtraCalculations.Matrix;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,6 +51,7 @@ public class LeastSquaresEstimation {
     private Matrix matrix;
     private List<String> listIdsOfUnknownParameters;
     private List<DeltaHeight> listOfDeltaHeightFieldObservations;
+    private int numberOfOvernumberObservations;
 
     /**
      * @param a - coefficient matrix
@@ -114,10 +114,11 @@ public class LeastSquaresEstimation {
     }
 
     public void executeLeastSquaresEstimation() throws MatrixDegenerateException, MatrixWrongSizeException {
-        boolean ifMoreObservationsThanParameters = (A.length - A[0].length) > 0;
-        resultsOfLse = new ResultsOfLse();
-        resultsOfLse.setNumberOfFieldObservations(A.length);
-        resultsOfLse.setNumberOfUnknownParameters(A[0].length);
+        int numberOfFieldObservations = A.length;
+        int numberOfUnknownParameters = A[0].length;
+        numberOfOvernumberObservations = numberOfFieldObservations - numberOfUnknownParameters;
+        boolean ifMoreObservationsThanParameters = (numberOfOvernumberObservations) > 0;
+        resultsOfLse = new ResultsOfLse(numberOfUnknownParameters, numberOfFieldObservations);
         resultsOfLse.setaPrioriStdDeviation(aPrioriStdDeviation);
         resultsOfLse.setListIdsOfUnknownParameters(listIdsOfUnknownParameters);
         resultsOfLse.setListOfDeltaHeightFieldObservations(listOfDeltaHeightFieldObservations);
@@ -155,11 +156,11 @@ public class LeastSquaresEstimation {
         }
         VtPV = matrix.getMatrixProduct(matrix.getMatrixProduct(matrix.getMatrixTranspose(V), P), V);
         resultsOfLse.setWeightedSquareSumOfResiduals(VtPV[0][0]);
-        resultsOfLse.setAdjustedObservations(V);
+        resultsOfLse.setFieldObservationAdjustmentSummary(V);
     }
 
     private void calculateM0() {
-        m0Sqr = VtPV[0][0] / (A.length - A[0].length);
+        m0Sqr = VtPV[0][0] / (numberOfOvernumberObservations);
         m0 = Math.sqrt(m0Sqr);
         double ratio = m0 / aPrioriStdDeviation;
         resultsOfLse.setaPosterioriEstimatedStdDeviation(m0);

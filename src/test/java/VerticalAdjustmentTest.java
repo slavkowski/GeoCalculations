@@ -6,6 +6,9 @@ import pl.sgeonet.FieldObservationsObjects.PointCoordinates.NEH;
 import pl.sgeonet.FieldObservationsObjects.PointCoordinates.PointType;
 import pl.sgeonet.FileUtils.FileUtils;
 import pl.sgeonet.GeodeticNetworkAdjustment.VerticalAdjustment;
+import pl.sgeonet.GeodeticNetworkAdjustment.VerticalAdjustmentInitialSetup;
+import pl.sgeonet.GeodeticNetworkAdjustment.VerticalAdjustmentMethod;
+import pl.sgeonet.RaportConfiguration.Unit;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,9 +40,15 @@ public class VerticalAdjustmentTest {
     private List<NEH> fixedPoints3 = fileUtils.readFile(file5);
     private List<DeltaHeight> verticalObservations3 = fileUtils3.readLevelingObservationsWithStdErrors(file6);
 
-    private VerticalAdjustment verticalAdjustment = new VerticalAdjustment(fixedPoints, verticalObservations,1.0);
-    private VerticalAdjustment verticalAdjustment2 = new VerticalAdjustment(fixedPoints2, verticalObservations2,0.01);
-    private VerticalAdjustment verticalAdjustment3 = new VerticalAdjustment(fixedPoints3, verticalObservations3,1.0);
+
+    VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup = new VerticalAdjustmentInitialSetup(VerticalAdjustmentMethod.STANDARD, Unit.M, Unit.M, Unit.M);
+    private VerticalAdjustment verticalAdjustment = new VerticalAdjustment(fixedPoints, verticalObservations,verticalAdjustmentInitialSetup);
+
+    VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup2 = new VerticalAdjustmentInitialSetup(VerticalAdjustmentMethod.STANDARD, Unit.M, Unit.M, Unit.CM);
+    private VerticalAdjustment verticalAdjustment2 = new VerticalAdjustment(fixedPoints2, verticalObservations2,verticalAdjustmentInitialSetup2);
+
+    VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup3 = new VerticalAdjustmentInitialSetup(VerticalAdjustmentMethod.STANDARD, Unit.M, Unit.M, Unit.M);
+    private VerticalAdjustment verticalAdjustment3 = new VerticalAdjustment(fixedPoints3, verticalObservations3,verticalAdjustmentInitialSetup3);
 
 
     VerticalAdjustmentTest() throws IOException {

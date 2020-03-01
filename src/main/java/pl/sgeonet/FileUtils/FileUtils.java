@@ -181,8 +181,8 @@ public class FileUtils<T extends Point> {
                 if (splitLine.length == 4) {
                     deltaHeight.setPointFrom(String.valueOf(splitLine[0]));
                     deltaHeight.setPointTo(String.valueOf(splitLine[1]));
-                    deltaHeight.setHeightDifferenceValue(Double.valueOf(splitLine[2]));
-                    deltaHeight.setHeightDifferenceStdMeanError(Double.valueOf(splitLine[3]));
+                    deltaHeight.setHeightDifferenceValue(Double.parseDouble(splitLine[2]));
+                    deltaHeight.setHeightDifferenceStdMeanError(Double.parseDouble(splitLine[3]));
                     setOfDeltaHeightObservations.add(deltaHeight);
                 }
             }
@@ -201,8 +201,8 @@ public class FileUtils<T extends Point> {
                 if (splitLine.length == 4) {
                     deltaHeight.setPointFrom(String.valueOf(splitLine[0]));
                     deltaHeight.setPointTo(String.valueOf(splitLine[1]));
-                    deltaHeight.setHeightDifferenceValue(Double.valueOf(splitLine[2]));
-                    deltaHeight.setHeightDifferenceStdMeanError(errorPerSetup * Math.sqrt(Double.valueOf(splitLine[3])));
+                    deltaHeight.setHeightDifferenceValue(Double.parseDouble(splitLine[2]));
+                    deltaHeight.setHeightDifferenceStdMeanError(errorPerSetup * Math.sqrt(Double.parseDouble(splitLine[3])));
                     setOfDeltaHeightObservations.add(deltaHeight);
                 }
             }

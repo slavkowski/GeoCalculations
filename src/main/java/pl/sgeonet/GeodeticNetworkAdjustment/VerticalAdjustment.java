@@ -19,6 +19,8 @@ public class VerticalAdjustment extends Adjustment {
 
     private final Logger log = LoggerFactory.getLogger(VerticalAdjustment.class);
 
+    /* Initial setup for adjustment */
+    private VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup;
     /* List of all fixed points provided in txt file*/
     private List<NEH> listOfFixedPoints;
     /* List of height differences provided in txt file*/
@@ -40,10 +42,10 @@ public class VerticalAdjustment extends Adjustment {
 
 
 
-    public VerticalAdjustment(List<NEH> listOfFixedPoints, List<DeltaHeight> listOfHeightDifferences, double aPrioriStdDeviation) {
+    public VerticalAdjustment(List<NEH> listOfFixedPoints, List<DeltaHeight> listOfHeightDifferences, VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup) {
         this.listOfFixedPoints = listOfFixedPoints;
         this.listOfHeightDifferences = listOfHeightDifferences;
-        this.aPrioriStdDeviation = aPrioriStdDeviation;
+        this.aPrioriStdDeviation = verticalAdjustmentInitialSetup.getaPrioriStandardDeviation();
     }
 
     public void proceedAdjustment() throws DuplicatedFixedPionts {

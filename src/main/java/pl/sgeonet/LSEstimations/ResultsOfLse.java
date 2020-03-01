@@ -4,7 +4,8 @@ package pl.sgeonet.LSEstimations;
 import pl.sgeonet.FieldObservationsObjects.FieldObservation.DeltaHeight;
 import pl.sgeonet.RaportConfiguration.PrintSettings;
 
-import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class ResultsOfLse {
@@ -16,67 +17,34 @@ public class ResultsOfLse {
     private double ratio;
     private List<String> listIdsOfUnknownParameters;
     private double[][] adjustedParameters;
-    private double[][] adjustedObservations;
+    private double[][] fieldObservationAdjustmentSummary;
     private List<DeltaHeight> listOfDeltaHeightFieldObservations;
     private PrintSettings printSettings;
 
-    public double getWeightedSquareSumOfResiduals() {
-        return weightedSquareSumOfResiduals;
+    public ResultsOfLse(int numberOfUnknownParameters, int numberOfFieldObservations) {
+        this.numberOfUnknownParameters = numberOfUnknownParameters;
+        this.numberOfFieldObservations = numberOfFieldObservations;
+        this.fieldObservationAdjustmentSummary = new double[numberOfFieldObservations][7];
+
+        adjustedParameters = new double[numberOfUnknownParameters][3];
     }
 
     void setWeightedSquareSumOfResiduals(double weightedSquareSumOfResiduals) {
         this.weightedSquareSumOfResiduals = weightedSquareSumOfResiduals;
     }
 
-    public int getNumberOfUnknownParameters() {
-        return numberOfUnknownParameters;
-    }
-
-    void setNumberOfUnknownParameters(int numberOfUnknownParameters) {
-        this.numberOfUnknownParameters = numberOfUnknownParameters;
-        adjustedParameters = new double[numberOfUnknownParameters][3];
-    }
-
-    public int getNumberOfFieldObservations() {
-        return numberOfFieldObservations;
-    }
-
-    void setNumberOfFieldObservations(int numberOfFieldObservations) {
-        this.numberOfFieldObservations = numberOfFieldObservations;
-        adjustedObservations = new double[numberOfFieldObservations][2];
-    }
-
-    public double getaPrioriStdDeviation() {
-        return aPrioriStdDeviation;
-    }
-
     void setaPrioriStdDeviation(double aPrioriStdDeviation) {
         this.aPrioriStdDeviation = aPrioriStdDeviation;
-    }
-
-    public double getaPosterioriEstimatedStdDeviation() {
-        return aPosterioriEstimatedStdDeviation;
     }
 
     void setaPosterioriEstimatedStdDeviation(double aPosterioriEstimatedStdDeviation) {
         this.aPosterioriEstimatedStdDeviation = aPosterioriEstimatedStdDeviation;
     }
 
-    public double getRatio() {
-        return ratio;
-    }
-
     void setRatio(double ratio) {
         this.ratio = ratio;
     }
 
-    public double[][] getAdjustedParameters() {
-        return adjustedParameters;
-    }
-
-    public void setAdjustedParameters(double[][] adjustedParameters) {
-        this.adjustedParameters = adjustedParameters;
-    }
 
     void setAdjustedParameters(double[][] adjustedParameters, int j) {
         for (int i = 0; i < numberOfUnknownParameters; i++) {
@@ -94,16 +62,18 @@ public class ResultsOfLse {
         this.listIdsOfUnknownParameters = listIdsOfUnknownParameters;
     }
 
-    public void setAdjustedObservations(double[][] adjustedObservations) {
-        this.adjustedObservations = adjustedObservations;
-    }
-
-    public List<DeltaHeight> getListOfDeltaHeightFieldObservations() {
-        return listOfDeltaHeightFieldObservations;
+    public void setFieldObservationAdjustmentSummary(double[][] fieldObservationAdjustmentSummary) {
+        for (int i = 0; i < numberOfUnknownParameters; i++) {
+            this.fieldObservationAdjustmentSummary[i][2] = fieldObservationAdjustmentSummary[i][0];
+        }
     }
 
     public void setListOfDeltaHeightFieldObservations(List<DeltaHeight> listOfDeltaHeightFieldObservations) {
         this.listOfDeltaHeightFieldObservations = listOfDeltaHeightFieldObservations;
+        for (int i = 0; i < numberOfUnknownParameters; i++) {
+            this.fieldObservationAdjustmentSummary[i][0] = listOfDeltaHeightFieldObservations.get(i).getHeightDifferenceValue();
+            this.fieldObservationAdjustmentSummary[i][1] = listOfDeltaHeightFieldObservations.get(i).getHeightDifferenceStdMeanError();
+        }
     }
 
     @Override
@@ -138,15 +108,17 @@ public class ResultsOfLse {
         }
         sB.append(separator);
         sB.append("Fields observations\n");
+        DecimalFormat df = new DecimalFormat("0.000");
+        df.setRoundingMode(RoundingMode.HALF_EVEN);
         if (listOfDeltaHeightFieldObservations != null) {
             for (int i = 0; i < numberOfFieldObservations; i++) {
                 sB.append(listOfDeltaHeightFieldObservations.get(i).getPointFrom()).append(" -> ")
                         .append(listOfDeltaHeightFieldObservations.get(i).getPointTo()).append(" : ")
-                        .append(listOfDeltaHeightFieldObservations.get(i).getHeightDifferenceValue())
-                        .append(" ± ").append(listOfDeltaHeightFieldObservations.get(i).getHeightDifferenceStdMeanError())
-                        .append(String.format(" %.4f", adjustedObservations[i][0])).append("\n");
+                        .append(String.format("|%10.3f", listOfDeltaHeightFieldObservations.get(i).getHeightDifferenceValue()))
+                        .append(" ±").append(String.format("%5.1f|", listOfDeltaHeightFieldObservations.get(i).getHeightDifferenceStdMeanError()))
+                        .append(String.format("%10.4f", fieldObservationAdjustmentSummary[i][2])).append("\n");
             }
         }
-        return sB.toString();
+        return sB.toString().replace(",", ".");
     }
 }

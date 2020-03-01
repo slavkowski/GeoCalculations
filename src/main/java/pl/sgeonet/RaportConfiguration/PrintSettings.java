@@ -9,6 +9,9 @@ public class PrintSettings {
 
     float calculatedHeightVsStdErrorRatio = 1F;
 
+    Unit unitOfHeightObservations = Unit.M;
+    NumberOfDecimalDigits numberOfDecimalDigitsOfHeightObservations = NumberOfDecimalDigits.THREE;
+
     public Unit getUnitOfCalculatedHeight() {
         return unitOfCalculatedHeight;
     }
