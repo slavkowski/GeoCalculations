@@ -4,6 +4,9 @@ package pl.sgeonet.LSEstimations;
 import pl.sgeonet.FieldObservationsObjects.FieldObservation.DeltaHeight;
 import pl.sgeonet.RaportConfiguration.PrintSettings;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -62,37 +65,38 @@ public class ResultsOfLse {
         this.listIdsOfUnknownParameters = listIdsOfUnknownParameters;
     }
 
-    public void setFieldObservationAdjustmentSummary(double[][] fieldObservationAdjustmentSummary) {
-        for (int i = 0; i < numberOfUnknownParameters; i++) {
-            this.fieldObservationAdjustmentSummary[i][2] = fieldObservationAdjustmentSummary[i][0];
+    public void setListOfDeltaHeightFieldObservations(List<DeltaHeight> listOfDeltaHeightFieldObservations) {
+        this.listOfDeltaHeightFieldObservations = listOfDeltaHeightFieldObservations;
+        for (int i = 0; i < numberOfFieldObservations; i++) {
+            this.fieldObservationAdjustmentSummary[i][0] = listOfDeltaHeightFieldObservations.get(i).getHeightDifferenceValue();
+            this.fieldObservationAdjustmentSummary[i][1] = listOfDeltaHeightFieldObservations.get(i).getHeightDifferenceStdMeanError();
         }
     }
 
-    public void setListOfDeltaHeightFieldObservations(List<DeltaHeight> listOfDeltaHeightFieldObservations) {
-        this.listOfDeltaHeightFieldObservations = listOfDeltaHeightFieldObservations;
-        for (int i = 0; i < numberOfUnknownParameters; i++) {
-            this.fieldObservationAdjustmentSummary[i][0] = listOfDeltaHeightFieldObservations.get(i).getHeightDifferenceValue();
-            this.fieldObservationAdjustmentSummary[i][1] = listOfDeltaHeightFieldObservations.get(i).getHeightDifferenceStdMeanError();
+    public void setFieldObservationAdjustmentSummary(double[][] fieldObservationAdjustmentSummary) {
+        for (int i = 0; i < numberOfFieldObservations; i++) {
+            this.fieldObservationAdjustmentSummary[i][2] = fieldObservationAdjustmentSummary[i][0];
+            this.fieldObservationAdjustmentSummary[i][4] = this.fieldObservationAdjustmentSummary[i][0] + fieldObservationAdjustmentSummary[i][0];
         }
     }
 
     @Override
     public String toString() {
         printSettings = new PrintSettings();
-        String separator = "______________________________________________________________________\n";
+        String separator = "______________________________________________________________________\r\n";
         StringBuilder sB = new StringBuilder();
-        sB.append("***       Supplementary information         ***\n");
-        sB.append("***     Least square adjustment results     ***\n");
+        sB.append("***       Supplementary information         ***\r\n");
+        sB.append("***     Least square adjustment results     ***\r\n");
         sB.append(separator);
-        sB.append("Number of field observations                 : ").append(numberOfFieldObservations).append("\n");
-        sB.append("Number of unknown parameters                 : ").append(numberOfUnknownParameters).append("\n");
+        sB.append("Number of field observations                 : ").append(numberOfFieldObservations).append("\r\n");
+        sB.append("Number of unknown parameters                 : ").append(numberOfUnknownParameters).append("\r\n");
         sB.append(separator);
-        sB.append("Weighted square sum of residuals Ω[-]        : ").append(weightedSquareSumOfResiduals).append("\n");
-        sB.append("(a priori) standard deviation                : ").append(aPrioriStdDeviation).append("\n");
-        sB.append("(a posteriori) estimated standard deviation  : ").append(aPosterioriEstimatedStdDeviation).append("\n");
-        sB.append("Ratio                                        : ").append(ratio).append("\n");
+        sB.append("Weighted square sum of residuals Ω[-]        : ").append(weightedSquareSumOfResiduals).append("\r\n");
+        sB.append("(a priori) standard deviation                : ").append(aPrioriStdDeviation).append("\r\n");
+        sB.append("(a posteriori) estimated standard deviation  : ").append(aPosterioriEstimatedStdDeviation).append("\r\n");
+        sB.append("Ratio                                        : ").append(ratio).append("\r\n");
         sB.append(separator);
-        sB.append("Calculated parameters\n");
+        sB.append("Calculated parameters\r\n");
         for (int i = 0; i < numberOfUnknownParameters; i++) {
             if (listIdsOfUnknownParameters != null) {
                 sB.append(listIdsOfUnknownParameters.get(i));
@@ -104,20 +108,30 @@ public class ResultsOfLse {
                     adjustedParameters[i][0],
                     printSettings.getUnitOfCalculatedHeight().getPrintValue(),
                     adjustedParameters[i][1] * printSettings.getCalculatedHeightVsStdErrorRatio(),
-                    printSettings.getUnitOfCalculatedStdErrorOfCalculatedHeight().getPrintValue())).append("\n");
+                    printSettings.getUnitOfCalculatedStdErrorOfCalculatedHeight().getPrintValue())).append("\r\n");
         }
         sB.append(separator);
-        sB.append("Fields observations\n");
-        DecimalFormat df = new DecimalFormat("0.000");
-        df.setRoundingMode(RoundingMode.HALF_EVEN);
+        sB.append("Fields observations\r\n");
         if (listOfDeltaHeightFieldObservations != null) {
+            sB.append(String.format("|%17s|","SECTION")).append("\r\n");
             for (int i = 0; i < numberOfFieldObservations; i++) {
-                sB.append(listOfDeltaHeightFieldObservations.get(i).getPointFrom()).append(" -> ")
-                        .append(listOfDeltaHeightFieldObservations.get(i).getPointTo()).append(" : ")
-                        .append(String.format("|%10.3f", listOfDeltaHeightFieldObservations.get(i).getHeightDifferenceValue()))
-                        .append(" ±").append(String.format("%5.1f|", listOfDeltaHeightFieldObservations.get(i).getHeightDifferenceStdMeanError()))
-                        .append(String.format("%10.4f", fieldObservationAdjustmentSummary[i][2])).append("\n");
+                sB.append(String.format("|%5s",listOfDeltaHeightFieldObservations.get(i).getPointFrom())).append(" -> ")
+                        .append(String.format("%5s",listOfDeltaHeightFieldObservations.get(i).getPointTo())).append(" : ")
+                        .append(String.format("|%10.3f", fieldObservationAdjustmentSummary[i][0]))
+                        .append(" ±").append(String.format("%5.1f|", fieldObservationAdjustmentSummary[i][1]))
+                        .append(String.format("%10.4f", fieldObservationAdjustmentSummary[i][2]))
+                        .append(String.format("%5.1f", fieldObservationAdjustmentSummary[i][3]))
+                        .append(String.format("%10.3f", fieldObservationAdjustmentSummary[i][4]));
+                sB.append("\r\n");
             }
+        }
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter("d:/samplefile1.txt"));
+            writer.write(sB.toString().replace(",", "."));
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return sB.toString().replace(",", ".");
     }

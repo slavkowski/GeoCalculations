@@ -40,4 +40,14 @@ public class ReadFileResponse {
     public void setNumberFormatExceptionSet(Set<Integer> numberFormatExceptionSet) {
         this.numberFormatExceptionSet = numberFormatExceptionSet;
     }
+
+    @Override
+    public String toString() {
+        return "ReadFileResponse{" +
+                "totalNumberOfLinesInFile=" + totalNumberOfLinesInFile +
+                ", correctNumberOfLinesInFile=" + correctNumberOfLinesInFile +
+                ", wrongNumberOfArgumentsInLine=" + wrongNumberOfArgumentsInLine +
+                ", numberFormatExceptionSet=" + numberFormatExceptionSet +
+                '}';
+    }
 }

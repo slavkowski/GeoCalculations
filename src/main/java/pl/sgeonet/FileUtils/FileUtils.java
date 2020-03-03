@@ -2,6 +2,8 @@ package pl.sgeonet.FileUtils;
 
 import pl.sgeonet.FieldObservationsObjects.FieldObservation.DeltaHeight;
 import pl.sgeonet.FieldObservationsObjects.PointCoordinates.*;
+import pl.sgeonet.GeodeticNetworkAdjustment.VerticalAdjustment;
+import pl.sgeonet.GeodeticNetworkAdjustment.VerticalAdjustmentMethod;
 
 import java.io.*;
 import java.util.*;
@@ -22,6 +24,7 @@ public class FileUtils<T extends Point> {
     private T t;
     private PointType pointType;
     private ReadFileResponse readFileResponse;
+    private ReadFileResponse readLevellingFileResponse;
 
     public FileUtils() {
     }
@@ -139,10 +142,66 @@ public class FileUtils<T extends Point> {
         readFileResponse.setCorrectNumberOfLinesInFile(correctNumberOfLinesInFile - numberFormatException.size());
         readFileResponse.setWrongNumberOfArgumentsInLine(wrongNumberOfArgumentsInLine);
         readFileResponse.setNumberFormatExceptionSet(numberFormatException);
+        System.out.println(readFileResponse.toString());
         return returnList;
     }
 
+    /**
+     * This method is responsible for reading txt file  and converting it to DeltaHeight Object.
+     *
+     * @param file which contains data in format (String(name of the pointFrom), String(name of the pointTo),
+     *             Double(height difference between point From and To)
+     * @return collection of DeltaHeight objects
+     * @throws IOException
+     */
+    public List<DeltaHeight> readLevelingObservations(File file, VerticalAdjustmentMethod method) throws IOException {
+        readLevellingFileResponse = new ReadFileResponse();
+        int elementsInOneLine = 4;
+        int numberOfLineInFile = 0;
+        int correctNumberOfLinesInFile = 0;
+        Map<Integer, String> wrongNumberOfArgumentsInLine = new HashMap<>();
+        Set<Integer> numberFormatException = new HashSet<>();
 
+        String line;
+        FileReader fr = new FileReader(file);
+        List<DeltaHeight> setOfDeltaHeightObservations = new ArrayList<>();
+        try (BufferedReader f = new BufferedReader(fr)) {
+            while ((line = f.readLine()) != null) {
+                numberOfLineInFile++;
+                DeltaHeight deltaHeight = new DeltaHeight();
+                String[] splitLine = line.split(",");
+                if (splitLine.length == elementsInOneLine) {
+
+                    deltaHeight.setPointFrom(String.valueOf(splitLine[0]));
+                    deltaHeight.setPointTo(String.valueOf(splitLine[1]));
+                    deltaHeight.setHeightDifferenceValue(Double.parseDouble(splitLine[2]));
+                    switch (method) {
+                        case STANDARD:
+                            deltaHeight.setHeightDifferenceStdMeanError(Double.parseDouble(splitLine[3]));
+                            break;
+                        case WITH_NUMBER_OF_SETUPS_IN_SECTION:
+                            deltaHeight.setNumberOfSetupsInSection(Integer.parseInt(splitLine[3]));
+                            break;
+                        case WITH_LENGTH_OF_SECTION:
+                            deltaHeight.setLengthOfSection(Double.parseDouble(splitLine[3]));
+                            break;
+                    }
+                    setOfDeltaHeightObservations.add(deltaHeight);
+                }
+            }
+        }
+        readLevellingFileResponse.setTotalNumberOfLinesInFile(numberOfLineInFile);
+        readLevellingFileResponse.setCorrectNumberOfLinesInFile(correctNumberOfLinesInFile - numberFormatException.size());
+        readLevellingFileResponse.setWrongNumberOfArgumentsInLine(wrongNumberOfArgumentsInLine);
+        readLevellingFileResponse.setNumberFormatExceptionSet(numberFormatException);
+        return setOfDeltaHeightObservations;
+    }
+
+    /**
+     * Method returns number of elements in line for specific point type
+     * @param pointType - type of Point
+     * @return - number of elements
+     */
     private int identifyNumberOfElements(PointType pointType) {
 
         int returnLength = 0;
@@ -158,59 +217,14 @@ public class FileUtils<T extends Point> {
         } else if (pointType == PointType.XYZE || pointType == PointType.BLHE || pointType == PointType.NEHE || pointType == PointType.LHDE) {
             returnLength = 7;
         }
-
         return returnLength;
-    }
-
-    /**
-     * This method is responsible for reading txt file  and converting it to DeltaHeight Object.
-     *
-     * @param file which contains data in format (String(name of the pointFrom), String(name of the pointTo),
-     *             Double(height difference between point From and To)
-     * @return collection of DeltaHeight objects
-     * @throws IOException
-     */
-    public List<DeltaHeight> readLevelingObservationsWithStdErrors(File file) throws IOException {
-        String line;
-        FileReader fr = new FileReader(file);
-        List<DeltaHeight> setOfDeltaHeightObservations = new ArrayList<>();
-        try (BufferedReader f = new BufferedReader(fr)) {
-            while ((line = f.readLine()) != null) {
-                DeltaHeight deltaHeight = new DeltaHeight();
-                String[] splitLine = line.split(",");
-                if (splitLine.length == 4) {
-                    deltaHeight.setPointFrom(String.valueOf(splitLine[0]));
-                    deltaHeight.setPointTo(String.valueOf(splitLine[1]));
-                    deltaHeight.setHeightDifferenceValue(Double.parseDouble(splitLine[2]));
-                    deltaHeight.setHeightDifferenceStdMeanError(Double.parseDouble(splitLine[3]));
-                    setOfDeltaHeightObservations.add(deltaHeight);
-                }
-            }
-        }
-        return setOfDeltaHeightObservations;
-    }
-
-    public List<DeltaHeight> readLevelingObservationsWithNumberOfSetups(File file, double errorPerSetup) throws IOException {
-        String line;
-        FileReader fr = new FileReader(file);
-        List<DeltaHeight> setOfDeltaHeightObservations = new ArrayList<>();
-        try (BufferedReader f = new BufferedReader(fr)) {
-            while ((line = f.readLine()) != null) {
-                DeltaHeight deltaHeight = new DeltaHeight();
-                String[] splitLine = line.split(",");
-                if (splitLine.length == 4) {
-                    deltaHeight.setPointFrom(String.valueOf(splitLine[0]));
-                    deltaHeight.setPointTo(String.valueOf(splitLine[1]));
-                    deltaHeight.setHeightDifferenceValue(Double.parseDouble(splitLine[2]));
-                    deltaHeight.setHeightDifferenceStdMeanError(errorPerSetup * Math.sqrt(Double.parseDouble(splitLine[3])));
-                    setOfDeltaHeightObservations.add(deltaHeight);
-                }
-            }
-        }
-        return setOfDeltaHeightObservations;
     }
 
     public ReadFileResponse getReadFileResponse() {
         return readFileResponse;
+    }
+
+    public ReadFileResponse getReadLevellingFileResponse() {
+        return readLevellingFileResponse;
     }
 }

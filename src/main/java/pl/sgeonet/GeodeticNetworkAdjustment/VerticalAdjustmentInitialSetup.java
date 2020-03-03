@@ -11,6 +11,7 @@ public class VerticalAdjustmentInitialSetup {
     private Unit unitOfHeightOfFixedPoints;
     private Unit unitOfHeightDifferences;
     private Unit unitOfStdMeanError;
+    private double stdMeanError;
 
     public VerticalAdjustmentInitialSetup(VerticalAdjustmentMethod verticalAdjustmentMethod, Unit unitOfHeightOfFixedPoints, Unit unitOfHeightDifferences, Unit unitOfStdMeanErrors) {
         this.verticalAdjustmentMethod = verticalAdjustmentMethod;
@@ -51,5 +52,9 @@ public class VerticalAdjustmentInitialSetup {
 
     public Unit getUnitOfStdMeanError() {
         return unitOfStdMeanError;
+    }
+
+    public double getStdMeanError() {
+        return stdMeanError;
     }
 }

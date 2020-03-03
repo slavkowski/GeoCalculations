@@ -18,33 +18,38 @@ import java.util.Objects;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class VerticalAdjustmentTest {
+    //1
+    VerticalAdjustmentMethod method1 = VerticalAdjustmentMethod.STANDARD;
     private ClassLoader loader = VerticalAdjustment.class.getClassLoader();
     private File file1 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/ex5_1_1/FixedPoints.txt")).getFile());
     private File file2 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/ex5_1_1/HeightDifferenceObservations.txt")).getFile());
     private FileUtils<NEH> fileUtils = new FileUtils<>(PointType.H, new NEH());
     private List<NEH> fixedPoints = fileUtils.readFile(file1);
-    private List<DeltaHeight> verticalObservations = fileUtils.readLevelingObservationsWithStdErrors(file2);
+    private List<DeltaHeight> verticalObservations = fileUtils.readLevelingObservations(file2, method1);
 
+    VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup = new VerticalAdjustmentInitialSetup(method1, Unit.M, Unit.M, Unit.M);
+    private VerticalAdjustment verticalAdjustment = new VerticalAdjustment(fixedPoints, verticalObservations,verticalAdjustmentInitialSetup);
+
+    //2
+    VerticalAdjustmentMethod method2 = VerticalAdjustmentMethod.STANDARD;
     private File file3 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/P1/2.1/FixedPoints.txt")).getFile());
     private File file4 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/P1/2.1/HeightDifferenceObservations.txt")).getFile());
     private FileUtils<NEH> fileUtils2 = new FileUtils<>(PointType.H, new NEH());
     private List<NEH> fixedPoints2 = fileUtils.readFile(file3);
-    private List<DeltaHeight> verticalObservations2 = fileUtils2.readLevelingObservationsWithStdErrors(file4);
+    private List<DeltaHeight> verticalObservations2 = fileUtils2.readLevelingObservations(file4, method2);
 
+    VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup2 = new VerticalAdjustmentInitialSetup(method2, Unit.M, Unit.M, Unit.CM);
+    private VerticalAdjustment verticalAdjustment2 = new VerticalAdjustment(fixedPoints2, verticalObservations2,verticalAdjustmentInitialSetup2);
+
+    //3
+    VerticalAdjustmentMethod method3 = VerticalAdjustmentMethod.STANDARD;
     private File file5 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/Exception/FixedPoints.txt")).getFile());
     private File file6 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/Exception/HeightDifferenceObservations.txt")).getFile());
     private FileUtils<NEH> fileUtils3 = new FileUtils<>(PointType.H, new NEH());
     private List<NEH> fixedPoints3 = fileUtils.readFile(file5);
-    private List<DeltaHeight> verticalObservations3 = fileUtils3.readLevelingObservationsWithStdErrors(file6);
+    private List<DeltaHeight> verticalObservations3 = fileUtils3.readLevelingObservations(file6, method3);
 
-
-    VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup = new VerticalAdjustmentInitialSetup(VerticalAdjustmentMethod.STANDARD, Unit.M, Unit.M, Unit.M);
-    private VerticalAdjustment verticalAdjustment = new VerticalAdjustment(fixedPoints, verticalObservations,verticalAdjustmentInitialSetup);
-
-    VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup2 = new VerticalAdjustmentInitialSetup(VerticalAdjustmentMethod.STANDARD, Unit.M, Unit.M, Unit.CM);
-    private VerticalAdjustment verticalAdjustment2 = new VerticalAdjustment(fixedPoints2, verticalObservations2,verticalAdjustmentInitialSetup2);
-
-    VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup3 = new VerticalAdjustmentInitialSetup(VerticalAdjustmentMethod.STANDARD, Unit.M, Unit.M, Unit.M);
+    VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup3 = new VerticalAdjustmentInitialSetup(method3, Unit.M, Unit.M, Unit.M);
     private VerticalAdjustment verticalAdjustment3 = new VerticalAdjustment(fixedPoints3, verticalObservations3,verticalAdjustmentInitialSetup3);
 
 

@@ -120,8 +120,8 @@ public class LeastSquaresEstimation {
         boolean ifMoreObservationsThanParameters = (numberOfOvernumberObservations) > 0;
         resultsOfLse = new ResultsOfLse(numberOfUnknownParameters, numberOfFieldObservations);
         resultsOfLse.setaPrioriStdDeviation(aPrioriStdDeviation);
-        resultsOfLse.setListIdsOfUnknownParameters(listIdsOfUnknownParameters);
         resultsOfLse.setListOfDeltaHeightFieldObservations(listOfDeltaHeightFieldObservations);
+        resultsOfLse.setListIdsOfUnknownParameters(listIdsOfUnknownParameters);
 
         calculateX();
         calculateV();
