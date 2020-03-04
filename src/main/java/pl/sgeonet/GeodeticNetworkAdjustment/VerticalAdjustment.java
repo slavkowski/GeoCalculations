@@ -41,11 +41,11 @@ public class VerticalAdjustment extends Adjustment {
     private double[][] L;
 
 
-
     public VerticalAdjustment(List<NEH> listOfFixedPoints, List<DeltaHeight> listOfHeightDifferences, VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup) {
         this.listOfFixedPoints = listOfFixedPoints;
         this.listOfHeightDifferences = listOfHeightDifferences;
         this.aPrioriStdDeviation = verticalAdjustmentInitialSetup.getaPrioriStandardDeviation();
+        this.verticalAdjustmentInitialSetup = verticalAdjustmentInitialSetup;
     }
 
     public void proceedAdjustment() throws DuplicatedFixedPionts {
@@ -57,7 +57,6 @@ public class VerticalAdjustment extends Adjustment {
 
         try {
             lms.executeLeastSquaresEstimation();
-            System.out.println(lms.getResultsOfLse().toString());
         } catch (MatrixDegenerateException | MatrixWrongSizeException e) {
             log.warn("Matrix degenerate or matrix wrong size exception -> {}", e.toString());
         }
@@ -73,7 +72,6 @@ public class VerticalAdjustment extends Adjustment {
             nameOfPointFrom = listOfHeightDifferences.get(i).getPointFrom();
             nameOfPointTo = listOfHeightDifferences.get(i).getPointTo();
             heightDifference = listOfHeightDifferences.get(i).getHeightDifferenceValue();
-            weightOfObservation = listOfHeightDifferences.get(i).getHeightDifferenceStdMeanError();
 
             double fixedHeightFrom = 0.0d;
             double fixedHeightTo = 0.0d;
@@ -90,7 +88,22 @@ public class VerticalAdjustment extends Adjustment {
                 A[i][listOfUnknownPoints.indexOf(nameOfPointTo)] = 1.0d;
             }
             L[i][0] = fixedHeightTo - fixedHeightFrom - heightDifference;
-            P[i][i] = 1.0d / Math.pow(weightOfObservation, 2);
+            switch (verticalAdjustmentInitialSetup.getVerticalAdjustmentMethod()) {
+                case STANDARD:
+                    weightOfObservation = listOfHeightDifferences.get(i).getHeightDifferenceStdMeanError();
+                    P[i][i] = 1.0d / Math.pow(weightOfObservation, 2);
+                    break;
+                case WITH_LENGTH_OF_SECTION:
+                    weightOfObservation = listOfHeightDifferences.get(i).getLengthOfSection();
+                    P[i][i] = 1.0d / weightOfObservation;
+                    listOfHeightDifferences.get(i).setHeightDifferenceStdMeanError(verticalAdjustmentInitialSetup.getStdMeanError() * Math.sqrt(weightOfObservation));
+                    break;
+                case WITH_NUMBER_OF_SETUPS_IN_SECTION:
+                    weightOfObservation = listOfHeightDifferences.get(i).getNumberOfSetupsInSection();
+                    P[i][i] = 1.0d / weightOfObservation;
+                    listOfHeightDifferences.get(i).setHeightDifferenceStdMeanError(verticalAdjustmentInitialSetup.getStdMeanError() * Math.sqrt(weightOfObservation));
+                    break;
+            }
         }
     }
 
@@ -104,9 +117,9 @@ public class VerticalAdjustment extends Adjustment {
         /* create map of fixed points excluding points not used in height differences field observations  */
         for (NEH NEH : listOfFixedPoints) {
             if (setOfAllPoints.contains(NEH.getId())) {
-                if(mapOfFixedPoints.containsKey(NEH.getId())){
+                if (mapOfFixedPoints.containsKey(NEH.getId())) {
                     throw new DuplicatedFixedPionts("At least one fixed point is duplicated in set of fixed points. Point: " + NEH.getId());
-                }else {
+                } else {
                     mapOfFixedPoints.put(NEH.getId(), NEH.getH());
                 }
             }

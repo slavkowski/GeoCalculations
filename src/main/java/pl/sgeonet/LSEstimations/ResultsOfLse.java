@@ -28,7 +28,6 @@ public class ResultsOfLse {
         this.numberOfUnknownParameters = numberOfUnknownParameters;
         this.numberOfFieldObservations = numberOfFieldObservations;
         this.fieldObservationAdjustmentSummary = new double[numberOfFieldObservations][7];
-
         adjustedParameters = new double[numberOfUnknownParameters][3];
     }
 
