@@ -7,8 +7,13 @@ import pl.sgeonet.Exceptions.MatrixDegenerateException;
 import pl.sgeonet.Exceptions.MatrixWrongSizeException;
 import pl.sgeonet.FieldObservationsObjects.FieldObservation.DeltaHeight;
 import pl.sgeonet.FieldObservationsObjects.PointCoordinates.NEH;
+import pl.sgeonet.FieldObservationsObjects.PointCoordinates.PointType;
+import pl.sgeonet.FileUtils.FileUtils;
+import pl.sgeonet.FileUtils.ReadFileResponse;
 import pl.sgeonet.LSEstimations.LeastSquaresEstimation;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,7 +22,14 @@ import java.util.stream.Collectors;
  */
 public class VerticalAdjustment extends Adjustment {
 
-    private final Logger log = LoggerFactory.getLogger(VerticalAdjustment.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(VerticalAdjustment.class);
+
+    private VerticalAdjustmentSummary verticalAdjustmentSummary;
+
+    private File fixedPointFile;
+    private ReadFileResponse fixedPointFileSummary;
+    private File observationFile;
+    private ReadFileResponse observationFileSummary;
 
     /* Initial setup for adjustment */
     private VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup;
@@ -41,14 +53,22 @@ public class VerticalAdjustment extends Adjustment {
     private double[][] L;
 
 
-    public VerticalAdjustment(List<NEH> listOfFixedPoints, List<DeltaHeight> listOfHeightDifferences, VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup) {
-        this.listOfFixedPoints = listOfFixedPoints;
-        this.listOfHeightDifferences = listOfHeightDifferences;
+    public VerticalAdjustment(File fixedPointFile, File observationFile, VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup) {
+        this.fixedPointFile = fixedPointFile;
+        this.observationFile = observationFile;
         this.aPrioriStdDeviation = verticalAdjustmentInitialSetup.getaPrioriStandardDeviation();
         this.verticalAdjustmentInitialSetup = verticalAdjustmentInitialSetup;
+        verticalAdjustmentSummary = new VerticalAdjustmentSummary();
     }
 
     public void proceedAdjustment() throws DuplicatedFixedPionts {
+        try {
+            retrieveDataFromTxtFiles();
+            System.out.println(verticalAdjustmentSummary.getReadFixedPointsFile());
+            System.out.println(verticalAdjustmentSummary.getReadLevellingFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         checkDataCorrectness();
         createVariablesForAdjustment();
         LeastSquaresEstimation lms = new LeastSquaresEstimation(A, P, L, listOfUnknownPoints);
@@ -58,8 +78,22 @@ public class VerticalAdjustment extends Adjustment {
         try {
             lms.executeLeastSquaresEstimation();
         } catch (MatrixDegenerateException | MatrixWrongSizeException e) {
-            log.warn("Matrix degenerate or matrix wrong size exception -> {}", e.toString());
+            LOGGER.warn("Matrix degenerate or matrix wrong size exception -> {}", e.toString());
         }
+
+    }
+
+    private void retrieveDataFromTxtFiles() throws IOException {
+
+        FileUtils<NEH> fileUtils = new FileUtils<>(PointType.H, new NEH());
+
+        listOfFixedPoints = fileUtils.readFile(fixedPointFile, "FIXED POINTS");
+        verticalAdjustmentSummary.setReadFixedPointsFile(fileUtils.getReadFileResponse().toString());
+
+        listOfHeightDifferences = fileUtils.readLevelingObservations(observationFile, "LEVELLING OBSERVATIONS", verticalAdjustmentInitialSetup.getVerticalAdjustmentMethod());
+        observationFileSummary = fileUtils.getReadLevellingFileResponse();
+        verticalAdjustmentSummary.setReadLevellingFile(observationFileSummary.toString());
+
     }
 
     protected void createVariablesForAdjustment() {

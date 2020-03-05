@@ -35,8 +35,8 @@ public class FileUtils<T extends Point> {
         this.t = t;
     }
 
-    public List<T> readFile(File file) throws IOException {
-        readFileResponse = new ReadFileResponse();
+    public List<T> readFile(File file, String readFileResponseDescription) throws IOException {
+        readFileResponse = new ReadFileResponse(readFileResponseDescription);
         List<T> returnList = new ArrayList<>();
         String line;
         FileReader fr = new FileReader(file);
@@ -133,7 +133,7 @@ public class FileUtils<T extends Point> {
                         numberFormatException.add(numberOfLineInFile);
                     }
                 } else {
-                    wrongNumberOfArgumentsInLine.put(numberOfLineInFile, splitLine.length + ";" + elementsInOneLine);
+                    wrongNumberOfArgumentsInLine.put(numberOfLineInFile, "Actual: " + splitLine.length + " ;" + "Expect: " + elementsInOneLine);
                 }
 
             }
@@ -142,7 +142,6 @@ public class FileUtils<T extends Point> {
         readFileResponse.setCorrectNumberOfLinesInFile(correctNumberOfLinesInFile - numberFormatException.size());
         readFileResponse.setWrongNumberOfArgumentsInLine(wrongNumberOfArgumentsInLine);
         readFileResponse.setNumberFormatExceptionSet(numberFormatException);
-        System.out.println(readFileResponse.toString());
         return returnList;
     }
 
@@ -152,10 +151,10 @@ public class FileUtils<T extends Point> {
      * @param file which contains data in format (String(name of the pointFrom), String(name of the pointTo),
      *             Double(height difference between point From and To)
      * @return collection of DeltaHeight objects
-     * @throws IOException
+     * @throws IOException - IO Exception
      */
-    public List<DeltaHeight> readLevelingObservations(File file, VerticalAdjustmentMethod method) throws IOException {
-        readLevellingFileResponse = new ReadFileResponse();
+    public List<DeltaHeight> readLevelingObservations(File file, String readFileResponseDescription, VerticalAdjustmentMethod method) throws IOException {
+        readLevellingFileResponse = new ReadFileResponse(readFileResponseDescription);
         int elementsInOneLine = 4;
         int numberOfLineInFile = 0;
         int correctNumberOfLinesInFile = 0;
@@ -171,22 +170,28 @@ public class FileUtils<T extends Point> {
                 DeltaHeight deltaHeight = new DeltaHeight();
                 String[] splitLine = line.split(",");
                 if (splitLine.length == elementsInOneLine) {
-
-                    deltaHeight.setPointFrom(String.valueOf(splitLine[0]));
-                    deltaHeight.setPointTo(String.valueOf(splitLine[1]));
-                    deltaHeight.setHeightDifferenceValue(Double.parseDouble(splitLine[2]));
-                    switch (method) {
-                        case STANDARD:
-                            deltaHeight.setHeightDifferenceStdMeanError(Double.parseDouble(splitLine[3]));
-                            break;
-                        case WITH_NUMBER_OF_SETUPS_IN_SECTION:
-                            deltaHeight.setNumberOfSetupsInSection(Integer.parseInt(splitLine[3]));
-                            break;
-                        case WITH_LENGTH_OF_SECTION:
-                            deltaHeight.setLengthOfSection(Double.parseDouble(splitLine[3]));
-                            break;
+                    try {
+                        correctNumberOfLinesInFile++;
+                        deltaHeight.setPointFrom(String.valueOf(splitLine[0]));
+                        deltaHeight.setPointTo(String.valueOf(splitLine[1]));
+                        deltaHeight.setHeightDifferenceValue(Double.parseDouble(splitLine[2]));
+                        switch (method) {
+                            case STANDARD:
+                                deltaHeight.setHeightDifferenceStdMeanError(Double.parseDouble(splitLine[3]));
+                                break;
+                            case WITH_NUMBER_OF_SETUPS_IN_SECTION:
+                                deltaHeight.setNumberOfSetupsInSection(Integer.parseInt(splitLine[3]));
+                                break;
+                            case WITH_LENGTH_OF_SECTION:
+                                deltaHeight.setLengthOfSection(Double.parseDouble(splitLine[3]));
+                                break;
+                        }
+                        setOfDeltaHeightObservations.add(deltaHeight);
+                    } catch (NumberFormatException e) {
+                        numberFormatException.add(numberOfLineInFile);
                     }
-                    setOfDeltaHeightObservations.add(deltaHeight);
+                }else{
+                    wrongNumberOfArgumentsInLine.put(numberOfLineInFile, "Actual: " + splitLine.length + " ;" + "Expect: " + elementsInOneLine);
                 }
             }
         }
@@ -199,6 +204,7 @@ public class FileUtils<T extends Point> {
 
     /**
      * Method returns number of elements in line for specific point type
+     *
      * @param pointType - type of Point
      * @return - number of elements
      */

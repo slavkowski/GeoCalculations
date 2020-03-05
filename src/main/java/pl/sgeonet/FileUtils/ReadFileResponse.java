@@ -3,11 +3,19 @@ package pl.sgeonet.FileUtils;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class represents summary of reading data from txt file
+ */
 public class ReadFileResponse {
+    private String description;
     private int totalNumberOfLinesInFile;
     private int correctNumberOfLinesInFile;
     private Map<Integer, String> wrongNumberOfArgumentsInLine;
     private Set<Integer> numberFormatExceptionSet;
+
+    public ReadFileResponse(String description) {
+        this.description = description;
+    }
 
     public int getTotalNumberOfLinesInFile() {
         return totalNumberOfLinesInFile;
@@ -43,7 +51,7 @@ public class ReadFileResponse {
 
     @Override
     public String toString() {
-        return "ReadFileResponse{" +
+        return "ReadFileResponse for: "+ description + "{" +
                 "totalNumberOfLinesInFile=" + totalNumberOfLinesInFile +
                 ", correctNumberOfLinesInFile=" + correctNumberOfLinesInFile +
                 ", wrongNumberOfArgumentsInLine=" + wrongNumberOfArgumentsInLine +

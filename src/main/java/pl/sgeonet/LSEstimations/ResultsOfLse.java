@@ -7,8 +7,6 @@ import pl.sgeonet.RaportConfiguration.PrintSettings;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.List;
 
 public class ResultsOfLse {

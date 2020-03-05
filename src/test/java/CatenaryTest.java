@@ -20,7 +20,7 @@ class CatenaryTest {
 
     @Test
     void shouldReturnCatenaryParameters() throws IOException, MatrixDegenerateException, MatrixWrongSizeException {
-        List<LHD> fieldLHDObservations = fileUtils.readFile(file);
+        List<LHD> fieldLHDObservations = fileUtils.readFile(file, null);
         Catenary catenary = new Catenary(fieldLHDObservations);
         catenary.calculateCatenary();
 

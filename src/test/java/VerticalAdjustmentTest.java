@@ -24,45 +24,36 @@ public class VerticalAdjustmentTest {
     private File file1 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/ex5_1_1/FixedPoints.txt")).getFile());
     private File file2 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/ex5_1_1/HeightDifferenceObservations.txt")).getFile());
     private FileUtils<NEH> fileUtils = new FileUtils<>(PointType.H, new NEH());
-    private List<NEH> fixedPoints = fileUtils.readFile(file1);
-    private List<DeltaHeight> verticalObservations = fileUtils.readLevelingObservations(file2, method1);
+    private List<NEH> fixedPoints = fileUtils.readFile(file1, null);
+    private List<DeltaHeight> verticalObservations = fileUtils.readLevelingObservations(file2,null, method1);
 
     VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup = new VerticalAdjustmentInitialSetup(method1, Unit.M, Unit.M, Unit.M);
-    private VerticalAdjustment verticalAdjustment = new VerticalAdjustment(fixedPoints, verticalObservations, verticalAdjustmentInitialSetup);
+    private VerticalAdjustment verticalAdjustment = new VerticalAdjustment(file1, file2, verticalAdjustmentInitialSetup);
 
     //2
     VerticalAdjustmentMethod method2 = VerticalAdjustmentMethod.STANDARD;
     private File file3 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/P1/2.1/FixedPoints.txt")).getFile());
     private File file4 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/P1/2.1/HeightDifferenceObservations.txt")).getFile());
-    private FileUtils<NEH> fileUtils2 = new FileUtils<>(PointType.H, new NEH());
-    private List<NEH> fixedPoints2 = fileUtils2.readFile(file3);
-    private List<DeltaHeight> verticalObservations2 = fileUtils2.readLevelingObservations(file4, method2);
 
     VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup2 = new VerticalAdjustmentInitialSetup(method2, Unit.M, Unit.M, Unit.CM);
-    private VerticalAdjustment verticalAdjustment2 = new VerticalAdjustment(fixedPoints2, verticalObservations2, verticalAdjustmentInitialSetup2);
+    private VerticalAdjustment verticalAdjustment2 = new VerticalAdjustment(file3, file4, verticalAdjustmentInitialSetup2);
 
     //3
     VerticalAdjustmentMethod method3 = VerticalAdjustmentMethod.STANDARD;
     private File file5 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/Exception/FixedPoints.txt")).getFile());
     private File file6 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/Exception/HeightDifferenceObservations.txt")).getFile());
-    private FileUtils<NEH> fileUtils3 = new FileUtils<>(PointType.H, new NEH());
-    private List<NEH> fixedPoints3 = fileUtils3.readFile(file5);
-    private List<DeltaHeight> verticalObservations3 = fileUtils3.readLevelingObservations(file6, method3);
 
     VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup3 = new VerticalAdjustmentInitialSetup(method3, Unit.M, Unit.M, Unit.M);
-    private VerticalAdjustment verticalAdjustment3 = new VerticalAdjustment(fixedPoints3, verticalObservations3, verticalAdjustmentInitialSetup3);
+    private VerticalAdjustment verticalAdjustment3 = new VerticalAdjustment(file5, file6, verticalAdjustmentInitialSetup3);
 
     //4
     VerticalAdjustmentMethod method4 = VerticalAdjustmentMethod.WITH_LENGTH_OF_SECTION;
     private File file7 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/G1/10.5.1/FixedPoints.txt")).getFile());
     private File file8 = new File(Objects.requireNonNull(loader.getResource("TxtFiles/VerticalTxtFiles/G1/10.5.1/HeightDifferenceObservations.txt")).getFile());
-    private FileUtils<NEH> fileUtils4 = new FileUtils<>(PointType.H, new NEH());
-    private List<NEH> fixedPoints4 = fileUtils4.readFile(file7);
-    private List<DeltaHeight> verticalObservations4 = fileUtils4.readLevelingObservations(file8, method4);
 
     VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup4 = new VerticalAdjustmentInitialSetup(method4, 4.46, Unit.M, Unit.M, Unit.MM);
 
-    private VerticalAdjustment verticalAdjustment4 = new VerticalAdjustment(fixedPoints4, verticalObservations4, verticalAdjustmentInitialSetup4);
+    private VerticalAdjustment verticalAdjustment4 = new VerticalAdjustment(file7, file8, verticalAdjustmentInitialSetup4);
 
 
     VerticalAdjustmentTest() throws IOException {
