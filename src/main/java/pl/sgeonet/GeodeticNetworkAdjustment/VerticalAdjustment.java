@@ -11,6 +11,7 @@ import pl.sgeonet.FieldObservationsObjects.PointCoordinates.PointType;
 import pl.sgeonet.FileUtils.FileUtils;
 import pl.sgeonet.FileUtils.ReadFileResponse;
 import pl.sgeonet.LSEstimations.LeastSquaresEstimation;
+import pl.sgeonet.RaportConfiguration.PrintSettings;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +31,7 @@ public class VerticalAdjustment extends Adjustment {
     private ReadFileResponse fixedPointFileSummary;
     private File observationFile;
     private ReadFileResponse observationFileSummary;
+    private PrintSettings printSettings;
 
     /* Initial setup for adjustment */
     private VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup;
@@ -53,11 +55,12 @@ public class VerticalAdjustment extends Adjustment {
     private double[][] L;
 
 
-    public VerticalAdjustment(File fixedPointFile, File observationFile, VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup) {
+    public VerticalAdjustment(File fixedPointFile, File observationFile, VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup, PrintSettings printSettings) {
         this.fixedPointFile = fixedPointFile;
         this.observationFile = observationFile;
         this.aPrioriStdDeviation = verticalAdjustmentInitialSetup.getaPrioriStandardDeviation();
         this.verticalAdjustmentInitialSetup = verticalAdjustmentInitialSetup;
+        this.printSettings = printSettings;
         verticalAdjustmentSummary = new VerticalAdjustmentSummary();
     }
 
@@ -69,11 +72,13 @@ public class VerticalAdjustment extends Adjustment {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        adjustDataUsingUnitRatio();
         checkDataCorrectness();
         createVariablesForAdjustment();
         LeastSquaresEstimation lms = new LeastSquaresEstimation(A, P, L, listOfUnknownPoints);
         lms.setaPrioriStdDeviation(aPrioriStdDeviation);
         lms.setListOfDeltaHeightFieldObservations(listOfHeightDifferences);
+        lms.setPrintSettings(printSettings);
 
         try {
             lms.executeLeastSquaresEstimation();
@@ -81,6 +86,11 @@ public class VerticalAdjustment extends Adjustment {
             LOGGER.warn("Matrix degenerate or matrix wrong size exception -> {}", e.toString());
         }
 
+    }
+
+    private void adjustDataUsingUnitRatio() {
+        listOfFixedPoints.forEach(point -> point.setH(verticalAdjustmentInitialSetup.getRatioFixedPoints() * point.getH()));
+        listOfHeightDifferences.forEach(heightData -> heightData.setHeightDifferenceValue(verticalAdjustmentInitialSetup.getRatioHeightDifferences() * heightData.getHeightDifferenceValue()));
     }
 
     private void retrieveDataFromTxtFiles() throws IOException {
@@ -124,18 +134,19 @@ public class VerticalAdjustment extends Adjustment {
             L[i][0] = fixedHeightTo - fixedHeightFrom - heightDifference;
             switch (verticalAdjustmentInitialSetup.getVerticalAdjustmentMethod()) {
                 case STANDARD:
-                    weightOfObservation = listOfHeightDifferences.get(i).getHeightDifferenceStdMeanError();
+                    weightOfObservation = verticalAdjustmentInitialSetup.getRatioStdMeanErrors() * listOfHeightDifferences.get(i).getHeightDifferenceStdMeanError();
+                    listOfHeightDifferences.get(i).setHeightDifferenceStdMeanError(listOfHeightDifferences.get(i).getHeightDifferenceStdMeanError() * verticalAdjustmentInitialSetup.getRatioStdMeanErrors());
                     P[i][i] = 1.0d / Math.pow(weightOfObservation, 2);
                     break;
                 case WITH_LENGTH_OF_SECTION:
                     weightOfObservation = listOfHeightDifferences.get(i).getLengthOfSection();
                     P[i][i] = 1.0d / weightOfObservation;
-                    listOfHeightDifferences.get(i).setHeightDifferenceStdMeanError(verticalAdjustmentInitialSetup.getStdMeanError() * Math.sqrt(weightOfObservation));
+                    listOfHeightDifferences.get(i).setHeightDifferenceStdMeanError(verticalAdjustmentInitialSetup.getRatioStdMeanErrors() * verticalAdjustmentInitialSetup.getStdMeanError() * Math.sqrt(weightOfObservation));
                     break;
                 case WITH_NUMBER_OF_SETUPS_IN_SECTION:
                     weightOfObservation = listOfHeightDifferences.get(i).getNumberOfSetupsInSection();
                     P[i][i] = 1.0d / weightOfObservation;
-                    listOfHeightDifferences.get(i).setHeightDifferenceStdMeanError(verticalAdjustmentInitialSetup.getStdMeanError() * Math.sqrt(weightOfObservation));
+                    listOfHeightDifferences.get(i).setHeightDifferenceStdMeanError(verticalAdjustmentInitialSetup.getRatioStdMeanErrors() * verticalAdjustmentInitialSetup.getStdMeanError() * Math.sqrt(weightOfObservation));
                     break;
             }
         }

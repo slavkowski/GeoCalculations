@@ -22,10 +22,11 @@ public class ResultsOfLse {
     private List<DeltaHeight> listOfDeltaHeightFieldObservations;
     private PrintSettings printSettings;
 
-    public ResultsOfLse(int numberOfUnknownParameters, int numberOfFieldObservations) {
+    public ResultsOfLse(int numberOfUnknownParameters, int numberOfFieldObservations, PrintSettings printSettings) {
         this.numberOfUnknownParameters = numberOfUnknownParameters;
         this.numberOfFieldObservations = numberOfFieldObservations;
         this.fieldObservationAdjustmentSummary = new double[numberOfFieldObservations][7];
+        this.printSettings = printSettings;
         adjustedParameters = new double[numberOfUnknownParameters][3];
     }
 
@@ -79,7 +80,6 @@ public class ResultsOfLse {
 
     @Override
     public String toString() {
-        printSettings = new PrintSettings();
         String separator = "______________________________________________________________________\r\n";
         StringBuilder sB = new StringBuilder();
         sB.append("***       Supplementary information         ***\r\n");
@@ -100,12 +100,12 @@ public class ResultsOfLse {
             } else {
                 sB.append("N/A");
             }
-            sB.append(" : ").append(String.format("%." + printSettings.getNumberOfDecimalDigitsOfCalculatedHeight().getPrintValue()
-                            + "f%s ± %." + printSettings.getNumberOfDecimalDigitsOfStdErrorOfCalculatedHeight().getPrintValue() + "f%s",
-                    adjustedParameters[i][0],
-                    printSettings.getUnitOfCalculatedHeight().getPrintValue(),
-                    adjustedParameters[i][1] * printSettings.getCalculatedHeightVsStdErrorRatio(),
-                    printSettings.getUnitOfCalculatedStdErrorOfCalculatedHeight().getPrintValue())).append("\r\n");
+            sB.append(" : ").append(String.format("%." + printSettings.getNumberOfDecimalDigitsOfCalculatedParameters().getPrintValue()
+                            + "f%s ± %." + printSettings.getNumberOfDecimalDigitsOfStdErrorOfCalculatedParameters().getPrintValue() + "f%s",
+                    adjustedParameters[i][0] * printSettings.getRatioCalculatedParameters(),
+                    printSettings.getUnitOfCalculatedParameters().getPrintValue(),
+                    adjustedParameters[i][1] * printSettings.getRatioStdErrorOfCalculatedParameters(),
+                    printSettings.getUnitOfCalculatedStdErrorOfCalculatedParameters().getPrintValue())).append("\r\n");
         }
         sB.append(separator);
         sB.append("Fields observations\r\n");
@@ -114,8 +114,8 @@ public class ResultsOfLse {
             for (int i = 0; i < numberOfFieldObservations; i++) {
                 sB.append(String.format("|%5s",listOfDeltaHeightFieldObservations.get(i).getPointFrom())).append(" -> ")
                         .append(String.format("%5s",listOfDeltaHeightFieldObservations.get(i).getPointTo())).append(" : ")
-                        .append(String.format("|%10.3f", fieldObservationAdjustmentSummary[i][0]))
-                        .append(" ±").append(String.format("%5.1f|", fieldObservationAdjustmentSummary[i][1]))
+                        .append(String.format("|%10.3f", fieldObservationAdjustmentSummary[i][0]*printSettings.getRatioHeightObservations())).append(printSettings.getUnitOfHeightObservations().getPrintValue())
+                        .append(" ± ").append(String.format("%5.2f|", fieldObservationAdjustmentSummary[i][1]))
                         .append(String.format("%10.4f", fieldObservationAdjustmentSummary[i][2]))
                         .append(String.format("%5.1f", fieldObservationAdjustmentSummary[i][3]))
                         .append(String.format("%10.3f", fieldObservationAdjustmentSummary[i][4]));

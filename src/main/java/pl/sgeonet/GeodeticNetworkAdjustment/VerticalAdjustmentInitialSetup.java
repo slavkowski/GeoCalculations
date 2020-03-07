@@ -12,6 +12,9 @@ public class VerticalAdjustmentInitialSetup {
     private Unit unitOfHeightDifferences;
     private Unit unitOfStdMeanError;
     private double stdMeanError = 1.0;
+    private double ratioFixedPoints = 1.0;
+    private double ratioHeightDifferences = 1.0;
+    private double ratioStdMeanErrors = 1.0;
 
     public VerticalAdjustmentInitialSetup(VerticalAdjustmentMethod verticalAdjustmentMethod, double stdMeanError, Unit unitOfHeightOfFixedPoints, Unit unitOfHeightDifferences, Unit unitOfStdMeanErrors) {
         this.verticalAdjustmentMethod = verticalAdjustmentMethod;
@@ -22,19 +25,60 @@ public class VerticalAdjustmentInitialSetup {
         calculateAdjustmentParameters();
     }
 
-    public VerticalAdjustmentInitialSetup(VerticalAdjustmentMethod verticalAdjustmentMethod, Unit unitOfHeightOfFixedPoints, Unit unitOfHeightDifferences, Unit unitOfStdMeanErrors) {
+    public VerticalAdjustmentInitialSetup(VerticalAdjustmentMethod verticalAdjustmentMethod, Unit unitOfHeightOfFixedPoints, Unit unitOfHeightDifferences, Unit unitOfStdMeanError) {
         this.verticalAdjustmentMethod = verticalAdjustmentMethod;
         this.unitOfHeightOfFixedPoints = unitOfHeightOfFixedPoints;
         this.unitOfHeightDifferences = unitOfHeightDifferences;
-        this.unitOfStdMeanError = unitOfStdMeanErrors;
+        this.unitOfStdMeanError = unitOfStdMeanError;
         calculateAdjustmentParameters();
     }
 
     private void calculateAdjustmentParameters() {
-        if (unitOfHeightDifferences == Unit.M && unitOfStdMeanError == Unit.CM) {
-            aPrioriStandardDeviation = 0.01 * stdMeanError;
-        } else if (unitOfHeightDifferences == Unit.M && unitOfStdMeanError == Unit.MM) {
-            aPrioriStandardDeviation = 0.001 *stdMeanError;
+        if (verticalAdjustmentMethod != VerticalAdjustmentMethod.STANDARD) {
+            switch (unitOfStdMeanError) {
+                case MM:
+                    aPrioriStandardDeviation = stdMeanError * 0.001;
+                    break;
+                case CM:
+                    aPrioriStandardDeviation = stdMeanError * 0.01;
+                    break;
+                case KM:
+                    aPrioriStandardDeviation = stdMeanError * 1000.0;
+                    break;
+            }
+        }
+        switch (unitOfHeightOfFixedPoints) {
+            case MM:
+                ratioFixedPoints = 0.001;
+                break;
+            case CM:
+                ratioFixedPoints = 0.01;
+                break;
+            case KM:
+                ratioFixedPoints = 1000.0;
+                break;
+        }
+        switch (unitOfHeightDifferences) {
+            case MM:
+                ratioHeightDifferences = 0.001;
+                break;
+            case CM:
+                ratioHeightDifferences = 0.01;
+                break;
+            case KM:
+                ratioHeightDifferences = 1000.0;
+                break;
+        }
+        switch (unitOfStdMeanError) {
+            case MM:
+                ratioStdMeanErrors = 0.001;
+                break;
+            case CM:
+                ratioStdMeanErrors = 0.01;
+                break;
+            case KM:
+                ratioStdMeanErrors = 1000.0;
+                break;
         }
     }
 
@@ -46,23 +90,19 @@ public class VerticalAdjustmentInitialSetup {
         return aPrioriStandardDeviation;
     }
 
-    public Unit getUnitOfHeightOfFixedPoints() {
-        return unitOfHeightOfFixedPoints;
-    }
-
-    public Unit getUnitOfHeightDifferences() {
-        return unitOfHeightDifferences;
-    }
-
-    public Unit getUnitOfStdMeanError() {
-        return unitOfStdMeanError;
-    }
-
     public double getStdMeanError() {
         return stdMeanError;
     }
 
-    public void setStdMeanError(double stdMeanError) {
-        this.stdMeanError = stdMeanError;
+    public double getRatioFixedPoints() {
+        return ratioFixedPoints;
+    }
+
+    public double getRatioHeightDifferences() {
+        return ratioHeightDifferences;
+    }
+
+    public double getRatioStdMeanErrors() {
+        return ratioStdMeanErrors;
     }
 }

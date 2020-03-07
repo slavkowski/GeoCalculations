@@ -4,6 +4,7 @@ import pl.sgeonet.Exceptions.MatrixDegenerateException;
 import pl.sgeonet.Exceptions.MatrixWrongSizeException;
 import pl.sgeonet.FieldObservationsObjects.FieldObservation.DeltaHeight;
 import pl.sgeonet.MathExtraCalculations.Matrix;
+import pl.sgeonet.RaportConfiguration.PrintSettings;
 
 import java.util.List;
 
@@ -52,6 +53,7 @@ public class LeastSquaresEstimation {
     private List<String> listIdsOfUnknownParameters;
     private List<DeltaHeight> listOfDeltaHeightFieldObservations;
     private int numberOfOvernumberObservations;
+    private PrintSettings printSettings;
 
     /**
      * @param a - coefficient matrix
@@ -118,7 +120,7 @@ public class LeastSquaresEstimation {
         int numberOfUnknownParameters = A[0].length;
         numberOfOvernumberObservations = numberOfFieldObservations - numberOfUnknownParameters;
         boolean ifMoreObservationsThanParameters = (numberOfOvernumberObservations) > 0;
-        resultsOfLse = new ResultsOfLse(numberOfUnknownParameters, numberOfFieldObservations);
+        resultsOfLse = new ResultsOfLse(numberOfUnknownParameters, numberOfFieldObservations, printSettings);
         resultsOfLse.setaPrioriStdDeviation(aPrioriStdDeviation);
         resultsOfLse.setListOfDeltaHeightFieldObservations(listOfDeltaHeightFieldObservations);
         resultsOfLse.setListIdsOfUnknownParameters(listIdsOfUnknownParameters);
@@ -193,5 +195,9 @@ public class LeastSquaresEstimation {
 
     public void setListOfDeltaHeightFieldObservations(List<DeltaHeight> listOfDeltaHeightFieldObservations) {
         this.listOfDeltaHeightFieldObservations = listOfDeltaHeightFieldObservations;
+    }
+
+    public void setPrintSettings(PrintSettings printSettings) {
+        this.printSettings = printSettings;
     }
 }
