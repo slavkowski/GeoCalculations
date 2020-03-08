@@ -131,6 +131,7 @@ public class LeastSquaresEstimation {
         if (ifMoreObservationsThanParameters) {
             calculateM0();
             calculateCX();
+            calculateCAO();
         }
         System.out.println(resultsOfLse.toString());
     }
@@ -175,6 +176,13 @@ public class LeastSquaresEstimation {
             mX[i] = Math.sqrt(m0Sqr * N[i][i]);
         }
         resultsOfLse.setAdjustedParameters(mX, 1);
+    }
+
+    /**
+     *
+     */
+    private void calculateCAO(){
+
     }
 
     public ResultsOfLse getResultsOfLse() {

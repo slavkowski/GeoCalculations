@@ -110,13 +110,22 @@ public class ResultsOfLse {
         sB.append(separator);
         sB.append("Fields observations\r\n");
         if (listOfDeltaHeightFieldObservations != null) {
-            sB.append(String.format("|%17s|","SECTION")).append("\r\n");
+            sB.append(String.format("|%17s|", "SECTION     "))
+                    .append(String.format("%21s|", "dH       mdH"))
+                    .append(String.format("%19s|", "V[residuals]  mV"))
+                    .append(System.lineSeparator());
             for (int i = 0; i < numberOfFieldObservations; i++) {
-                sB.append(String.format("|%5s",listOfDeltaHeightFieldObservations.get(i).getPointFrom())).append(" -> ")
-                        .append(String.format("%5s",listOfDeltaHeightFieldObservations.get(i).getPointTo())).append(" : ")
-                        .append(String.format("|%10.3f", fieldObservationAdjustmentSummary[i][0]*printSettings.getRatioHeightObservations())).append(printSettings.getUnitOfHeightObservations().getPrintValue())
-                        .append(" ± ").append(String.format("%5.2f|", fieldObservationAdjustmentSummary[i][1]))
-                        .append(String.format("%10.4f", fieldObservationAdjustmentSummary[i][2]))
+                sB.append(String.format("|%5s", listOfDeltaHeightFieldObservations.get(i).getPointFrom())).append(" -> ")
+                        .append(String.format("%5s", listOfDeltaHeightFieldObservations.get(i).getPointTo()))
+                        .append(" : ")
+                        .append(String.format("|%10." + printSettings.getNumberOfDecimalDigitsOfHeightObservations().getPrintValue() + "f",
+                                fieldObservationAdjustmentSummary[i][0] * printSettings.getRatioHeightObservations())).append(printSettings.getUnitOfHeightObservations().getPrintValue())
+                        .append(" ± ")
+                        .append(String.format("%5." + printSettings.getNumberOfDecimalDigitsOfStdErrorHeightObservations().getPrintValue() + "f",
+                        fieldObservationAdjustmentSummary[i][1] * printSettings.getRatioStdErrorHeightObservations())).append(printSettings.getUnitStdErrorOfHeightObservations().getPrintValue())
+                        .append(String.format("|%10."+ printSettings.getNumberOfDecimalDigitsOfResiduals().getPrintValue()+"f",
+                                fieldObservationAdjustmentSummary[i][2] * printSettings.getRatioResiduals())).append(printSettings.getUnitOfResiduals().getPrintValue())
+                        .append(" ± ")
                         .append(String.format("%5.1f", fieldObservationAdjustmentSummary[i][3]))
                         .append(String.format("%10.3f", fieldObservationAdjustmentSummary[i][4]));
                 sB.append("\r\n");
