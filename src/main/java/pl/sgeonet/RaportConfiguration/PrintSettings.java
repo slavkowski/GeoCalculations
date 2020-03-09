@@ -22,8 +22,20 @@ public class PrintSettings {
     //Settings for displaying adjusted observations [residuals]
     //V
     private Unit unitOfResiduals = Unit.MM;
-    private NumberOfDecimalDigits numberOfDecimalDigitsOfResiduals = NumberOfDecimalDigits.ONE;
+    private NumberOfDecimalDigits numberOfDecimalDigitsOfResiduals = NumberOfDecimalDigits.TWO;
     private double ratioResiduals = 1.0;
+    //mV
+    private Unit unitStdErrorOfResiduals = Unit.MM;
+    private NumberOfDecimalDigits numberOfDecimalDigitsOfStdErrorResiduals = NumberOfDecimalDigits.TWO;
+    private double ratioStdErrorOfResiduals = 1.0;
+    //dHA
+    private Unit unitOfAdjustedHeightObservations = Unit.M;
+    private NumberOfDecimalDigits numberOfDecimalDigitsOfAdjustedHeightObservations = NumberOfDecimalDigits.THREE;
+    private double ratioAdjustedHeightObservations = 1.0;
+    //mdHA
+    private Unit unitStdErrorOfAdjustedHeightObservations = Unit.MM;
+    private NumberOfDecimalDigits numberOfDecimalDigitsOfStdErrorAdjustedHeightObservations = NumberOfDecimalDigits.TWO;
+    private double ratioStdErrorAdjustedHeightObservations = 1.0;
 
 
 
@@ -87,6 +99,39 @@ public class PrintSettings {
                 ratioResiduals = 0.001;
                 break;
         }
+        switch (unitStdErrorOfResiduals){
+            case CM:
+                ratioStdErrorOfResiduals = 100.0;
+                break;
+            case MM:
+                ratioStdErrorOfResiduals = 1000.0;
+                break;
+            case KM:
+                ratioStdErrorOfResiduals = 0.001;
+                break;
+        }
+        switch (unitOfAdjustedHeightObservations){
+            case CM:
+                ratioAdjustedHeightObservations = 100.0;
+                break;
+            case MM:
+                ratioAdjustedHeightObservations = 1000.0;
+                break;
+            case KM:
+                ratioAdjustedHeightObservations = 0.001;
+                break;
+        }
+        switch (unitStdErrorOfAdjustedHeightObservations){
+            case CM:
+                ratioStdErrorAdjustedHeightObservations = 100.0;
+                break;
+            case MM:
+                ratioStdErrorAdjustedHeightObservations = 1000.0;
+                break;
+            case KM:
+                ratioStdErrorAdjustedHeightObservations = 0.001;
+                break;
+        }
     }
 
     public NumberOfDecimalDigits getNumberOfDecimalDigitsOfCalculatedParameters() {
@@ -147,5 +192,41 @@ public class PrintSettings {
 
     public double getRatioResiduals() {
         return ratioResiduals;
+    }
+
+    public Unit getUnitOfAdjustedHeightObservations() {
+        return unitOfAdjustedHeightObservations;
+    }
+
+    public NumberOfDecimalDigits getNumberOfDecimalDigitsOfAdjustedHeightObservations() {
+        return numberOfDecimalDigitsOfAdjustedHeightObservations;
+    }
+
+    public double getRatioAdjustedHeightObservations() {
+        return ratioAdjustedHeightObservations;
+    }
+
+    public Unit getUnitStdErrorOfAdjustedHeightObservations() {
+        return unitStdErrorOfAdjustedHeightObservations;
+    }
+
+    public NumberOfDecimalDigits getNumberOfDecimalDigitsOfStdErrorAdjustedHeightObservations() {
+        return numberOfDecimalDigitsOfStdErrorAdjustedHeightObservations;
+    }
+
+    public double getRatioStdErrorAdjustedHeightObservations() {
+        return ratioStdErrorAdjustedHeightObservations;
+    }
+
+    public Unit getUnitStdErrorOfResiduals() {
+        return unitStdErrorOfResiduals;
+    }
+
+    public NumberOfDecimalDigits getNumberOfDecimalDigitsOfStdErrorResiduals() {
+        return numberOfDecimalDigitsOfStdErrorResiduals;
+    }
+
+    public double getRatioStdErrorOfResiduals() {
+        return ratioStdErrorOfResiduals;
     }
 }

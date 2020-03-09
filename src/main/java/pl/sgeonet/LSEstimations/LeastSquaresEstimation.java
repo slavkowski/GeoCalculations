@@ -38,12 +38,8 @@ public class LeastSquaresEstimation {
     private double[][] P;
     private double[][] L;
     private double[][] X;
-    private double[][] V;
-    private double[][] Cv;
-    private double[][] mV;
-    private double[][] Cl;
-    private double[][] mL;
     private double[][] N;
+    private double[][] M;
     private double[][] VtPV;
     private double m0;
     private double m0Sqr;
@@ -54,6 +50,9 @@ public class LeastSquaresEstimation {
     private List<DeltaHeight> listOfDeltaHeightFieldObservations;
     private int numberOfOvernumberObservations;
     private PrintSettings printSettings;
+    private int numberOfFieldObservations;
+    private int numberOfUnknownParameters;
+    double[] CAO;
 
     /**
      * @param a - coefficient matrix
@@ -116,8 +115,8 @@ public class LeastSquaresEstimation {
     }
 
     public void executeLeastSquaresEstimation() throws MatrixDegenerateException, MatrixWrongSizeException {
-        int numberOfFieldObservations = A.length;
-        int numberOfUnknownParameters = A[0].length;
+        numberOfFieldObservations = A.length;
+        numberOfUnknownParameters = A[0].length;
         numberOfOvernumberObservations = numberOfFieldObservations - numberOfUnknownParameters;
         boolean ifMoreObservationsThanParameters = (numberOfOvernumberObservations) > 0;
         resultsOfLse = new ResultsOfLse(numberOfUnknownParameters, numberOfFieldObservations, printSettings);
@@ -132,6 +131,7 @@ public class LeastSquaresEstimation {
             calculateM0();
             calculateCX();
             calculateCAO();
+            calculateCV();
         }
         System.out.println(resultsOfLse.toString());
     }
@@ -153,13 +153,13 @@ public class LeastSquaresEstimation {
     }
 
     private void calculateV() throws MatrixWrongSizeException {
-        V = matrix.getMatrixProduct(A, X);
-        for (int i = 0; i < V.length; i++) {
-            V[i][0] += L[i][0];
+        double[][] v = matrix.getMatrixProduct(A, X);
+        for (int i = 0; i < v.length; i++) {
+            v[i][0] += L[i][0];
         }
-        VtPV = matrix.getMatrixProduct(matrix.getMatrixProduct(matrix.getMatrixTranspose(V), P), V);
+        VtPV = matrix.getMatrixProduct(matrix.getMatrixProduct(matrix.getMatrixTranspose(v), P), v);
         resultsOfLse.setWeightedSquareSumOfResiduals(VtPV[0][0]);
-        resultsOfLse.setFieldObservationAdjustmentSummary(V);
+        resultsOfLse.setFieldObservationAdjustmentSummary(v);
     }
 
     private void calculateM0() {
@@ -171,7 +171,7 @@ public class LeastSquaresEstimation {
     }
 
     private void calculateCX() {
-        double[] mX = new double[X.length];
+        double[] mX = new double[numberOfUnknownParameters];
         for (int i = 0; i < X.length; i++) {
             mX[i] = Math.sqrt(m0Sqr * N[i][i]);
         }
@@ -181,8 +181,21 @@ public class LeastSquaresEstimation {
     /**
      *
      */
-    private void calculateCAO(){
+    private void calculateCAO() throws MatrixWrongSizeException {
+        M = matrix.getMatrixProduct(matrix.getMatrixProduct(A, N), matrix.getMatrixTranspose(A));
+        CAO = new double[numberOfFieldObservations];
+        for (int i = 0; i < numberOfFieldObservations; i++) {
+            CAO[i] = m0 * Math.sqrt(M[i][i]);
+        }
+        resultsOfLse.setStdErrorsOfAdjustedObservations(CAO);
+    }
 
+    private void calculateCV() {
+        double[] CV = new double[numberOfFieldObservations];
+        for (int i = 0; i < numberOfFieldObservations; i++) {
+            CV[i] = aPrioriStdDeviation * Math.sqrt(1.0 / P[i][i] - M[i][i]);
+        }
+        resultsOfLse.setStdErrorsOfResiduals(CV);
     }
 
     public ResultsOfLse getResultsOfLse() {
