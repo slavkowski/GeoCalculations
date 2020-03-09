@@ -53,6 +53,7 @@ public class LeastSquaresEstimation {
     private int numberOfFieldObservations;
     private int numberOfUnknownParameters;
     double[] CAO;
+    double ratio;
 
     /**
      * @param a - coefficient matrix
@@ -165,7 +166,7 @@ public class LeastSquaresEstimation {
     private void calculateM0() {
         m0Sqr = VtPV[0][0] / (numberOfOvernumberObservations);
         m0 = Math.sqrt(m0Sqr);
-        double ratio = m0 / aPrioriStdDeviation;
+        ratio = m0 / aPrioriStdDeviation;
         resultsOfLse.setaPosterioriEstimatedStdDeviation(m0);
         resultsOfLse.setRatio(ratio);
     }
