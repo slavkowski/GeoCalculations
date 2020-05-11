@@ -9,8 +9,8 @@ import pl.sgeonet.FieldObservationsObjects.FieldObservation.DeltaHeight;
 import pl.sgeonet.FieldObservationsObjects.PointCoordinates.NEH;
 import pl.sgeonet.FieldObservationsObjects.PointCoordinates.PointType;
 import pl.sgeonet.FileUtils.FileUtils;
-import pl.sgeonet.FileUtils.ReadFileResponse;
 import pl.sgeonet.LSEstimations.LeastSquaresEstimation;
+import pl.sgeonet.LSEstimations.ResultsOfLse;
 import pl.sgeonet.RaportConfiguration.PrintSettings;
 
 import java.io.File;
@@ -25,22 +25,20 @@ public class VerticalAdjustment extends Adjustment {
 
     private final Logger LOGGER = LoggerFactory.getLogger(VerticalAdjustment.class);
 
-    private VerticalAdjustmentSummary verticalAdjustmentSummary;
+    private final VerticalAdjustmentSummary verticalAdjustmentSummary;
 
-    private File fixedPointFile;
-    private ReadFileResponse fixedPointFileSummary;
-    private File observationFile;
-    private ReadFileResponse observationFileSummary;
-    private PrintSettings printSettings;
+    private final File fixedPointFile;
+    private final File observationFile;
+    private final PrintSettings printSettings;
 
     /* Initial setup for adjustment */
-    private VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup;
+    private final VerticalAdjustmentInitialSetup verticalAdjustmentInitialSetup;
     /* List of all fixed points provided in txt file*/
     private List<NEH> listOfFixedPoints;
     /* List of height differences provided in txt file*/
     private List<DeltaHeight> listOfHeightDifferences;
     /*A priori standard deviation provided in constructor */
-    private double aPrioriStdDeviation;
+    private final double aPrioriStdDeviation;
     /* Set of all unique points in txt file with height differences */
     private Set<String> setOfAllPoints;
     /* Map of fixed point needed for adjustment. Less number of fixed points than txt file is possible */
@@ -48,7 +46,7 @@ public class VerticalAdjustment extends Adjustment {
     /* Set of all unknown points*/
     private Set<String> setOfUnknownPoints;
     /* List of unknown points. This list is required in order to create matrix A*/
-    private List<String> listOfUnknownPoints;
+    private List<String> listIdsOfUnknownParameters;
     /* Variables for adjustment*/
     private double[][] A;
     private double[][] P;
@@ -67,24 +65,32 @@ public class VerticalAdjustment extends Adjustment {
     public void proceedAdjustment() throws DuplicatedFixedPionts {
         try {
             retrieveDataFromTxtFiles();
-            System.out.println(verticalAdjustmentSummary.getReadFixedPointsFile());
-            System.out.println(verticalAdjustmentSummary.getReadLevellingFile());
         } catch (IOException e) {
             e.printStackTrace();
         }
         adjustDataUsingUnitRatio();
         checkDataCorrectness();
         createVariablesForAdjustment();
-        LeastSquaresEstimation lms = new LeastSquaresEstimation(A, P, L, listOfUnknownPoints);
-        lms.setaPrioriStdDeviation(aPrioriStdDeviation);
-        lms.setListOfDeltaHeightFieldObservations(listOfHeightDifferences);
-        lms.setPrintSettings(printSettings);
+        LeastSquaresEstimation lms = new LeastSquaresEstimation(A, P, L, aPrioriStdDeviation);
+
 
         try {
-            lms.executeLeastSquaresEstimation();
+            ResultsOfLse resultsOfLse = lms.executeLeastSquaresEstimation();
+
+            verticalAdjustmentSummary.setResultsOfLse(resultsOfLse);
+            verticalAdjustmentSummary.setaPrioriStdDeviation(aPrioriStdDeviation);
+            verticalAdjustmentSummary.setPrintSettings(printSettings);
+            verticalAdjustmentSummary.setListIdsOfUnknownParameters(listIdsOfUnknownParameters);
+            verticalAdjustmentSummary.setAdjustedParameters(resultsOfLse.getAdjustedParameters());
+            verticalAdjustmentSummary.setFieldObservationAdjustmentSummary(resultsOfLse.getFieldObservationAdjustmentSummary());
+            verticalAdjustmentSummary.setListOfDeltaHeightFieldObservations(listOfHeightDifferences);
+
+            System.out.println(verticalAdjustmentSummary.toString());
+
         } catch (MatrixDegenerateException | MatrixWrongSizeException e) {
             LOGGER.warn("Matrix degenerate or matrix wrong size exception -> {}", e.toString());
         }
+
 
     }
 
@@ -98,11 +104,10 @@ public class VerticalAdjustment extends Adjustment {
         FileUtils<NEH> fileUtils = new FileUtils<>(PointType.H, new NEH());
 
         listOfFixedPoints = fileUtils.readFile(fixedPointFile, "FIXED POINTS");
-        verticalAdjustmentSummary.setReadFixedPointsFile(fileUtils.getReadFileResponse().toString());
+        verticalAdjustmentSummary.setResponseOfFixedPointsFile(fileUtils.getResponseReadFile());
 
         listOfHeightDifferences = fileUtils.readLevelingObservations(observationFile, "LEVELLING OBSERVATIONS", verticalAdjustmentInitialSetup.getVerticalAdjustmentMethod());
-        observationFileSummary = fileUtils.getReadLevellingFileResponse();
-        verticalAdjustmentSummary.setReadLevellingFile(observationFileSummary.toString());
+        verticalAdjustmentSummary.setResponseOfLevellingObservationsFile(fileUtils.getReadLevellingFileResponse());
 
     }
 
@@ -123,13 +128,13 @@ public class VerticalAdjustment extends Adjustment {
             if (mapOfFixedPoints.containsKey(nameOfPointFrom)) {
                 fixedHeightFrom = mapOfFixedPoints.get(nameOfPointFrom);
             } else {
-                A[i][listOfUnknownPoints.indexOf(nameOfPointFrom)] = -1.0d;
+                A[i][listIdsOfUnknownParameters.indexOf(nameOfPointFrom)] = -1.0d;
             }
 
             if (mapOfFixedPoints.containsKey(nameOfPointTo)) {
                 fixedHeightTo = mapOfFixedPoints.get(nameOfPointTo);
             } else {
-                A[i][listOfUnknownPoints.indexOf(nameOfPointTo)] = 1.0d;
+                A[i][listIdsOfUnknownParameters.indexOf(nameOfPointTo)] = 1.0d;
             }
             L[i][0] = fixedHeightTo - fixedHeightFrom - heightDifference;
             switch (verticalAdjustmentInitialSetup.getVerticalAdjustmentMethod()) {
@@ -172,10 +177,12 @@ public class VerticalAdjustment extends Adjustment {
         /* create set of unknowns points */
         setOfAllPoints.stream().filter(x -> !mapOfFixedPoints.containsKey(x)).forEach(x -> setOfUnknownPoints.add(x));
         /* create list of unknowns points. The order of points is important in order to create matrix A */
-        listOfUnknownPoints = setOfUnknownPoints.stream().sorted().collect(Collectors.toList());
+        listIdsOfUnknownParameters = setOfUnknownPoints.stream().sorted().collect(Collectors.toList());
 
         int unknownParameters = setOfUnknownPoints.size();
         int observedLevelledHeightDifferences = listOfHeightDifferences.size();
+
+        verticalAdjustmentSummary.initializeParameters(unknownParameters, observedLevelledHeightDifferences);
 
         A = new double[observedLevelledHeightDifferences][unknownParameters];
         P = new double[observedLevelledHeightDifferences][observedLevelledHeightDifferences];

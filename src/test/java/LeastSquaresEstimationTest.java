@@ -24,15 +24,15 @@ class LeastSquaresEstimationTest {
             {-2.961},
             {1.774}
     };
-    private double w = 1 / (Math.pow(0.02, 2));
-    private double[][] P = {
+    private final double w = 1 / (Math.pow(0.02, 2));
+    private final double[][] P = {
             {w, 0.0d, 0.0d, 0.0d, 0.0d},
             {0.0d, w, 0.0d, 0.0d, 0.0d},
             {0.0d, 0.0d, w, 0.0d, 0.0d},
             {0.0d, 0.0d, 0.0d, w, 0.0d},
             {0.0d, 0.0d, 0.0d, 0.0d, w}
     };
-    private LeastSquaresEstimation leastSquaresEstimation = new LeastSquaresEstimation(A, P, L);
+    private final LeastSquaresEstimation leastSquaresEstimation = new LeastSquaresEstimation(A, P, L , 1.0);
 
     @Test
     void shouldReturnUnknownParameters() {

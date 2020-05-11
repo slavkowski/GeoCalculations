@@ -6,14 +6,14 @@ import java.util.Set;
 /**
  * This class represents summary of reading data from txt file
  */
-public class ReadFileResponse {
-    private String description;
+public class ResponseReadFile {
+    private final String description;
     private int totalNumberOfLinesInFile;
     private int correctNumberOfLinesInFile;
     private Map<Integer, String> wrongNumberOfArgumentsInLine;
     private Set<Integer> numberFormatExceptionSet;
 
-    public ReadFileResponse(String description) {
+    public ResponseReadFile(String description) {
         this.description = description;
     }
 

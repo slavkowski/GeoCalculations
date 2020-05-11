@@ -54,7 +54,8 @@ class Parabola {
             L[i][0] = list.getH();
             i++;
         }
-        LeastSquaresEstimation leastSquaresEstimation = new LeastSquaresEstimation(A, P, L, convertListOfObservationIntoListOfName(fieldObservations));
+        LeastSquaresEstimation leastSquaresEstimation = new LeastSquaresEstimation(A, P, L, 1.0);
+//        convertListOfObservationIntoListOfName(fieldObservations);
         leastSquaresEstimation.executeLeastSquaresEstimation();
         double[][] results = leastSquaresEstimation.getX();
         double a = -1.0 * results[0][0];

@@ -2,7 +2,6 @@ package pl.sgeonet.FileUtils;
 
 import pl.sgeonet.FieldObservationsObjects.FieldObservation.DeltaHeight;
 import pl.sgeonet.FieldObservationsObjects.PointCoordinates.*;
-import pl.sgeonet.GeodeticNetworkAdjustment.VerticalAdjustment;
 import pl.sgeonet.GeodeticNetworkAdjustment.VerticalAdjustmentMethod;
 
 import java.io.*;
@@ -23,8 +22,8 @@ public class FileUtils<T extends Point> {
     private List<T> list;
     private T t;
     private PointType pointType;
-    private ReadFileResponse readFileResponse;
-    private ReadFileResponse readLevellingFileResponse;
+    private ResponseReadFile responseReadFile;
+    private ResponseReadFile readLevellingFileResponse;
 
     public FileUtils() {
     }
@@ -36,7 +35,7 @@ public class FileUtils<T extends Point> {
     }
 
     public List<T> readFile(File file, String readFileResponseDescription) throws IOException {
-        readFileResponse = new ReadFileResponse(readFileResponseDescription);
+        responseReadFile = new ResponseReadFile(readFileResponseDescription);
         List<T> returnList = new ArrayList<>();
         String line;
         FileReader fr = new FileReader(file);
@@ -138,10 +137,10 @@ public class FileUtils<T extends Point> {
 
             }
         }
-        readFileResponse.setTotalNumberOfLinesInFile(numberOfLineInFile);
-        readFileResponse.setCorrectNumberOfLinesInFile(correctNumberOfLinesInFile - numberFormatException.size());
-        readFileResponse.setWrongNumberOfArgumentsInLine(wrongNumberOfArgumentsInLine);
-        readFileResponse.setNumberFormatExceptionSet(numberFormatException);
+        responseReadFile.setTotalNumberOfLinesInFile(numberOfLineInFile);
+        responseReadFile.setCorrectNumberOfLinesInFile(correctNumberOfLinesInFile - numberFormatException.size());
+        responseReadFile.setWrongNumberOfArgumentsInLine(wrongNumberOfArgumentsInLine);
+        responseReadFile.setNumberFormatExceptionSet(numberFormatException);
         return returnList;
     }
 
@@ -154,7 +153,7 @@ public class FileUtils<T extends Point> {
      * @throws IOException - IO Exception
      */
     public List<DeltaHeight> readLevelingObservations(File file, String readFileResponseDescription, VerticalAdjustmentMethod method) throws IOException {
-        readLevellingFileResponse = new ReadFileResponse(readFileResponseDescription);
+        readLevellingFileResponse = new ResponseReadFile(readFileResponseDescription);
         int elementsInOneLine = 4;
         int numberOfLineInFile = 0;
         int correctNumberOfLinesInFile = 0;
@@ -226,11 +225,11 @@ public class FileUtils<T extends Point> {
         return returnLength;
     }
 
-    public ReadFileResponse getReadFileResponse() {
-        return readFileResponse;
+    public ResponseReadFile getResponseReadFile() {
+        return responseReadFile;
     }
 
-    public ReadFileResponse getReadLevellingFileResponse() {
+    public ResponseReadFile getReadLevellingFileResponse() {
         return readLevellingFileResponse;
     }
 }

@@ -32,7 +32,7 @@ public class TestDifferenceMethod {
             {9.14},
             {0.81}
     };
-    private LeastSquaresEstimation leastSquaresEstimation = new LeastSquaresEstimation(A, L);
+    private LeastSquaresEstimation leastSquaresEstimation = new LeastSquaresEstimation(A, L, 1.0);
     @Test
     void shouldReturnUnknownParameters() {
         List<DeltaHeight> deltaHeights = new ArrayList<>();
@@ -53,7 +53,7 @@ public class TestDifferenceMethod {
         deltaHeights.add(deltaHeight);
 
 
-        leastSquaresEstimation.setListOfDeltaHeightFieldObservations(deltaHeights);
+//        leastSquaresEstimation.setListOfDeltaHeightFieldObservations(deltaHeights);
         try {
             leastSquaresEstimation.executeLeastSquaresEstimation();
             assertEquals(10.810, leastSquaresEstimation.getX()[0][0], 0.001);

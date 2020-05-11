@@ -34,22 +34,19 @@ import java.util.List;
  * @since 2018-12-15
  */
 public class LeastSquaresEstimation {
-    private double[][] A;
-    private double[][] P;
-    private double[][] L;
+    private final double[][] A;
+    private final double[][] P;
+    private final double[][] L;
     private double[][] X;
     private double[][] N;
     private double[][] M;
     private double[][] VtPV;
     private double m0;
     private double m0Sqr;
-    private double aPrioriStdDeviation;
+    private final double aPrioriStdDeviation;
     private ResultsOfLse resultsOfLse;
-    private Matrix matrix;
-    private List<String> listIdsOfUnknownParameters;
-    private List<DeltaHeight> listOfDeltaHeightFieldObservations;
+    private final Matrix matrix;
     private int numberOfOvernumberObservations;
-    private PrintSettings printSettings;
     private int numberOfFieldObservations;
     private int numberOfUnknownParameters;
     double[] CAO;
@@ -60,23 +57,11 @@ public class LeastSquaresEstimation {
      * @param p - weight matrix of observations
      * @param l - matrix of measured values
      */
-    public LeastSquaresEstimation(double[][] a, double[][] p, double[][] l, List<String> listIdsOfUnknownParameters) {
+    public LeastSquaresEstimation(double[][] a, double[][] p, double[][] l, double aPrioriStdDeviation) {
         A = a;
         P = p;
         L = l;
-        matrix = new Matrix();
-        this.listIdsOfUnknownParameters = listIdsOfUnknownParameters;
-    }
-
-    /**
-     * @param a - coefficient matrix
-     * @param p - weight matrix of observations
-     * @param l - matrix of measured values
-     */
-    public LeastSquaresEstimation(double[][] a, double[][] p, double[][] l) {
-        A = a;
-        P = p;
-        L = l;
+        this.aPrioriStdDeviation = aPrioriStdDeviation;
         matrix = new Matrix();
     }
 
@@ -84,27 +69,10 @@ public class LeastSquaresEstimation {
      * @param a - coefficient matrix
      * @param l - matrix of measured values
      */
-    public LeastSquaresEstimation(double[][] a, double[][] l, List<String> listIdsOfUnknownParameters) {
+    public LeastSquaresEstimation(double[][] a, double[][] l, double aPrioriStdDeviation) {
         A = a;
         L = l;
-        int sizeOfWeightMatrix = a.length;
-        P = new double[sizeOfWeightMatrix][sizeOfWeightMatrix];
-        for (int i = 0; i < sizeOfWeightMatrix; i++) {
-            for (int j = 0; j < sizeOfWeightMatrix; j++) {
-                P[i][j] = (i == j) ? 1.0d : 0.0d;
-            }
-        }
-        matrix = new Matrix();
-        this.listIdsOfUnknownParameters = listIdsOfUnknownParameters;
-    }
-
-    /**
-     * @param a - coefficient matrix
-     * @param l - matrix of measured values
-     */
-    public LeastSquaresEstimation(double[][] a, double[][] l) {
-        A = a;
-        L = l;
+        this.aPrioriStdDeviation = aPrioriStdDeviation;
         int sizeOfWeightMatrix = a.length;
         P = new double[sizeOfWeightMatrix][sizeOfWeightMatrix];
         for (int i = 0; i < sizeOfWeightMatrix; i++) {
@@ -115,15 +83,12 @@ public class LeastSquaresEstimation {
         matrix = new Matrix();
     }
 
-    public void executeLeastSquaresEstimation() throws MatrixDegenerateException, MatrixWrongSizeException {
+    public ResultsOfLse executeLeastSquaresEstimation() throws MatrixDegenerateException, MatrixWrongSizeException {
         numberOfFieldObservations = A.length;
         numberOfUnknownParameters = A[0].length;
         numberOfOvernumberObservations = numberOfFieldObservations - numberOfUnknownParameters;
         boolean ifMoreObservationsThanParameters = (numberOfOvernumberObservations) > 0;
-        resultsOfLse = new ResultsOfLse(numberOfUnknownParameters, numberOfFieldObservations, printSettings);
-        resultsOfLse.setaPrioriStdDeviation(aPrioriStdDeviation);
-        resultsOfLse.setListOfDeltaHeightFieldObservations(listOfDeltaHeightFieldObservations);
-        resultsOfLse.setListIdsOfUnknownParameters(listIdsOfUnknownParameters);
+        resultsOfLse = new ResultsOfLse(numberOfUnknownParameters, numberOfFieldObservations);
 
         calculateX();
         calculateV();
@@ -134,7 +99,7 @@ public class LeastSquaresEstimation {
             calculateCAO();
             calculateCV();
         }
-//        System.out.println(resultsOfLse.toString());
+        return resultsOfLse;
     }
 
     /**
@@ -199,14 +164,6 @@ public class LeastSquaresEstimation {
         resultsOfLse.setStdErrorsOfResiduals(CV);
     }
 
-    public ResultsOfLse getResultsOfLse() {
-        return resultsOfLse;
-    }
-
-    public void setaPrioriStdDeviation(double aPrioriStdDeviation) {
-        this.aPrioriStdDeviation = aPrioriStdDeviation;
-    }
-
     public double[][] getX() {
         return X;
     }
@@ -215,11 +172,5 @@ public class LeastSquaresEstimation {
         return m0;
     }
 
-    public void setListOfDeltaHeightFieldObservations(List<DeltaHeight> listOfDeltaHeightFieldObservations) {
-        this.listOfDeltaHeightFieldObservations = listOfDeltaHeightFieldObservations;
-    }
 
-    public void setPrintSettings(PrintSettings printSettings) {
-        this.printSettings = printSettings;
-    }
 }

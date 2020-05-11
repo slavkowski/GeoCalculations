@@ -3,38 +3,38 @@ package pl.sgeonet.RaportConfiguration;
 public class PrintSettings {
     //Settings for displaying calculated unknown parameters
     //X
-    private Unit unitOfCalculatedParameters = Unit.M;
-    private NumberOfDecimalDigits numberOfDecimalDigitsOfCalculatedParameters = NumberOfDecimalDigits.THREE;
+    private final Unit unitOfCalculatedParameters = Unit.M;
+    private final NumberOfDecimalDigits numberOfDecimalDigitsOfCalculatedParameters = NumberOfDecimalDigits.THREE;
     private double ratioCalculatedParameters = 1.0;
     //mX
-    private Unit unitOfCalculatedStdErrorOfCalculatedParameters = Unit.MM;
-    private NumberOfDecimalDigits numberOfDecimalDigitsOfStdErrorOfCalculatedParameters = NumberOfDecimalDigits.ONE;
+    private final Unit unitOfCalculatedStdErrorOfCalculatedParameters = Unit.MM;
+    private final NumberOfDecimalDigits numberOfDecimalDigitsOfStdErrorOfCalculatedParameters = NumberOfDecimalDigits.ONE;
     private double ratioStdErrorOfCalculatedParameters = 1.0;
     //Settings for displaying given parameters
     //dH
-    private Unit unitOfHeightObservations = Unit.M;
-    private NumberOfDecimalDigits numberOfDecimalDigitsOfHeightObservations = NumberOfDecimalDigits.THREE;
+    private final Unit unitOfHeightObservations = Unit.M;
+    private final NumberOfDecimalDigits numberOfDecimalDigitsOfHeightObservations = NumberOfDecimalDigits.THREE;
     private double ratioHeightObservations = 1.0;
     //mdH
-    private Unit unitStdErrorOfHeightObservations = Unit.MM;
-    private NumberOfDecimalDigits numberOfDecimalDigitsOfStdErrorHeightObservations = NumberOfDecimalDigits.ONE;
+    private final Unit unitStdErrorOfHeightObservations = Unit.MM;
+    private final NumberOfDecimalDigits numberOfDecimalDigitsOfStdErrorHeightObservations = NumberOfDecimalDigits.ONE;
     private double ratioStdErrorHeightObservations = 1.0;
     //Settings for displaying adjusted observations [residuals]
     //V
-    private Unit unitOfResiduals = Unit.MM;
-    private NumberOfDecimalDigits numberOfDecimalDigitsOfResiduals = NumberOfDecimalDigits.TWO;
+    private final Unit unitOfResiduals = Unit.MM;
+    private final NumberOfDecimalDigits numberOfDecimalDigitsOfResiduals = NumberOfDecimalDigits.TWO;
     private double ratioResiduals = 1.0;
     //mV
-    private Unit unitStdErrorOfResiduals = Unit.MM;
-    private NumberOfDecimalDigits numberOfDecimalDigitsOfStdErrorResiduals = NumberOfDecimalDigits.TWO;
+    private final Unit unitStdErrorOfResiduals = Unit.MM;
+    private final NumberOfDecimalDigits numberOfDecimalDigitsOfStdErrorResiduals = NumberOfDecimalDigits.TWO;
     private double ratioStdErrorOfResiduals = 1.0;
     //dHA
-    private Unit unitOfAdjustedHeightObservations = Unit.M;
-    private NumberOfDecimalDigits numberOfDecimalDigitsOfAdjustedHeightObservations = NumberOfDecimalDigits.THREE;
+    private final Unit unitOfAdjustedHeightObservations = Unit.M;
+    private final NumberOfDecimalDigits numberOfDecimalDigitsOfAdjustedHeightObservations = NumberOfDecimalDigits.THREE;
     private double ratioAdjustedHeightObservations = 1.0;
     //mdHA
-    private Unit unitStdErrorOfAdjustedHeightObservations = Unit.MM;
-    private NumberOfDecimalDigits numberOfDecimalDigitsOfStdErrorAdjustedHeightObservations = NumberOfDecimalDigits.TWO;
+    private final Unit unitStdErrorOfAdjustedHeightObservations = Unit.MM;
+    private final NumberOfDecimalDigits numberOfDecimalDigitsOfStdErrorAdjustedHeightObservations = NumberOfDecimalDigits.TWO;
     private double ratioStdErrorAdjustedHeightObservations = 1.0;
 
 

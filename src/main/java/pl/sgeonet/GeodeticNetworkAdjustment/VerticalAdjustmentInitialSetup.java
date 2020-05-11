@@ -6,11 +6,11 @@ import pl.sgeonet.RaportConfiguration.Unit;
  *
  */
 public class VerticalAdjustmentInitialSetup {
-    private VerticalAdjustmentMethod verticalAdjustmentMethod;
+    private final VerticalAdjustmentMethod verticalAdjustmentMethod;
     private double aPrioriStandardDeviation = 1.0;
-    private Unit unitOfHeightOfFixedPoints;
-    private Unit unitOfHeightDifferences;
-    private Unit unitOfStdMeanError;
+    private final Unit unitOfHeightOfFixedPoints;
+    private final Unit unitOfHeightDifferences;
+    private final Unit unitOfStdMeanError;
     private double stdMeanError = 1.0;
     private double ratioFixedPoints = 1.0;
     private double ratioHeightDifferences = 1.0;

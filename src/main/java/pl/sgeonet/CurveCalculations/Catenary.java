@@ -61,7 +61,8 @@ public class Catenary {
                 A[i][2] = Math.cosh(alfa) - alfa * Math.sinh(alfa);
                 L[i][0] = -1.0 * (a0 * Math.cosh(alfa) - h0 - LParabola[i][0]);
             }
-            LeastSquaresEstimation leastSquaresEstimation = new LeastSquaresEstimation(A, PParabola, L, convertListOfObservationIntoListOfName(fieldObservations));
+            LeastSquaresEstimation leastSquaresEstimation = new LeastSquaresEstimation(A, PParabola, L, 1.0);
+//            convertListOfObservationIntoListOfName(fieldObservations)
             leastSquaresEstimation.executeLeastSquaresEstimation();
             X = leastSquaresEstimation.getX();
             a0 = a0 - X[2][0];
