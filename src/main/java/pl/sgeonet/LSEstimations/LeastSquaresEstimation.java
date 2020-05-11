@@ -134,7 +134,7 @@ public class LeastSquaresEstimation {
             calculateCAO();
             calculateCV();
         }
-        System.out.println(resultsOfLse.toString());
+//        System.out.println(resultsOfLse.toString());
     }
 
     /**

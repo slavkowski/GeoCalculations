@@ -1,7 +1,11 @@
 import org.junit.jupiter.api.Test;
 import pl.sgeonet.Exceptions.MatrixDegenerateException;
 import pl.sgeonet.Exceptions.MatrixWrongSizeException;
+import pl.sgeonet.FieldObservationsObjects.FieldObservation.DeltaHeight;
 import pl.sgeonet.LSEstimations.LeastSquaresEstimation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
