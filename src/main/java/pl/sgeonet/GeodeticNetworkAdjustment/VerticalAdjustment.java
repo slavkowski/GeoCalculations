@@ -146,12 +146,12 @@ public class VerticalAdjustment extends Adjustment {
                 case WITH_LENGTH_OF_SECTION:
                     weightOfObservation = listOfHeightDifferences.get(i).getLengthOfSection();
                     P[i][i] = 1.0d / weightOfObservation;
-                    listOfHeightDifferences.get(i).setHeightDifferenceStdMeanError(verticalAdjustmentInitialSetup.getRatioStdMeanErrors() * verticalAdjustmentInitialSetup.getStdMeanError() * Math.sqrt(weightOfObservation));
+                    listOfHeightDifferences.get(i).setHeightDifferenceStdMeanError(verticalAdjustmentInitialSetup.getRatioStdMeanErrors() * verticalAdjustmentInitialSetup.getaPrioriStdDeviation() * Math.sqrt(weightOfObservation));
                     break;
                 case WITH_NUMBER_OF_SETUPS_IN_SECTION:
                     weightOfObservation = listOfHeightDifferences.get(i).getNumberOfSetupsInSection();
                     P[i][i] = 1.0d / weightOfObservation;
-                    listOfHeightDifferences.get(i).setHeightDifferenceStdMeanError(verticalAdjustmentInitialSetup.getRatioStdMeanErrors() * verticalAdjustmentInitialSetup.getStdMeanError() * Math.sqrt(weightOfObservation));
+                    listOfHeightDifferences.get(i).setHeightDifferenceStdMeanError(verticalAdjustmentInitialSetup.getRatioStdMeanErrors() * verticalAdjustmentInitialSetup.getaPrioriStdDeviation() * Math.sqrt(weightOfObservation));
                     break;
             }
         }

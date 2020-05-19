@@ -10,7 +10,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestDifferenceMethod {
-    private double[][] A = {
+    private final double[][] A = {
             {1.0d, -1.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d},
             {-1.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 1.0d, 0.0d},
             {0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 1.0d, -1.0d, 0.0d},
@@ -21,7 +21,7 @@ public class TestDifferenceMethod {
             {0.0d, 0.0d, 1.0d, -1.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d},
             {0.0d, 1.0d, -1.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d},
     };
-    private double[][] L = {
+    private final double[][] L = {
             {-0.60},
             {2.15},
             {-1.11},
@@ -32,7 +32,7 @@ public class TestDifferenceMethod {
             {9.14},
             {0.81}
     };
-    private LeastSquaresEstimation leastSquaresEstimation = new LeastSquaresEstimation(A, L, 1.0);
+    private final LeastSquaresEstimation leastSquaresEstimation = new LeastSquaresEstimation(A, L, 1.0);
     @Test
     void shouldReturnUnknownParameters() {
         List<DeltaHeight> deltaHeights = new ArrayList<>();

@@ -5,9 +5,6 @@ import pl.sgeonet.FileUtils.ResponseReadFile;
 import pl.sgeonet.LSEstimations.ResultsOfLse;
 import pl.sgeonet.RaportConfiguration.PrintSettings;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 
 public class VerticalAdjustmentSummary {
@@ -106,7 +103,7 @@ public class VerticalAdjustmentSummary {
         sB.append(separator);
         sB.append("Weighted square sum of residuals Ω[-]        : ").append(resultsOfLse.getWeightedSquareSumOfResiduals()).append("\r\n");
         sB.append("(a priori) standard deviation                : ").append(aPrioriStdDeviation).append("\r\n");
-        sB.append("(a posteriori) estimated standard deviation  : ").append(resultsOfLse.getaPosterioriEstimatedStdDeviation()).append("\r\n");
+        sB.append("(a posteriori) estimated standard deviation  : ").append(resultsOfLse.getaPosteriorEstimatedStdDeviation()).append("\r\n");
         sB.append("Ratio                                        : ").append(resultsOfLse.getRatio()).append("\r\n");
         sB.append(separator);
         sB.append("Calculated parameters\r\n");

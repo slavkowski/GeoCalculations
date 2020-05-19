@@ -2,11 +2,7 @@ package pl.sgeonet.LSEstimations;
 
 import pl.sgeonet.Exceptions.MatrixDegenerateException;
 import pl.sgeonet.Exceptions.MatrixWrongSizeException;
-import pl.sgeonet.FieldObservationsObjects.FieldObservation.DeltaHeight;
 import pl.sgeonet.MathExtraCalculations.Matrix;
-import pl.sgeonet.RaportConfiguration.PrintSettings;
-
-import java.util.List;
 
 /**
  * Having following formula: AX = L + V
@@ -17,7 +13,7 @@ import java.util.List;
  * <li>A [n * m] coefficient matrix where n is the number of observations and m is the number of parameters</li>
  * <li>P [n * n] weight matrix of observations</li>
  * <li>L [n * 1] matrix of measured values</li>
- * <li>V [n * 1] matrix of random residuals errors</li>
+ * <li>V [n * 1] matrix of residuals</li>
  * <li>X [m * 1] matrix of unknown parameters</li>
  * </ul>
  * Other:
@@ -53,6 +49,8 @@ public class LeastSquaresEstimation {
     double ratio;
 
     /**
+     * Constructor for observations with weight matrix
+     *
      * @param a - coefficient matrix
      * @param p - weight matrix of observations
      * @param l - matrix of measured values
@@ -66,6 +64,8 @@ public class LeastSquaresEstimation {
     }
 
     /**
+     * Constructor for observations without weight matrix
+     *
      * @param a - coefficient matrix
      * @param l - matrix of measured values
      */
@@ -83,6 +83,13 @@ public class LeastSquaresEstimation {
         matrix = new Matrix();
     }
 
+    /**
+     * Least Squares Estimation
+     *
+     * @return
+     * @throws MatrixDegenerateException
+     * @throws MatrixWrongSizeException
+     */
     public ResultsOfLse executeLeastSquaresEstimation() throws MatrixDegenerateException, MatrixWrongSizeException {
         numberOfFieldObservations = A.length;
         numberOfUnknownParameters = A[0].length;
@@ -118,6 +125,13 @@ public class LeastSquaresEstimation {
 
     }
 
+    /**
+     * Method responsible for calculating:
+     * 1. weighted square sum of residuals
+     * 2. residuals
+     *
+     * @throws MatrixWrongSizeException
+     */
     private void calculateV() throws MatrixWrongSizeException {
         double[][] v = matrix.getMatrixProduct(A, X);
         for (int i = 0; i < v.length; i++) {
@@ -128,14 +142,22 @@ public class LeastSquaresEstimation {
         resultsOfLse.setFieldObservationAdjustmentSummary(v);
     }
 
+    /**
+     * Method responsible for calculating:
+     * 1. estimated standard deviation
+     */
     private void calculateM0() {
         m0Sqr = VtPV[0][0] / (numberOfOvernumberObservations);
         m0 = Math.sqrt(m0Sqr);
         ratio = m0 / aPrioriStdDeviation;
-        resultsOfLse.setaPosterioriEstimatedStdDeviation(m0);
+        resultsOfLse.setaPosteriorEstimatedStdDeviation(m0);
         resultsOfLse.setRatio(ratio);
     }
 
+    /**
+     * Method responsible for calculating:
+     * 1. errors of calculated parameters
+     */
     private void calculateCX() {
         double[] mX = new double[numberOfUnknownParameters];
         for (int i = 0; i < X.length; i++) {
@@ -145,7 +167,8 @@ public class LeastSquaresEstimation {
     }
 
     /**
-     *
+     * Method responsible for calculating:
+     * 1. errors of adjusted observations
      */
     private void calculateCAO() throws MatrixWrongSizeException {
         M = matrix.getMatrixProduct(matrix.getMatrixProduct(A, N), matrix.getMatrixTranspose(A));
@@ -156,6 +179,10 @@ public class LeastSquaresEstimation {
         resultsOfLse.setStdErrorsOfAdjustedObservations(CAO);
     }
 
+    /**
+     * Method responsible for calculating:
+     * 1. errors of calculated residuals
+     */
     private void calculateCV() {
         double[] CV = new double[numberOfFieldObservations];
         for (int i = 0; i < numberOfFieldObservations; i++) {

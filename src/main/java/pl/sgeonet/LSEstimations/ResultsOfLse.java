@@ -4,7 +4,7 @@ public class ResultsOfLse {
     private double weightedSquareSumOfResiduals;
     private final int numberOfUnknownParameters;
     private final int numberOfFieldObservations;
-    private double aPosterioriEstimatedStdDeviation;
+    private double aPosteriorEstimatedStdDeviation;
     private double ratio;
     private final double[][] adjustedParameters;
     private final double[][] fieldObservationAdjustmentSummary;
@@ -25,12 +25,12 @@ public class ResultsOfLse {
         return weightedSquareSumOfResiduals;
     }
 
-    void setaPosterioriEstimatedStdDeviation(double aPosterioriEstimatedStdDeviation) {
-        this.aPosterioriEstimatedStdDeviation = aPosterioriEstimatedStdDeviation;
+    void setaPosteriorEstimatedStdDeviation(double aPosteriorEstimatedStdDeviation) {
+        this.aPosteriorEstimatedStdDeviation = aPosteriorEstimatedStdDeviation;
     }
 
-    public double getaPosterioriEstimatedStdDeviation() {
-        return aPosterioriEstimatedStdDeviation;
+    public double getaPosteriorEstimatedStdDeviation() {
+        return aPosteriorEstimatedStdDeviation;
     }
 
     void setRatio(double ratio) {
