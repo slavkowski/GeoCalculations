@@ -1,4 +1,4 @@
-package pl.sgeonet.GeodeticNetworkAdjustment;
+package pl.sgeonet.GeodeticNetworkAdjustment.Vertical;
 
 import pl.sgeonet.FieldObservationsObjects.FieldObservation.DeltaHeight;
 import pl.sgeonet.FileUtils.ResponseReadFile;
@@ -21,7 +21,7 @@ public class VerticalAdjustmentSummary {
     private List<DeltaHeight> listOfDeltaHeightFieldObservations;
     private PrintSettings printSettings;
     private double aPrioriStdDeviation;
-    private double[][] adjustedParameters ;
+    private double[][] adjustedParameters;
     private double[][] fieldObservationAdjustmentSummary;
 
     public VerticalAdjustmentSummary() {
@@ -87,6 +87,7 @@ public class VerticalAdjustmentSummary {
         for (int i = 0; i < numberOfFieldObservations; i++) {
             this.fieldObservationAdjustmentSummary[i][0] = listOfDeltaHeightFieldObservations.get(i).getHeightDifferenceValue();
             this.fieldObservationAdjustmentSummary[i][1] = listOfDeltaHeightFieldObservations.get(i).getHeightDifferenceStdMeanError();
+            this.fieldObservationAdjustmentSummary[i][4] = this.fieldObservationAdjustmentSummary[i][0] + this.fieldObservationAdjustmentSummary[i][2];
         }
     }
 

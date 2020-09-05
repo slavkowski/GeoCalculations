@@ -1,4 +1,4 @@
-package pl.sgeonet.GeodeticNetworkAdjustment;
+package pl.sgeonet.GeodeticNetworkAdjustment.Vertical;
 
 import pl.sgeonet.RaportConfiguration.Unit;
 

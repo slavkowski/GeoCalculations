@@ -1,4 +1,4 @@
-package pl.sgeonet.GeodeticNetworkAdjustment;
+package pl.sgeonet.GeodeticNetworkAdjustment.Vertical;
 
 public enum VerticalAdjustmentMethod {
     STANDARD,

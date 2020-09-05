@@ -1,13 +1,13 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pl.sgeonet.Exceptions.DuplicatedFixedPionts;
+import pl.sgeonet.Exceptions.DuplicatedFixedPoints;
 import pl.sgeonet.FieldObservationsObjects.FieldObservation.DeltaHeight;
 import pl.sgeonet.FieldObservationsObjects.PointCoordinates.NEH;
 import pl.sgeonet.FieldObservationsObjects.PointCoordinates.PointType;
 import pl.sgeonet.FileUtils.FileUtils;
-import pl.sgeonet.GeodeticNetworkAdjustment.VerticalAdjustment;
-import pl.sgeonet.GeodeticNetworkAdjustment.VerticalAdjustmentInitialSetup;
-import pl.sgeonet.GeodeticNetworkAdjustment.VerticalAdjustmentMethod;
+import pl.sgeonet.GeodeticNetworkAdjustment.Vertical.VerticalAdjustment;
+import pl.sgeonet.GeodeticNetworkAdjustment.Vertical.VerticalAdjustmentInitialSetup;
+import pl.sgeonet.GeodeticNetworkAdjustment.Vertical.VerticalAdjustmentMethod;
 import pl.sgeonet.RaportConfiguration.PrintSettings;
 import pl.sgeonet.RaportConfiguration.Unit;
 
@@ -72,22 +72,22 @@ public class VerticalAdjustmentTest {
     }
 
     @Test
-    void shouldReturnValidationOfData() throws DuplicatedFixedPionts {
+    void shouldReturnValidationOfData() throws DuplicatedFixedPoints {
         verticalAdjustment.proceedAdjustment();
     }
 
     @Test
-    void shouldReturnValidationOfData2() throws DuplicatedFixedPionts {
+    void shouldReturnValidationOfData2() throws DuplicatedFixedPoints {
         verticalAdjustment2.proceedAdjustment();
     }
 
     @Test
     void shouldReturnValidationOfData3() {
-        Assertions.assertThrows(DuplicatedFixedPionts.class, verticalAdjustment3::proceedAdjustment);
+        Assertions.assertThrows(DuplicatedFixedPoints.class, verticalAdjustment3::proceedAdjustment);
     }
 
     @Test
-    void shouldReturnValidationOfData4() throws DuplicatedFixedPionts {
+    void shouldReturnValidationOfData4() throws DuplicatedFixedPoints {
         verticalAdjustment4.proceedAdjustment();
     }
 }

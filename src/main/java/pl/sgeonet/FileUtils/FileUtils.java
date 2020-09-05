@@ -2,7 +2,7 @@ package pl.sgeonet.FileUtils;
 
 import pl.sgeonet.FieldObservationsObjects.FieldObservation.DeltaHeight;
 import pl.sgeonet.FieldObservationsObjects.PointCoordinates.*;
-import pl.sgeonet.GeodeticNetworkAdjustment.VerticalAdjustmentMethod;
+import pl.sgeonet.GeodeticNetworkAdjustment.Vertical.VerticalAdjustmentMethod;
 
 import java.io.*;
 import java.util.*;

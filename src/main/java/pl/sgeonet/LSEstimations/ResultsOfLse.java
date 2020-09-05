@@ -64,7 +64,7 @@ public class ResultsOfLse {
     public void setFieldObservationAdjustmentSummary(double[][] fieldObservationAdjustmentSummary) {
         for (int i = 0; i < numberOfFieldObservations; i++) {
             this.fieldObservationAdjustmentSummary[i][2] = fieldObservationAdjustmentSummary[i][0];
-            this.fieldObservationAdjustmentSummary[i][4] = this.fieldObservationAdjustmentSummary[i][0] + fieldObservationAdjustmentSummary[i][0];
+//            this.fieldObservationAdjustmentSummary[i][4] = this.fieldObservationAdjustmentSummary[i][0] + fieldObservationAdjustmentSummary[i][0];
         }
     }
 

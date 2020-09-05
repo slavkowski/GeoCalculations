@@ -1,14 +1,15 @@
-package pl.sgeonet.GeodeticNetworkAdjustment;
+package pl.sgeonet.GeodeticNetworkAdjustment.Vertical;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.sgeonet.Exceptions.DuplicatedFixedPionts;
+import pl.sgeonet.Exceptions.DuplicatedFixedPoints;
 import pl.sgeonet.Exceptions.MatrixDegenerateException;
 import pl.sgeonet.Exceptions.MatrixWrongSizeException;
 import pl.sgeonet.FieldObservationsObjects.FieldObservation.DeltaHeight;
 import pl.sgeonet.FieldObservationsObjects.PointCoordinates.NEH;
 import pl.sgeonet.FieldObservationsObjects.PointCoordinates.PointType;
 import pl.sgeonet.FileUtils.FileUtils;
+import pl.sgeonet.GeodeticNetworkAdjustment.Adjustment;
 import pl.sgeonet.LSEstimations.LeastSquaresEstimation;
 import pl.sgeonet.LSEstimations.ResultsOfLse;
 import pl.sgeonet.RaportConfiguration.PrintSettings;
@@ -19,7 +20,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- *
+ * Vertical adjustment using LSM
  */
 public class VerticalAdjustment extends Adjustment {
 
@@ -62,7 +63,7 @@ public class VerticalAdjustment extends Adjustment {
         verticalAdjustmentSummary = new VerticalAdjustmentSummary();
     }
 
-    public void proceedAdjustment() throws DuplicatedFixedPionts {
+    public void proceedAdjustment() throws DuplicatedFixedPoints {
         try {
             retrieveDataFromTxtFiles();
         } catch (IOException e) {
@@ -157,7 +158,12 @@ public class VerticalAdjustment extends Adjustment {
         }
     }
 
-    protected void checkDataCorrectness() throws DuplicatedFixedPionts {
+    /**
+     * Method responsible for checking correctness of data
+     *
+     * @throws DuplicatedFixedPoints when multiple fixed points
+     */
+    protected void checkDataCorrectness() throws DuplicatedFixedPoints {
         setOfAllPoints = new HashSet<>();
         mapOfFixedPoints = new HashMap<>();
         setOfUnknownPoints = new HashSet<>();
@@ -168,7 +174,7 @@ public class VerticalAdjustment extends Adjustment {
         for (NEH NEH : listOfFixedPoints) {
             if (setOfAllPoints.contains(NEH.getId())) {
                 if (mapOfFixedPoints.containsKey(NEH.getId())) {
-                    throw new DuplicatedFixedPionts("At least one fixed point is duplicated in set of fixed points. Point: " + NEH.getId());
+                    throw new DuplicatedFixedPoints("At least one fixed point is duplicated in set of fixed points. Point: " + NEH.getId());
                 } else {
                     mapOfFixedPoints.put(NEH.getId(), NEH.getH());
                 }
